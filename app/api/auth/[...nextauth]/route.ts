@@ -2,8 +2,6 @@ import { PrismaClient } from "@prisma/client";
 import NextAuth from "next-auth";
 import GithubHandler from "next-auth/providers/github";
 
-const prisma = new PrismaClient();
-
 export const OPTIONS = {
   providers: [
     GithubHandler({
@@ -13,16 +11,23 @@ export const OPTIONS = {
   ],
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      console.log(profile);
-      /* const upsertUser = await prisma.user.upsert({
+      const prisma = new PrismaClient();
+
+      const user_ = await prisma.user.findFirst({
         where: { email: profile.email },
-        update: {},
-        create: {
-          email: profile.email,
-          username: profile.login,
-          sessionId: profile.id,
-        },
-      });*/
+      });
+      if (!user_) {
+        await prisma.user.upsert({
+          where: { email: profile.email },
+          update: {},
+          create: {
+            email: profile.email,
+            username: profile.login,
+            avatar: "default_profile.png",
+            banner: "default_banner.png",
+          },
+        });
+      }
       return true;
     },
   },
