@@ -3,6 +3,7 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Post from "../utils/Post";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 interface User {
   id: number;
@@ -38,23 +39,36 @@ interface Repost {
 
 export default function Dashboard() {
   const { data: session } = useSession();
-  const [posts, setPosts] = useState<Post[]>(null!);
-  useEffect(() => {
+  const [posts, setPosts] = useState<Post[]>([]!);
+  const [skip, setSkip] = useState(0);
+
+  const getData = () => {
     if (session) {
-      fetch("/api/dashboard")
+      fetch(`/api/dashboard?skip=${skip}`)
         .then((res) => res.json())
         .then((data) => {
-          setPosts(data.posts);
+          setPosts([...posts.concat(data.posts)]);
+          setSkip(skip + 1);
         });
     }
+  };
+  useEffect(() => {
+    getData();
   }, [session]);
   return (
     <>
       {posts && (
         <>
-          {posts.map((post, i) => (
-            <Post post={post} key={i} />
-          ))}
+          <InfiniteScroll
+            dataLength={posts.length}
+            next={getData}
+            hasMore={true}
+            loader={<div>Loading</div>}
+          >
+            {posts.map((post, i) => (
+              <Post post={post} key={i} />
+            ))}
+          </InfiniteScroll>
         </>
       )}
     </>

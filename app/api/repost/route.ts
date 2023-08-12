@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { OPTIONS } from "../auth/[...nextauth]/route";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { PusherServer } from "@/pusher";
 
 export async function GET(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
@@ -17,7 +18,7 @@ export async function GET(request: Request, response: Response) {
     });
     const post = await prisma.post.findFirst({
       where: { id: parseInt(postId) },
-      include: { reposts: true },
+      include: { reposts: true, author: true },
     });
     if (user && post) {
       const userRepostIds = user?.reposts.map((repost) => repost.id);

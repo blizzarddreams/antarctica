@@ -94,19 +94,19 @@ export default function Post({ post }: { post: Post }) {
       <div key={post.id}>
         <Link
           href={`/@${post.author.username}/${post.id}`}
-          className="border border-slate-800 p-4 shadow-xl h-full w-full flex flex-col items-start"
+          className="border border-slate-800 p-8 flex flex-col items-center"
         >
-          <div className="flex flex-row h-full w-full items-center">
-            <div>
+          <div className="h-full w-full items-center grid grid-cols-12">
+            <div className="flex flex-col col-span-1 justify-center items-center">
               <Image
-                className="rounded-full mr-4 h-min"
+                className="rounded-full mr-4"
                 src={`/avatars/${post.author.avatar}`}
                 alt={post.author.username}
                 width={50}
                 height={50}
               />
             </div>
-            <div className="flex flex-col break-all">
+            <div className="flex flex-col col-span-11">
               {post.isRepost && (
                 <div className="flex flex-row w-full">
                   <p className="text-emerald-400 text-xs">
@@ -134,7 +134,7 @@ export default function Post({ post }: { post: Post }) {
                   </p>
                 )}
               </div>
-              <p className="">{post.content}</p>
+              <p className="break-all">{post.content}</p>
               <div className="flex flex-row">
                 {session && (
                   <>

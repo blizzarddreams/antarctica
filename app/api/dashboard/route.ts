@@ -8,6 +8,7 @@ export async function GET(request: Request, response: Response) {
   const prisma = new PrismaClient();
   const { searchParams } = new URL(request.url);
   const id = parseInt(searchParams.get("id")!);
+  const skip = parseInt(searchParams.get("skip"));
 
   if (session?.user?.email) {
     const user = await prisma.user.findFirst({
@@ -73,10 +74,12 @@ export async function GET(request: Request, response: Response) {
       return repost.post;
     });
 
-    const posts = posts_
+    const posts__ = posts_
       .concat(...reposts)
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
+    // take skip
+    const posts = posts__.slice(skip * 10, skip * 10 + 10);
     return NextResponse.json({ posts });
   }
 }

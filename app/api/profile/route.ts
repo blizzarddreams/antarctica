@@ -5,7 +5,8 @@ import { OPTIONS } from "../auth/[...nextauth]/route";
 
 export async function GET(request: Request, response: Response) {
   const { searchParams } = new URL(request.url);
-  const username = searchParams.get("username");
+  const username = searchParams.get("username")!;
+  const skip = parseInt(searchParams.get("skip")!);
 
   if (username) {
     const prisma = new PrismaClient();
@@ -40,11 +41,12 @@ export async function GET(request: Request, response: Response) {
       repost.post.repostAuthor = repost.author;
       return repost.post;
     });
-    const posts = user?.posts
+    const posts = user!.posts
       .concat(reposts)
       .flat()
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    user.posts = posts;
+    user.posts = posts.slice(skip * 10, skip * 10 + 10);
+
     return NextResponse.json({ user });
   }
 }

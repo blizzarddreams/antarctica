@@ -6,6 +6,7 @@ import Link from "next/link";
 import { formatRelative } from "date-fns";
 import Post from "@/app/utils/Post";
 import { useSession } from "next-auth/react";
+import InfiniteScroll from "react-infinite-scroll-component";
 interface User {
   id: number;
   username: string;
@@ -47,15 +48,21 @@ interface Repost {
 }
 
 export default function User({ params }: { params: { slug: string } }) {
-  const [user, setUser] = useState<User>(null!);
+  const [user, setUser] = useState<User>({ posts: [] } as User);
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const { data: session } = useSession();
+  const [skip, setSkip] = useState(0);
 
-  useEffect(() => {
-    fetch(`/api/profile?username=${params.slug}`)
+  const getData = () => {
+    fetch(`/api/profile?username=${params.slug}&skip=${skip}`)
       .then((res) => res.json())
       .then((data) => {
-        setUser(data.user);
+        setUser({
+          ...data.user,
+          posts: [...user.posts.concat(data.user.posts)],
+        });
+        setSkip(skip + 1);
+
         if (session) {
           fetch(`/api/follow?id=${data.user.id}`)
             .then((res) => res.json())
@@ -64,6 +71,9 @@ export default function User({ params }: { params: { slug: string } }) {
             });
         }
       });
+  };
+  useEffect(() => {
+    getData();
   }, [params.slug, session]);
 
   const followUser = (e) => {
@@ -133,9 +143,16 @@ export default function User({ params }: { params: { slug: string } }) {
                 <div className="w-full">
                   {user.posts.length > 0 ? (
                     <>
-                      {user.posts.map((post) => (
-                        <Post post={post} key={post.id} />
-                      ))}
+                      <InfiniteScroll
+                        dataLength={user.posts.length}
+                        next={getData}
+                        hasMore={true}
+                        loader={<div>Loading</div>}
+                      >
+                        {user.posts.map((post) => (
+                          <Post post={post} key={post.id} />
+                        ))}
+                      </InfiniteScroll>
                     </>
                   ) : (
                     <p className="text-4xl">No Posts</p>
