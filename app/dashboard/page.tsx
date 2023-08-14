@@ -4,6 +4,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Post from "../utils/Post";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { PusherClient } from "@/pusher";
 
 interface User {
   id: number;
@@ -38,6 +39,7 @@ interface Repost {
 }
 
 export default function Dashboard() {
+  const [username, setUsername] = useState("");
   const { data: session } = useSession();
   const [posts, setPosts] = useState<Post[]>([]!);
   const [skip, setSkip] = useState(0);
@@ -54,6 +56,18 @@ export default function Dashboard() {
   };
   useEffect(() => {
     getData();
+  }, [session]);
+
+  useEffect(() => {
+    if (session?.user?.email) {
+      const channel = PusherClient.subscribe(`dashboard-${session.user.email}`);
+      channel.bind("new message", (data) => {
+        console.log("new!");
+        const posts_ = posts;
+        posts_.unshift(data.post);
+        setPosts(posts_);
+      });
+    }
   }, [session]);
   return (
     <>

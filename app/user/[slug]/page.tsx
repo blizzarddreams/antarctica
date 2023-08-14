@@ -6,6 +6,7 @@ import Link from "next/link";
 import Post from "@/app/utils/Post";
 import { useSession } from "next-auth/react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { PusherClient, PusherServer } from "@/pusher";
 interface User {
   id: number;
   username: string;
@@ -51,7 +52,6 @@ export default function User({ params }: { params: { slug: string } }) {
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const { data: session } = useSession();
   const [skip, setSkip] = useState(0);
-
   const getData = () => {
     fetch(`/api/profile?username=${params.slug}&skip=${skip}`)
       .then((res) => res.json())
@@ -86,6 +86,17 @@ export default function User({ params }: { params: { slug: string } }) {
         }
       });
   }, [params.slug, session]);
+
+  useEffect(() => {
+    if (user) {
+      const channel = PusherClient.subscribe(`profile-${user.username}`);
+      channel.bind("new message", (data) => {
+        const posts = user.posts;
+        posts.unshift(data.post);
+        setUser({ ...user, posts: posts });
+      });
+    }
+  }, [user]);
 
   const followUser = (e) => {
     if (user) {
