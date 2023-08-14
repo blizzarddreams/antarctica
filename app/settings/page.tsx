@@ -6,6 +6,7 @@ import { CameraIcon } from "@heroicons/react/24/outline";
 import "cropperjs/dist/cropper.css";
 import { Dialog, Transition } from "@headlessui/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 interface User {
   id: number;
   username: string;
@@ -28,6 +29,8 @@ export default function Settings() {
   const [profileIsOpen, setProfileIsOpen] = useState(false);
   const [bannerIsOpen, setBannerIsOpen] = useState(false);
   const [error, setError] = useState("");
+
+  const router = useRouter();
 
   useEffect(() => {
     fetch("/api/user")
@@ -106,6 +109,7 @@ export default function Settings() {
         } else {
           setError("");
         }
+        router.push(`/@${data.user.username}`);
       });
   };
 
@@ -307,7 +311,7 @@ export default function Settings() {
                   required
                   onChange={handleChange}
                   value={user.username}
-                  className="bg-slate-800 border-slate-800 text-white  focus:border-transparent focus:outline-transparent focus:ring-transparent rounded-lg"
+                  className="bg-slate-800 border-slate-800 text-white  focus:border-transparent focus:outline-transparent focus:ring-transparent"
                 />
                 {error && <p className="text-rose-400">{error}</p>}
                 <label htmlFor="description" className="mt-4">
@@ -319,7 +323,7 @@ export default function Settings() {
                   name="displayname"
                   onChange={handleChange}
                   value={user.displayname}
-                  className="bg-slate-800 border-slate-800 text-white  focus:border-transparent focus:outline-transparent focus:ring-transparent rounded-lg"
+                  className="bg-slate-800 border-slate-800 text-white  focus:border-transparent focus:outline-transparent focus:ring-transparent"
                 />
 
                 <label htmlFor="description" className="mt-4">
@@ -330,10 +334,10 @@ export default function Settings() {
                   name="description"
                   onChange={handleChange}
                   value={user.description}
-                  className="bg-slate-800 border-slate-800 text-white  focus:border-transparent focus:outline-transparent focus:ring-transparent rounded-lg"
+                  className="bg-slate-800 border-slate-800 text-white  focus:border-transparent focus:outline-transparent focus:ring-transparent"
                 />
 
-                <button type="submit" className=" bg-sky-500 p-4 my-1">
+                <button type="submit" className=" bg-slate-800 p-4 my-1">
                   Save
                 </button>
               </div>

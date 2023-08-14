@@ -105,6 +105,21 @@ export async function POST(request: Request, response: Response) {
             },
           },
         });
+        await prisma.notification.create({
+          data: {
+            type: "FOLLOW",
+            to: {
+              connect: {
+                id: following.id,
+              },
+            },
+            from: {
+              connect: {
+                id: follower.id,
+              },
+            },
+          },
+        });
         return NextResponse.json({ following: true });
       }
     }

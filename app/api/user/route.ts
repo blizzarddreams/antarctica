@@ -14,9 +14,12 @@ export async function GET(request: Request, response: Response) {
     if (email) {
       const user = await prisma.user.findFirst({
         where: { email },
-        include: { posts: true },
+        include: {
+          posts: true,
+          _count: { select: { notifications: { where: { read: false } } } },
+        },
       });
-      return NextResponse.json({ user: user });
+      return NextResponse.json({ user });
     }
   }
 }
@@ -72,7 +75,7 @@ export async function POST(request: Request, response: Response) {
             Buffer.from(dataImage, "base64"),
           );
         }
-        return NextResponse.json({});
+        return NextResponse.json({ user });
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
           if (e.code === "P2002") {

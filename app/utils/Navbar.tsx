@@ -19,6 +19,9 @@ interface User {
   username: string;
   avatar: string;
   displayname: string;
+  _count: {
+    notifications: number;
+  };
 }
 
 export default function Navbar() {
@@ -33,6 +36,7 @@ export default function Navbar() {
       fetch("/api/user")
         .then((res) => res.json())
         .then((data) => {
+          console.log(data.user);
           setUser(data.user);
         });
     }
@@ -75,6 +79,13 @@ export default function Navbar() {
           <>
             <div>
               <div className="mt-10">
+                <Link href="/dashboard" className="flex flex-row  items-end">
+                  <HomeIcon className="h-10 w-10" />
+                  <p className="text-xl">Home</p>
+                </Link>
+              </div>
+
+              <div className="mt-10">
                 <Link
                   href={`/@${user.username}`}
                   className="flex flex-row items-end"
@@ -85,22 +96,18 @@ export default function Navbar() {
               </div>
 
               <div className="mt-10">
-                <Link href="/dashboard" className="flex flex-row  items-end">
-                  <HomeIcon className="h-10 w-10" />
-                  <p className="text-xl">Home</p>
-                </Link>
-              </div>
-
-              <div className="mt-10">
                 <Link href="/settings" className="flex flex-row items-end">
                   <Cog6ToothIcon className="h-10 w-10" />
                   <p className="text-xl">Settings</p>
                 </Link>
               </div>
 
-              <div className="mt-10">
+              <div className="mt-10 relative">
                 <Link href="/notifications" className="flex flex-row items-end">
                   <BellIcon className="h-10 w-10" />
+                  <div className="absolute -top-2 left-6 rounded-full bg-slate-700 px-2">
+                    {user._count.notifications}
+                  </div>
                   <p className="text-xl">Notifications</p>
                 </Link>
               </div>
@@ -113,11 +120,7 @@ export default function Navbar() {
                 <p className="text-xl">New Post</p>
               </div>
             </div>
-            <Link
-              as="div"
-              href={`/@${user.username}`}
-              className="flex flex-row mt-10"
-            >
+            <Link href={`/@${user.username}`} className="flex flex-row mt-10">
               <div className="flex justify-center flex-col">
                 <Image
                   src={`/avatars/${user.avatar}`}
@@ -161,7 +164,7 @@ export default function Navbar() {
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-95"
                 >
-                  <Dialog.Panel className="flex bg-sky-950  text-white justify-center items-center flex-col h-full w-full max-w-md transform overflow-hidden rounded-2xl  p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Panel className="flex bg-slate-950  text-white justify-center items-center flex-col h-full w-full max-w-md transform overflow-hidden rounded-2xl  p-6 text-left align-middle shadow-xl transition-all">
                     <Dialog.Title
                       as="h3"
                       className="text-xl font-medium leading-6"
@@ -176,14 +179,14 @@ export default function Navbar() {
                         value={post}
                         onChange={handleChange}
                         placeholder="What is happening?"
-                        className="resize-none w-full border-none focus:border-none bg-sky-950 text-white outline-none focus:outline-none focus:ring-0"
+                        className="resize-none w-full border-none focus:border-none bg-slate-800 text-white outline-none focus:outline-none focus:ring-0"
                       />
                     </div>
 
                     <div className="mt-4 flex flex-col w-full justify-center items-center">
                       <button
                         type="button"
-                        className=" bg-sky-500 p-4 my-1 w-full m-4"
+                        className=" bg-slate-800 p-4 my-1 w-full m-4"
                         onClick={makePost}
                       >
                         Post

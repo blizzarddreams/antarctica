@@ -42,7 +42,10 @@ export async function POST(request: Request, response: Response) {
     const email = session.user?.email!;
     const data = await request.json();
     const user = await prisma.user.findFirst({ where: { email } });
-    const post = await prisma.post.findFirst({ where: { id: data.id } });
+    const post = await prisma.post.findFirst({
+      where: { id: data.id },
+      include: { author: true },
+    });
 
     if (user && post) {
       const repost = await prisma.repost.findFirst({
@@ -63,6 +66,26 @@ export async function POST(request: Request, response: Response) {
             author: {
               connect: {
                 id: user.id,
+              },
+            },
+          },
+        });
+        await prisma.notification.create({
+          data: {
+            type: "REPOST",
+            to: {
+              connect: {
+                id: post.author.id,
+              },
+            },
+            from: {
+              connect: {
+                id: user.id,
+              },
+            },
+            post: {
+              connect: {
+                id: post.id,
               },
             },
           },

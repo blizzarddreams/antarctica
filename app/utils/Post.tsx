@@ -1,6 +1,7 @@
 "use client";
 
-import { formatRelative } from "date-fns";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import Image from "next/image";
 import Link from "next/link";
 import { StarIcon as StarIconOutline } from "@heroicons/react/24/outline";
@@ -43,6 +44,7 @@ interface Repost {
 }
 
 export default function Post({ post }: { post: Post }) {
+  dayjs.extend(relativeTime);
   const session = useSession();
   const [liked, setLiked] = useState(false);
   const [reposted, setReposted] = useState(false);
@@ -126,11 +128,11 @@ export default function Post({ post }: { post: Post }) {
                 </p>
                 {post.isRepost ? (
                   <p className="text-zinc-300 text-sm">
-                    {formatRelative(new Date(post.postCreatedAt!), new Date())}
+                    {dayjs().to(dayjs(new Date(post.postCreatedAt!)))}
                   </p>
                 ) : (
                   <p className="text-zinc-300 text-sm">
-                    {formatRelative(new Date(post.createdAt), new Date())}
+                    {dayjs().to(dayjs(new Date(post.createdAt!)))}
                   </p>
                 )}
               </div>

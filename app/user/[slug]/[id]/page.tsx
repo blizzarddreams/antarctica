@@ -1,4 +1,3 @@
-import { formatRelative } from "date-fns";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -28,9 +27,7 @@ export default async function Post({ params }: { params: { id: number } }) {
         <div className="flex flex-row items-center">
           <p className="mr-2">{post.author.displayname}</p>{" "}
           <p className="mr-2 text-zinc-400 text-sm"> @{post.author.username}</p>
-          <p className="text-zinc-300 text-sm">
-            {formatRelative(new Date(post.createdAt), new Date())}
-          </p>
+          <p className="text-zinc-300 text-sm">{new Date(post.createdAt)}</p>
         </div>
         <p className="">{post.content}</p>
       </div>

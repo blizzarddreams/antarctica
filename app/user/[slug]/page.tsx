@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { formatRelative } from "date-fns";
 import Post from "@/app/utils/Post";
 import { useSession } from "next-auth/react";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -48,7 +47,7 @@ interface Repost {
 }
 
 export default function User({ params }: { params: { slug: string } }) {
-  const [user, setUser] = useState<User>({ posts: [] } as User);
+  const [user, setUser] = useState<User>(null!);
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const { data: session } = useSession();
   const [skip, setSkip] = useState(0);
@@ -73,7 +72,19 @@ export default function User({ params }: { params: { slug: string } }) {
       });
   };
   useEffect(() => {
-    getData();
+    fetch(`/api/profile?username=${params.slug}&skip=${skip}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setUser(data.user);
+
+        if (session) {
+          fetch(`/api/follow?id=${data.user.id}`)
+            .then((res) => res.json())
+            .then((data) => {
+              setIsFollowing(data.following);
+            });
+        }
+      });
   }, [params.slug, session]);
 
   const followUser = (e) => {
