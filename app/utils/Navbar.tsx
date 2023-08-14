@@ -7,6 +7,7 @@ import { HomeIcon } from "@heroicons/react/24/outline";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { BellIcon } from "@heroicons/react/24/outline";
+import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
@@ -109,6 +110,14 @@ export default function Navbar() {
                     {user._count.notifications}
                   </div>
                   <p className="text-xl">Notifications</p>
+                </Link>
+              </div>
+
+              <div className="mt-10 relative">
+                <Link href="/directs" className="flex flex-row items-end">
+                  <ChatBubbleBottomCenterTextIcon className="h-10 w-10" />
+
+                  <p className="text-xl">Directs</p>
                 </Link>
               </div>
 

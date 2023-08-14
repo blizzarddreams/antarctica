@@ -38,75 +38,75 @@ model User {
   notifications Notification[] @relation(name: "NotificationTo")
 
   notificationsOut Notification[] @relation(name: "NotificationFrom")
+
+  directs Direct[]
+
+  directMessages DirectMessage[]
 }
 
 model Notification {
-  id     Int              @id @default(autoincrement())
-    createdAt DateTime @default(now())
+  id        Int              @id @default(autoincrement())
+  createdAt DateTime         @default(now())
+  type      NotificationType @default(FOLLOW)
+  from      User             @relation(fields: [fromId], references: [id], name: "NotificationFrom")
+  fromId    Int
+  to        User             @relation(fields: [toId], references: [id], name: "NotificationTo")
+  toId      Int
+  read      Boolean          @default(false)
+  post      Post?            @relation(fields: [postId], references: [id])
+  postId    Int?
+}
 
-  type   NotificationType @default(FOLLOW)
-  from   User             @relation(fields: [fromId], references: [id], name: "NotificationFrom")
-  fromId Int
-  to     User             @relation(fields: [toId], references: [id], name: "NotificationTo")
-  toId   Int
-  read   Boolean          @default(false)
-  post   Post?            @relation(fields: [postId], references: [id])
-  postId Int?
+model Direct {
+  id        Int             @id @default(autoincrement())
+  createdAt DateTime        @default(now())
+  members   User[]
+  messages  DirectMessage[]
+}
+
+model DirectMessage {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  content   String
+  direct    Direct   @relation(fields: [directId], references: [id])
+  userId    Int
+  directId  Int
 }
 
 model Post {
-  id Int @id @default(autoincrement())
-
-  content String?
-
-  author User @relation(fields: [authorId], references: [id])
-
-  authorId Int
-
-  createdAt DateTime @default(now())
-
-  likes Like[]
-
-  reposts Repost[]
-
+  id           Int            @id @default(autoincrement())
+  content      String?
+  author       User           @relation(fields: [authorId], references: [id])
+  authorId     Int
+  createdAt    DateTime       @default(now())
+  likes        Like[]
+  reposts      Repost[]
   notification Notification[]
 }
 
 model Like {
-  id Int @id @default(autoincrement())
-
-  author User @relation(fields: [authorId], references: [id])
-
+  id       Int  @id @default(autoincrement())
+  author   User @relation(fields: [authorId], references: [id])
   authorId Int
-
-  post Post @relation(fields: [postId], references: [id])
-
-  postId Int
+  post     Post @relation(fields: [postId], references: [id])
+  postId   Int
 }
 
 model Repost {
-  id Int @id @default(autoincrement())
-
-  author User @relation(fields: [authorId], references: [id])
-
-  authorId Int
-
-  post Post @relation(fields: [postId], references: [id])
-
-  postId Int
-
+  id        Int      @id @default(autoincrement())
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    Int
   createdAt DateTime @default(now())
 }
 
 model Follow {
-  id Int @id @default(autoincrement())
-
-  follower User @relation(fields: [followerId], references: [id], name: "FollowerUser")
-
-  followerId Int
-
-  following User @relation(fields: [followingId], references: [id], name: "FollowingUser")
-
+  id          Int  @id @default(autoincrement())
+  follower    User @relation(fields: [followerId], references: [id], name: "FollowerUser")
+  followerId  Int
+  following   User @relation(fields: [followingId], references: [id], name: "FollowingUser")
   followingId Int
 }
 
