@@ -65,7 +65,7 @@ export default function Post({ post }: { post: Post }) {
     }
   }, [session, post.id]);
 
-  const toggleLike = (e) => {
+  const toggleLike = (e: React.MouseEvent<SVGSVGElement>) => {
     e.preventDefault();
     fetch(`/api/like`, {
       method: "POST",
@@ -78,7 +78,7 @@ export default function Post({ post }: { post: Post }) {
       .then((data) => setLiked(data.liked));
   };
 
-  const toggleRepost = (e) => {
+  const toggleRepost = (e: React.MouseEvent<SVGSVGElement>) => {
     e.preventDefault();
     fetch(`/api/repost`, {
       method: "POST",

@@ -10,7 +10,7 @@ export async function GET(request: Request, response: Response) {
   const id = searchParams.get("id");
   const post = await prisma.post.findFirst({
     where: { id: parseInt(id!) },
-    include: { author: true },
+    include: { author: true, likes: true, reposts: true },
   });
   return NextResponse.json({ post });
 }
@@ -62,6 +62,10 @@ export async function POST(request: Request, response: Response) {
           PusherServer.trigger(`dashboard-${email_}`, "new message", {
             post: post_,
           });
+        });
+        // send to self
+        PusherServer.trigger(`dashboard-${user.email}`, "new message", {
+          post: post_,
         });
         console.log("sent");
         return NextResponse.json({});

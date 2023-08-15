@@ -1,8 +1,6 @@
 "use client";
 
 import { signIn, signOut, useSession } from "next-auth/react";
-import { options } from "../../api/auth/[...nextauth]/route";
-import { SessionProvider } from "../../session";
 
 export default function Login() {
   const { data: session, status } = useSession();

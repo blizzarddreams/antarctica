@@ -1,5 +1,6 @@
 "use client";
 
+import { PusherClient } from "@/pusher";
 import { Dialog, Tab, Transition } from "@headlessui/react";
 import Image from "next/image";
 import { Fragment, useEffect, useState } from "react";
@@ -39,6 +40,15 @@ export default function Direct() {
         setUser(data.user);
         console.log(data.user);
       });
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      const channel = PusherClient.subscribe(`directs-${user.username}`);
+      channel.bind("new message", (data) => {
+        setUser(data.user);
+      });
+    }
   }, []);
 
   const classNames = (...classes) => {

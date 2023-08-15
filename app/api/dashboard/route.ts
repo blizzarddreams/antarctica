@@ -8,7 +8,7 @@ export async function GET(request: Request, response: Response) {
   const prisma = new PrismaClient();
   const { searchParams } = new URL(request.url);
   const id = parseInt(searchParams.get("id")!);
-  const skip = parseInt(searchParams.get("skip"));
+  const skip = parseInt(searchParams.get("skip")!);
 
   if (session?.user?.email) {
     const user = await prisma.user.findFirst({

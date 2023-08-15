@@ -9,7 +9,7 @@ import { ToastContainer } from "react-toastify";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Macaw",
+  title: "antarctica",
   description: "Twitter/Bluesky clone",
 };
 

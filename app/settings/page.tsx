@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, Fragment } from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import Cropper, { ReactCropperElement } from "react-cropper";
 import { CameraIcon } from "@heroicons/react/24/outline";
 import "cropperjs/dist/cropper.css";
@@ -40,57 +40,51 @@ export default function Settings() {
       });
   }, []);
 
-  const openProfileModal = (e) => {
-    setProfileIsOpen(true);
-  };
-
-  const closeProfileModal = (e) => {
+  const closeProfileModal = () => {
     setProfileIsOpen(false);
   };
 
-  const openBannerModal = (e) => {
-    setBannerIsOpen(true);
-  };
-
-  const closeBannerModal = (e) => {
+  const closeBannerModal = () => {
     setBannerIsOpen(false);
   };
 
-  const onCropProfile = (e) => {
+  const onCropProfile = () => {
     const cropper = cropperRefProfile.current?.cropper;
     if (typeof cropper !== "undefined") {
       setCropperProfile(cropper?.getCroppedCanvas().toDataURL());
     }
   };
 
-  const onCropBanner = (e) => {
+  const onCropBanner = () => {
     const cropper = cropperRefBanner.current?.cropper;
     if (typeof cropper !== "undefined") {
       setCropperBanner(cropper?.getCroppedCanvas().toDataURL());
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const name = e.target.name;
     const value = e.target.value;
     setUser({ ...(user as User), [name]: value });
   };
 
-  const handleProfileChange = (e) => {
+  const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setProfileIsOpen(true);
       setImageProfile(URL.createObjectURL(e.target.files[0]));
     }
   };
 
-  const handleBannerChange = (e) => {
+  const handleBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setBannerIsOpen(true);
       setImageBanner(URL.createObjectURL(e.target.files[0]));
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     let postData = user!;
     postData.newAvatar = cropperProfile;

@@ -11,7 +11,6 @@ import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -47,7 +46,7 @@ export default function Navbar() {
     setIsOpen(false);
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length > 280) {
       e.preventDefault();
       setPost(post.slice(0, 280));
@@ -106,9 +105,11 @@ export default function Navbar() {
               <div className="mt-10 relative">
                 <Link href="/notifications" className="flex flex-row items-end">
                   <BellIcon className="h-10 w-10" />
-                  <div className="absolute -top-2 left-6 rounded-full bg-slate-700 px-2">
-                    {user._count.notifications}
-                  </div>
+                  {user._count.notifications > 0 && (
+                    <div className="absolute -top-2 left-6 rounded-full bg-slate-700 px-2">
+                      {user._count.notifications}
+                    </div>
+                  )}
                   <p className="text-xl">Notifications</p>
                 </Link>
               </div>

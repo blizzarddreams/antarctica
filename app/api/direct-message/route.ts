@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "../auth/[...nextauth]/route";
 import { PrismaClient } from "@prisma/client";
-import NextAuth from "next-auth/next";
 import { NextResponse } from "next/server";
+import { PusherServer } from "@/pusher";
 
 export async function POST(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
@@ -45,7 +45,11 @@ export async function POST(request: Request, response: Response) {
             },
           },
         },
+        include: {
+          user: true,
+        },
       });
+
       await prisma.direct.update({
         where: {
           id: direct.id,
@@ -56,6 +60,39 @@ export async function POST(request: Request, response: Response) {
           },
         },
       });
+
+      const direct_ = await prisma.direct.findFirst({
+        where: { id: direct.id },
+        include: {
+          members: true,
+        },
+      });
+
+      if (direct_) {
+        // I know this is hacky, but I find it easier to just send the entire User
+        direct_.members.forEach(async (member) => {
+          const user = await prisma.user.findFirst({
+            where: {
+              username: member.username,
+            },
+            include: {
+              directs: {
+                include: {
+                  members: true,
+                  messages: {
+                    include: {
+                      user: true,
+                    },
+                  },
+                },
+              },
+            },
+          });
+          PusherServer.trigger(`directs-${member.username}`, "new message", {
+            user,
+          });
+        });
+      }
       return NextResponse.json({ ok: "ok" });
     }
   }

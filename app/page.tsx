@@ -8,8 +8,10 @@ export default function Home() {
   const { data: session, status } = useSession();
 
   return (
-    <main className="flex min-h-screen flex-col items-center  justify-center p-24">
-      <p className="text-7xl">Macaw</p>
+    <main className="flex min-h-screen flex-col items-center  justify-center p-24 ">
+      <p className="text-7xl text-transparent bg-gradient-to-r from-sky-500 to-slate-700 bg-clip-text">
+        antarctica
+      </p>
       <p>Twitter/Bluesky clone</p>
       {session ? (
         <p>
