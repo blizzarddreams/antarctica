@@ -3,16 +3,6 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { OPTIONS } from "../auth/[...nextauth]/route";
 
-interface Repost {
-  createdAt: Date;
-  author: any;
-  post: {
-    isRepost: boolean;
-    postCreatedAt: Date;
-    createdAt: Date;
-    repostAuthor: any;
-  };
-}
 export async function GET(request: Request, response: Response) {
   const { searchParams } = new URL(request.url);
   const username = searchParams.get("username")!;
@@ -44,7 +34,7 @@ export async function GET(request: Request, response: Response) {
       },
     });
     if (user) {
-      const reposts = user?.reposts.map((repost: Repost) => {
+      const reposts = user?.reposts.map((repost) => {
         repost.post.isRepost = true;
         repost.post.postCreatedAt = repost.post.createdAt;
         repost.post.createdAt = repost.createdAt;

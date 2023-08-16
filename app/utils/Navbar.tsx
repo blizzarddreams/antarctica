@@ -74,7 +74,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="inset-0 flex flex-col p-4 sticky  h-screen">
+      <div className="inset-0 flex flex-col p-4 sticky h-screen hidden lg:block">
         {user && (
           <>
             <div>
@@ -213,6 +213,65 @@ export default function Navbar() {
             </div>
           </Dialog>
         </Transition>
+      </div>
+      <div className="flex flex-row inset-0 sticky md:hidden justify-center items-center bg-gray-950 w-full">
+        {user && (
+          <>
+            <div>
+              <Link href="/dashboard" className="flex flex-row  items-end">
+                <HomeIcon className="h-10 w-10" />
+              </Link>
+            </div>
+
+            <div>
+              <Link
+                href={`/@${user.username}`}
+                className="flex flex-row items-end"
+              >
+                <UserCircleIcon className="h-10 w-10" />
+              </Link>
+            </div>
+
+            <div>
+              <Link href="/settings" className="flex flex-row items-end">
+                <Cog6ToothIcon className="h-10 w-10" />
+              </Link>
+            </div>
+
+            <Link href={`/@${user.username}`} className="flex flex-row">
+              <div className="flex justify-center flex-col">
+                <Image
+                  src={`/avatars/${user.avatar}`}
+                  alt="a"
+                  height={60}
+                  width={60}
+                  className="rounded-full mr-1"
+                />
+              </div>
+            </Link>
+
+            <div>
+              <Link href="/notifications" className="flex flex-row items-end">
+                <BellIcon className="h-10 w-10" />
+                {user._count.notifications > 0 && (
+                  <div className="absolute -top-2 left-6 rounded-full bg-slate-700 px-2">
+                    {user._count.notifications}
+                  </div>
+                )}
+              </Link>
+            </div>
+
+            <div>
+              <Link href="/directs" className="flex flex-row items-end">
+                <ChatBubbleBottomCenterTextIcon className="h-10 w-10" />
+              </Link>
+            </div>
+
+            <div onClick={openModal}>
+              <PencilSquareIcon className="h-10 w-10" />{" "}
+            </div>
+          </>
+        )}
       </div>
     </>
   );

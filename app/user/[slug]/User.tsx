@@ -118,7 +118,7 @@ export default function UserPage({ params }: { params: { slug: string } }) {
         <div>
           <div className="flex flex-col">
             <header
-              className={`w-full h-52 bg-cover bg-center `}
+              className={`w-full h-32 md:h-52 bg-cover bg-center `}
               style={{ backgroundImage: `url('/banners/${user.banner}')` }}
             ></header>
             <div className="my-1 flex flex-row items-center w-100">
@@ -127,14 +127,17 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                 alt={user.username}
                 width={100}
                 height={100}
-                className="m-2 border-slate-950 absolute top-40 rounded-full border-solid border-2 "
+                className="m-2 border-slate-950 absolute top-20 md:top-40 rounded-full border-solid border-2"
               />
-              <div className="flex w-full my-10 justify-center flex-col">
+              <div className="flex w-full my-20 md:my-10 justify-center flex-col">
                 <div className="flex flex-row justify-between">
-                  <p className="text-2xl">
+                  <p className="text-2xl ml-4 md:ml-0">
                     {user.displayname ? user.displayname : user.username}
                   </p>
-                  <div onClick={followUser} className="cursor-pointer">
+                  <div
+                    onClick={followUser}
+                    className="cursor-pointer  mr-4 md:mr-0"
+                  >
                     {session?.user?.email !== user.email && (
                       <>
                         {isFollowing ? (
@@ -158,8 +161,10 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                     )}
                   </div>
                 </div>
-                <p className="text-lg text-slate-500">@{user.username}</p>
-                <div className="flex flex-row">
+                <p className="text-lg text-slate-500  ml-4 md:ml-0">
+                  @{user.username}
+                </p>
+                <div className="flex flex-row  ml-4 md:ml-0">
                   <p>
                     {user.followers.length}{" "}
                     <span className=" text-slate-500">Followers</span>{" "}
@@ -170,7 +175,7 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                   </p>
                 </div>
 
-                <p className="text-lg mb-4">{user.description}</p>
+                <p className="text-lg mb-4  ml-4 md:ml-0">{user.description}</p>
                 <div className="w-full">
                   {user.posts.length > 0 ? (
                     <>

@@ -23,17 +23,25 @@ export default function RootLayout({
     <html lang="en">
       <AuthContext>
         <body className={inter.className}>
-          <div className="grid grid-cols-12 gap-4 p-4 flex min-h-screen flex-col justify-center p-24  bg-slate-950">
-            <div className="col-span-1"></div>
-            <div className="col-span-2">
+          <div className="hidden lg:block">
+            <div className="grid grid-cols-12 gap-4 p-4 flex min-h-screen flex-col justify-center p-24  bg-slate-950">
+              <div className="col-span-1"></div>
+              <div className="col-span-2">
+                <Navbar />
+              </div>
+              <div className="col-span-6">{children}</div>
+              <div className="col-span-2">
+                <Search />
+              </div>
+              <div className="col-span-1"></div>
+              <ToastContainer position="bottom-left" />
+            </div>
+          </div>
+          <div className="block md:hidden">
+            <div>{children}</div>
+            <div className="fixed bottom-0 w-full">
               <Navbar />
             </div>
-            <div className="col-span-6">{children}</div>
-            <div className="col-span-2">
-              <Search />
-            </div>
-            <div className="col-span-1"></div>
-            <ToastContainer position="bottom-left" />
           </div>
         </body>
       </AuthContext>
