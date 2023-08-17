@@ -35,16 +35,19 @@ export async function GET(request: Request, response: Response) {
     });
     if (user) {
       const reposts = user?.reposts.map((repost) => {
-        repost.post.isRepost = true;
-        repost.post.postCreatedAt = repost.post.createdAt;
-        repost.post.createdAt = repost.createdAt;
-        repost.post.repostAuthor = repost.author;
+        (repost.post as any).isRepost = true;
+        (repost.post as any).postCreatedAt = repost.post.createdAt;
+        (repost.post as any).createdAt = repost.createdAt;
+        (repost.post as any).repostAuthor = repost.author;
         return repost.post;
       });
       const posts = user.posts
         .concat(reposts)
         .flat()
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        .sort(
+          (a, b) =>
+            (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any),
+        );
       user.posts = posts.slice(skip * 10, skip * 10 + 10);
 
       return NextResponse.json({ user });

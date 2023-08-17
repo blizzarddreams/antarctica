@@ -9,7 +9,7 @@ export default function Search() {
   const [text, setText] = useState("");
   const { data: session, status } = useSession();
 
-  const handleSubmit = (e: React.KeyboardEventHandler<HTMLInputElement>) => {
+  const handleSubmit = (e) => {
     if (e.key === "Enter") {
       return router.push(`/search?params=${text}`);
     }

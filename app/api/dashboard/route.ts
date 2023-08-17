@@ -67,16 +67,19 @@ export async function GET(request: Request, response: Response) {
     });
 
     const reposts = reposts_.map((repost) => {
-      repost.post.isRepost = true;
-      repost.post.postCreatedAt = repost.post.createdAt;
-      repost.post.createdAt = repost.createdAt;
-      repost.post.repostAuthor = repost.author;
+      (repost.post as any).isRepost = true;
+      (repost.post as any).postCreatedAt = repost.post.createdAt;
+      (repost.post as any).createdAt = repost.createdAt;
+      (repost.post as any).repostAuthor = repost.author;
       return repost.post;
     });
 
     const posts__ = posts_
       .concat(...reposts)
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      .sort(
+        (a, b) =>
+          (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any),
+      );
 
     // take skip
     const posts = posts__.slice(skip * 10, skip * 10 + 10);

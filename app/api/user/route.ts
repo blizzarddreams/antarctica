@@ -45,7 +45,7 @@ export async function POST(request: Request, response: Response) {
           `./public/avatars/${md5OfImage}`,
           Buffer.from(dataImage, "base64"),
         );
-        dataToSave.avatar = md5OfImage;
+        (dataToSave as any).avatar = md5OfImage;
       }
 
       if (data.newBanner) {
@@ -55,7 +55,7 @@ export async function POST(request: Request, response: Response) {
           `./public/banners/${md5OfImage}`,
           Buffer.from(dataImage, "base64"),
         );
-        dataToSave.banner = md5OfImage;
+        (dataToSave as any).banner = md5OfImage;
       }
       try {
         const user = await prisma.user.update({

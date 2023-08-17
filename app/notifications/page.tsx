@@ -6,6 +6,7 @@ import Image from "next/image";
 import { ArrowPathRoundedSquareIcon } from "@heroicons/react/20/solid";
 import { UserPlusIcon } from "@heroicons/react/24/outline";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { NotificationType } from "@prisma/client";
 
 interface User {
   id: number;
@@ -25,11 +26,6 @@ interface Notification {
   };
 }
 
-enum NotificationType {
-  LIKE,
-  FOLLOW,
-  REPOST,
-}
 export default function Notification() {
   const [notifications, setNotifications] = useState<Notification[]>([]!);
   const [skip, setSkip] = useState(0);

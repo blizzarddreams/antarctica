@@ -143,10 +143,12 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                         {isFollowing ? (
                           <div
                             onMouseOver={(e) =>
-                              (e.target.textContent = "Unfollow")
+                              ((e.target as HTMLElement).textContent =
+                                "Unfollow")
                             }
                             onMouseLeave={(e) =>
-                              (e.target.textContent = "Following")
+                              ((e.target as HTMLElement).textContent =
+                                "Following")
                             }
                             className="flex justify-center items-center border-white border-2 w-24 text-white px-4 py-1 rounded-full hover:border-rose-400 hover:text-rose-400"
                           >
