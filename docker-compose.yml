@@ -4,11 +4,10 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_PASSWORD="blizzard"
+      - POSTGRES_PASSWORD=example
   web:
     build: .
     env_file:
       - .env
     ports:
       - "3000:3000"
-
