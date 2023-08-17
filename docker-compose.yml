@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:15.4
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD="blizzard"
+  web:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+
