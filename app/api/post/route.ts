@@ -23,7 +23,6 @@ export async function POST(request: Request, response: Response) {
     const prisma = new PrismaClient();
     const email = session.user?.email;
     const data = await request.formData();
-    console.log(data.get("post"));
     if (email) {
       const user = await prisma.user.findFirst({
         where: { email },
