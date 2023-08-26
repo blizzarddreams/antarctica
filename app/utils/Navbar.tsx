@@ -8,6 +8,7 @@ import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { BellIcon } from "@heroicons/react/24/outline";
 import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/outline";
+import { CameraIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
@@ -27,6 +28,8 @@ interface User {
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [preview, setPreview] = useState("");
+  const [image, setImage] = useState("");
   const { data: session } = useSession();
   const [post, setPost] = useState("");
   const notify = () => toast.success("Post made!", { theme: "dark" });
@@ -46,6 +49,11 @@ export default function Navbar() {
     setIsOpen(false);
   };
 
+  const handleImageChange = (e) => {
+    setPreview(URL.createObjectURL(e.target.files[0]));
+    setImage(e.target.files[0]);
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length > 280) {
       e.preventDefault();
@@ -55,11 +63,15 @@ export default function Navbar() {
     setPost(e.target.value);
   };
 
-  const makePost = () => {
+  const makePost = async () => {
+    console.log(image);
+    const form = new FormData();
+    if (image) form.append("image", image);
+    form.append("post", post);
     setIsOpen(false);
     fetch("/api/post", {
       method: "POST",
-      body: JSON.stringify({ post }),
+      body: form,
     })
       .then((res) => res.json())
       .then((data) => {
@@ -205,6 +217,25 @@ export default function Navbar() {
                         <p className="text-teal-400"> {280 - post.length}</p>
                       ) : (
                         <p className="text-rose-400"> {280 - post.length}</p>
+                      )}
+                      <label htmlFor="image">
+                        <CameraIcon className="h-10 w-10" />
+                      </label>
+                      <input
+                        type="file"
+                        name="image"
+                        id="image"
+                        accept="image/png, image/jpeg, image/jpg"
+                        onChange={handleImageChange}
+                        className="hidden file:bg-gray-800 file:text-white file:border file:border-none block w-full border border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-700"
+                      />
+                      {preview && (
+                        <Image
+                          src={preview}
+                          alt={"lol"}
+                          height={100}
+                          width={100}
+                        />
                       )}
                     </div>
                   </Dialog.Panel>

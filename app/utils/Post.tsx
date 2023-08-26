@@ -7,6 +7,7 @@ import Link from "next/link";
 import { StarIcon as StarIconOutline } from "@heroicons/react/24/outline";
 import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
 import { ArrowPathRoundedSquareIcon } from "@heroicons/react/24/solid";
+import { CameraIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
@@ -31,6 +32,7 @@ interface Post {
   isRepost?: boolean;
   postCreatedAt?: string;
   repostAuthor?: User;
+  image?: string;
 }
 
 interface Like {
@@ -49,7 +51,7 @@ export default function Post({ post }: { post: Post }) {
   const [liked, setLiked] = useState(false);
   const [reposted, setReposted] = useState(false);
 
-  // check if liked
+  // check if liked and reposted
   useEffect(() => {
     if (session) {
       fetch(`/api/like?post_id=${post.id}`)
@@ -137,6 +139,14 @@ export default function Post({ post }: { post: Post }) {
                 )}
               </div>
               <p className="break-all">{post.content}</p>
+              {post.image && (
+                <Image
+                  src={`/uploads/${post.image}`}
+                  alt={"lol"}
+                  width={100}
+                  height={100}
+                />
+              )}
               <div className="flex flex-row">
                 {session && (
                   <>

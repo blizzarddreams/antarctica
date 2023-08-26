@@ -3,6 +3,8 @@ import { OPTIONS } from "../auth/[...nextauth]/route";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { PusherServer } from "@/pusher";
+import md5 from "md5";
+import fs from "fs";
 
 export async function GET(request: Request, response: Response) {
   const prisma = new PrismaClient();
@@ -20,7 +22,8 @@ export async function POST(request: Request, response: Response) {
   if (session) {
     const prisma = new PrismaClient();
     const email = session.user?.email;
-    const data = await request.json();
+    const data = await request.formData();
+    console.log(data.get("post"));
     if (email) {
       const user = await prisma.user.findFirst({
         where: { email },
@@ -33,16 +36,38 @@ export async function POST(request: Request, response: Response) {
         },
       });
       if (user) {
-        const post = await prisma.post.create({
-          data: {
-            content: data.post,
-            author: {
-              connect: {
-                id: user.id,
+        let post;
+        if (data.get("image")) {
+          const image = data.get("image");
+          const arrayBuffer = await (image as Blob).arrayBuffer();
+          let md5OfImage = `${md5(image.toString())}.png`;
+          fs.writeFileSync(
+            `./public/uploads/${md5OfImage}`,
+            Buffer.from(arrayBuffer),
+          );
+          post = await prisma.post.create({
+            data: {
+              content: data.get("post") as string,
+              image: md5OfImage,
+              author: {
+                connect: {
+                  id: user.id,
+                },
               },
             },
-          },
-        });
+          });
+        } else {
+          post = await prisma.post.create({
+            data: {
+              content: data.get("post") as string,
+              author: {
+                connect: {
+                  id: user.id,
+                },
+              },
+            },
+          });
+        }
         const post_ = await prisma.post.findFirst({
           where: {
             id: post.id,
