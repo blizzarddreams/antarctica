@@ -1,6 +1,5 @@
 "use client";
 
-import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { HomeIcon } from "@heroicons/react/24/outline";
@@ -16,6 +15,15 @@ import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 interface User {
   id: number;
@@ -77,6 +85,7 @@ export default function Navbar() {
       .then((data) => {
         setPost("");
         notify();
+        setIsOpen(false);
       });
   };
 
@@ -148,14 +157,75 @@ export default function Navbar() {
                   <p className="text-xl">Directs</p>
                 </Link>
               </div>
+              <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
+                <DialogTrigger>
+                  <div
+                    className="mt-10 cursor-pointer flex flex-row  items-end"
+                    onClick={openModal}
+                  >
+                    <PencilSquareIcon className="h-10 w-10" />{" "}
+                    <p className="text-xl">New Post</p>
+                  </div>
+                </DialogTrigger>
+                <DialogContent className="bg-slate-950">
+                  <div className="mt-2 w-full">
+                    <textarea
+                      id="content"
+                      name="content"
+                      rows={4}
+                      value={post}
+                      onChange={handleChange}
+                      placeholder="What is happening?"
+                      className="resize-none w-full border-none focus:border-none bg-slate-800 text-white outline-none focus:outline-none focus:ring-0"
+                    />
+                  </div>
 
-              <div
-                className="mt-10 cursor-pointer flex flex-row  items-end"
-                onClick={openModal}
-              >
-                <PencilSquareIcon className="h-10 w-10" />{" "}
-                <p className="text-xl">New Post</p>
-              </div>
+                  <div className="mt-4 flex flex-col w-full justify-center items-center">
+                    {post.replaceAll(" ", "").length === 0 ? (
+                      <button
+                        type="button"
+                        className=" bg-slate-800/70 p-4 my-1 w-full m-4"
+                        onClick={makePost}
+                        disabled
+                      >
+                        Post
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className=" bg-slate-800 p-4 my-1 w-full m-4"
+                        onClick={makePost}
+                      >
+                        Post
+                      </button>
+                    )}
+                    {280 - post.length > 20 ? (
+                      <p className="text-teal-400"> {280 - post.length}</p>
+                    ) : (
+                      <p className="text-rose-400"> {280 - post.length}</p>
+                    )}
+                    <label htmlFor="image">
+                      <CameraIcon className="h-10 w-10" />
+                    </label>
+                    <input
+                      type="file"
+                      name="image"
+                      id="image"
+                      accept="image/png, image/jpeg, image/jpg"
+                      onChange={handleImageChange}
+                      className="hidden file:bg-gray-800 file:text-white file:border file:border-none block w-full border border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-700"
+                    />
+                    {preview && (
+                      <Image
+                        src={preview}
+                        alt={"lol"}
+                        height={100}
+                        width={100}
+                      />
+                    )}
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
             <Link href={`/@${user.username}`} className="flex flex-row mt-10">
               <div className="flex justify-center flex-col">
@@ -176,100 +246,6 @@ export default function Navbar() {
             </Link>
           </>
         )}
-        <Transition appear show={isOpen} as={Fragment}>
-          <Dialog as="div" className="relative z-10" onClose={closeModal}>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <div className="fixed inset-0 bg-black bg-opacity-25" />
-            </Transition.Child>
-
-            <div className="fixed inset-0 overflow-y-auto">
-              <div className="flex min-h-full items-center justify-center p-4 text-center">
-                <Transition.Child
-                  as={Fragment}
-                  enter="ease-out duration-300"
-                  enterFrom="opacity-0 scale-95"
-                  enterTo="opacity-100 scale-100"
-                  leave="ease-in duration-200"
-                  leaveFrom="opacity-100 scale-100"
-                  leaveTo="opacity-0 scale-95"
-                >
-                  <Dialog.Panel className="flex bg-slate-950  text-white justify-center items-center flex-col h-full w-full max-w-md transform overflow-hidden rounded-2xl  p-6 text-left align-middle shadow-xl transition-all">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-xl font-medium leading-6"
-                    >
-                      New Post
-                    </Dialog.Title>
-                    <div className="mt-2 w-full">
-                      <textarea
-                        id="content"
-                        name="content"
-                        rows={4}
-                        value={post}
-                        onChange={handleChange}
-                        placeholder="What is happening?"
-                        className="resize-none w-full border-none focus:border-none bg-slate-800 text-white outline-none focus:outline-none focus:ring-0"
-                      />
-                    </div>
-
-                    <div className="mt-4 flex flex-col w-full justify-center items-center">
-                      {post.replaceAll(" ", "").length === 0 ? (
-                        <button
-                          type="button"
-                          className=" bg-slate-800/70 p-4 my-1 w-full m-4"
-                          onClick={makePost}
-                          disabled
-                        >
-                          Post
-                        </button>
-                      ) : (
-                        <button
-                          type="button"
-                          className=" bg-slate-800 p-4 my-1 w-full m-4"
-                          onClick={makePost}
-                        >
-                          Post
-                        </button>
-                      )}
-                      {280 - post.length > 20 ? (
-                        <p className="text-teal-400"> {280 - post.length}</p>
-                      ) : (
-                        <p className="text-rose-400"> {280 - post.length}</p>
-                      )}
-                      <label htmlFor="image">
-                        <CameraIcon className="h-10 w-10" />
-                      </label>
-                      <input
-                        type="file"
-                        name="image"
-                        id="image"
-                        accept="image/png, image/jpeg, image/jpg"
-                        onChange={handleImageChange}
-                        className="hidden file:bg-gray-800 file:text-white file:border file:border-none block w-full border border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-700"
-                      />
-                      {preview && (
-                        <Image
-                          src={preview}
-                          alt={"lol"}
-                          height={100}
-                          width={100}
-                        />
-                      )}
-                    </div>
-                  </Dialog.Panel>
-                </Transition.Child>
-              </div>
-            </div>
-          </Dialog>
-        </Transition>
       </div>
       <div className="flex flex-row inset-0 sticky md:hidden justify-center items-center bg-gray-950 w-full">
         {user && (
