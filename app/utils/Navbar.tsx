@@ -8,11 +8,12 @@ import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { BellIcon } from "@heroicons/react/24/outline";
 import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/outline";
+import { UserMinusIcon } from "@heroicons/react/20/solid";
 import { CameraIcon } from "@heroicons/react/24/solid";
 import { FaRegCompass } from "react-icons/fa6";
 import Link from "next/link";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -118,6 +119,14 @@ export default function Navbar() {
                   <Cog6ToothIcon className="h-10 w-10" />
                   <p className="text-xl">Settings</p>
                 </Link>
+              </div>
+
+              <div
+                className="mt-10 flex flex-row items-center cursor-pointer"
+                onClick={() => signOut()}
+              >
+                <UserMinusIcon className="h-10 w-10" />
+                <p className="text-xl">Sign Out</p>
               </div>
 
               <div className="mt-10 relative">

@@ -16,19 +16,17 @@ export default function Home() {
         A Twitter/Bluesky clone
       </p>
       {!session && (
-        <>
+        <div className="flex flex-row">
           <button
-            className="bg-gradient-to-r from-sky-500 to-slate-700 rounded-xl p-4"
+            className="bg-sky-500 rounded-xl p-4 m-1"
             onClick={() => signIn()}
           >
             Sign in
           </button>
           <Link href="/explore">
-            <button className="bg-gradient-to-r from-sky-500 to-slate-700 rounded-xl p-4">
-              Explore
-            </button>
+            <button className="bg-sky-500 rounded-xl p-4 m-1">Explore</button>
           </Link>
-        </>
+        </div>
       )}
     </main>
   );
