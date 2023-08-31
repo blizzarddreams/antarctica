@@ -9,6 +9,7 @@ import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { BellIcon } from "@heroicons/react/24/outline";
 import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/outline";
 import { CameraIcon } from "@heroicons/react/24/solid";
+import { FaRegCompass } from "react-icons/fa6";
 import Link from "next/link";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
@@ -92,6 +93,13 @@ export default function Navbar() {
                 <Link href="/dashboard" className="flex flex-row  items-end">
                   <HomeIcon className="h-10 w-10" />
                   <p className="text-xl">Home</p>
+                </Link>
+              </div>
+
+              <div className="mt-10">
+                <Link href="/explore" className="flex flex-row  items-end">
+                  <FaRegCompass className="h-10 w-10" />
+                  <p className="text-xl">Explore</p>
                 </Link>
               </div>
 

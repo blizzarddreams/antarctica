@@ -27,6 +27,7 @@
     "react": "18.2.0",
     "react-cropper": "^2.3.3",
     "react-dom": "18.2.0",
+    "react-icons": "^4.10.1",
     "react-image-crop": "^10.1.5",
     "react-infinite-scroll-component": "^6.1.0",
     "react-toastify": "^9.1.3",

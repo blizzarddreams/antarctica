@@ -135,7 +135,7 @@ export default function Notification() {
     <div>
       {notifications && (
         <div>
-          <p className="text-4xl">Notifications</p>
+          <p className="font-bold text-4xl">Notifications</p>
           <div className="divide-y">
             <InfiniteScroll
               dataLength={notifications.length}

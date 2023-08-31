@@ -83,7 +83,7 @@ export default function Direct() {
 
   return (
     <div className="flex justify-center flex-col">
-      <p className="text-4xl">Directs</p>
+      <p className="font-bold text-4xl">Directs</p>
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
