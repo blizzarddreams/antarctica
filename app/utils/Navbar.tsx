@@ -1,15 +1,14 @@
 "use client";
 
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { HomeIcon } from "@heroicons/react/24/outline";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { BellIcon } from "@heroicons/react/24/outline";
 import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/outline";
-import { UserMinusIcon } from "@heroicons/react/20/solid";
+import { RiLogoutCircleLine, RiCompass3Line } from "react-icons/ri";
 import { CameraIcon } from "@heroicons/react/24/solid";
-import { FaRegCompass } from "react-icons/fa6";
 import Link from "next/link";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
@@ -108,7 +107,7 @@ export default function Navbar() {
 
               <div className="mt-10">
                 <Link href="/explore" className="flex flex-row  items-end">
-                  <FaRegCompass className="h-10 w-10" />
+                  <RiCompass3Line className="h-10 w-10" />
                   <p className="text-xl">Explore</p>
                 </Link>
               </div>
@@ -134,7 +133,7 @@ export default function Navbar() {
                 className="mt-10 flex flex-row items-center cursor-pointer"
                 onClick={() => signOut()}
               >
-                <UserMinusIcon className="h-10 w-10" />
+                <RiLogoutCircleLine className="h-10 w-10" />
                 <p className="text-xl">Sign Out</p>
               </div>
 
