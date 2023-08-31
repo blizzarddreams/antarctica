@@ -138,7 +138,7 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                     onClick={followUser}
                     className="cursor-pointer  mr-4 md:mr-0"
                   >
-                    {session?.user?.email !== user.email && (
+                    {session && session?.user?.email !== user.email && (
                       <>
                         {isFollowing ? (
                           <div
