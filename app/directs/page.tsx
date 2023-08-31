@@ -49,7 +49,7 @@ export default function Direct() {
         setUser(data.user);
       });
     }
-  }, []);
+  }, [user]);
 
   const classNames = (...classes) => {
     return classes.filter(Boolean).join(" ");
@@ -139,9 +139,9 @@ export default function Direct() {
             <Tab.List className="flex flex-col rounded-xl p-1 w-2/6 h-full">
               <button
                 onClick={() => setIsOpen(true)}
-                className="w-full rounded-lg py-2.5 text-sm font-medium bg-white shadow text-blue-700"
+                className="w-full  py-2.5 text-sm font-medium bg-slate-800 shadow text-white"
               >
-                new direct
+                New Direct
               </button>
 
               {user.directs.map((direct) => (
@@ -149,7 +149,7 @@ export default function Direct() {
                   key={direct.id}
                   className={({ selected }) =>
                     classNames(
-                      "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700 p-4",
+                      "w-full py-2.5 text-sm font-medium leading-5 text-blue-700 p-4",
                       selected
                         ? "bg-white shadow"
                         : "text-blue-100 hover:bg-white/[0.12] hover:text-white",
@@ -169,7 +169,7 @@ export default function Direct() {
                 <div key={direct.id}>
                   <Tab.Panel
                     key={direct.id}
-                    className="rounded-xl bg-white h-full self-end"
+                    className="rounded-xl bg-transparent h-full self-end"
                   >
                     <div>
                       {direct.messages.map((message) => (

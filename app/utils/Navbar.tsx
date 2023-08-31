@@ -212,13 +212,24 @@ export default function Navbar() {
                     </div>
 
                     <div className="mt-4 flex flex-col w-full justify-center items-center">
-                      <button
-                        type="button"
-                        className=" bg-slate-800 p-4 my-1 w-full m-4"
-                        onClick={makePost}
-                      >
-                        Post
-                      </button>
+                      {post.replaceAll(" ", "").length === 0 ? (
+                        <button
+                          type="button"
+                          className=" bg-slate-800/70 p-4 my-1 w-full m-4"
+                          onClick={makePost}
+                          disabled
+                        >
+                          Post
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          className=" bg-slate-800 p-4 my-1 w-full m-4"
+                          onClick={makePost}
+                        >
+                          Post
+                        </button>
+                      )}
                       {280 - post.length > 20 ? (
                         <p className="text-teal-400"> {280 - post.length}</p>
                       ) : (
