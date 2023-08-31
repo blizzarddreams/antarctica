@@ -10,6 +10,11 @@ import { ArrowPathRoundedSquareIcon } from "@heroicons/react/24/solid";
 import { CameraIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 interface User {
   id: number;
@@ -119,15 +124,46 @@ export default function Post({ post }: { post: Post }) {
                 </div>
               )}
               <div className="flex flex-row items-center">
-                <p className="mr-2">
-                  {post.author.displayname
-                    ? post.author.displayname
-                    : post.author.username}
-                </p>{" "}
-                <p className="mr-2 text-zinc-400 text-sm">
-                  {" "}
-                  @{post.author.username}
-                </p>
+                <HoverCard>
+                  <HoverCardTrigger className="flex flex-row items-center">
+                    <p className="mr-2">
+                      {post.author.displayname
+                        ? post.author.displayname
+                        : post.author.username}
+                    </p>{" "}
+                    <p className="mr-2 text-zinc-400 text-sm">
+                      {" "}
+                      @{post.author.username}
+                    </p>
+                  </HoverCardTrigger>
+                  <HoverCardContent className="bg-black">
+                    <div className="flex flex-col">
+                      <div className="flex flex-row">
+                        <Image
+                          className="rounded-full mr-4"
+                          src={`/avatars/${post.author.avatar}`}
+                          alt={post.author.username}
+                          width={50}
+                          height={50}
+                        />
+                        <div className="flex flex-col">
+                          <p className="mr-2">
+                            {post.author.displayname
+                              ? post.author.displayname
+                              : post.author.username}
+                          </p>{" "}
+                          <p className="mr-2 text-zinc-400 text-sm">
+                            {" "}
+                            @{post.author.username}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex flex-row">{}</div>
+                      <p className="text-white">{post.author.description}</p>
+                    </div>
+                  </HoverCardContent>
+                </HoverCard>
+
                 {post.isRepost ? (
                   <p className="text-zinc-300 text-sm">
                     {dayjs().to(dayjs(new Date(post.postCreatedAt!)))}

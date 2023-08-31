@@ -14,7 +14,16 @@ export async function GET(request: Request, response: Response) {
       include: {
         posts: {
           orderBy: { createdAt: "desc" },
-          include: { author: true, likes: true, reposts: true },
+          include: {
+            author: {
+              include: {
+                followers: true,
+                following: true,
+              },
+            },
+            likes: true,
+            reposts: true,
+          },
         },
         followers: true,
         following: true,
@@ -24,7 +33,12 @@ export async function GET(request: Request, response: Response) {
             createdAt: true,
             post: {
               include: {
-                author: true,
+                author: {
+                  include: {
+                    followers: true,
+                    following: true,
+                  },
+                },
                 likes: true,
                 reposts: true,
               },
