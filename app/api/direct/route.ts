@@ -31,7 +31,6 @@ export async function GET(request: Request, response: Response) {
 
 export async function POST(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
-  console.log("ok");
   if (session?.user?.email) {
     const prisma = new PrismaClient();
     const data = await request.json();
@@ -41,7 +40,6 @@ export async function POST(request: Request, response: Response) {
         email: session.user.email,
       },
     });
-    console.log(data);
     const userBeingDirectedAt = await prisma.user.findFirst({
       where: {
         username: data.username,

@@ -50,6 +50,7 @@ export default function UserPage({ params }: { params: { slug: string } }) {
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [user, setUser] = useState<User>(null!);
   const [skip, setSkip] = useState<number>(0);
+  const [hasMore, setHasMore] = useState<boolean>(true);
   const { data: session } = useSession();
 
   const getData = () => {
@@ -61,6 +62,7 @@ export default function UserPage({ params }: { params: { slug: string } }) {
           posts: [...user.posts.concat(data.user.posts)],
         });
         setSkip(skip + 1);
+        if (data.noMore) setHasMore(false);
 
         if (session) {
           fetch(`/api/follow?id=${data.user.id}`)
@@ -184,7 +186,7 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                       <InfiniteScroll
                         dataLength={user.posts.length}
                         next={getData}
-                        hasMore={true}
+                        hasMore={hasMore}
                         loader={<div>Loading</div>}
                       >
                         {user.posts.map((post) => (

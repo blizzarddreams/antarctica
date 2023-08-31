@@ -83,6 +83,10 @@ export async function GET(request: Request, response: Response) {
 
     // take skip
     const posts = posts__.slice(skip * 10, skip * 10 + 10);
-    return NextResponse.json({ posts });
+    if (posts.length <= 9) {
+      return NextResponse.json({ posts, noMore: true });
+    } else {
+      return NextResponse.json({ posts });
+    }
   }
 }

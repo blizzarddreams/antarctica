@@ -6,7 +6,6 @@ import { PusherServer } from "@/pusher";
 
 export async function POST(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
-  console.log("ok");
   if (session?.user?.email) {
     const prisma = new PrismaClient();
     const data = await request.json();

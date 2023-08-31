@@ -12,20 +12,23 @@ export default function Home() {
       <p className="text-7xl text-transparent bg-gradient-to-r from-sky-500 to-slate-700 bg-clip-text">
         antarctica
       </p>
-      <p>Twitter/Bluesky clone</p>
-      {session ? (
-        <p>
-          Signed in <button onClick={() => signOut()}>Sign out </button>
-        </p>
-      ) : (
-        <p>
+      <p className="text-xl  bg-gradient-to-r from-sky-500 to-slate-700 bg-clip-text text-transparent">
+        A Twitter/Bluesky clone
+      </p>
+      {!session && (
+        <>
           <button
-            className="bg-slate-700 rounded-xl p-4"
+            className="bg-gradient-to-r from-sky-500 to-slate-700 rounded-xl p-4"
             onClick={() => signIn()}
           >
             Sign in
           </button>
-        </p>
+          <Link href="/explore">
+            <button className="bg-gradient-to-r from-sky-500 to-slate-700 rounded-xl p-4">
+              Explore
+            </button>
+          </Link>
+        </>
       )}
     </main>
   );

@@ -9,7 +9,6 @@ async function getData(id: number) {
 
 export async function generateMetadata({ params }: { params: { id: number } }) {
   const post = await getData(params.id);
-  console.log(post);
   const title = `${
     post.author.displayname ? post.author.displayname : post.author.username
   } (@${post.author.username}) / antarctica`;

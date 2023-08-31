@@ -39,7 +39,6 @@ export default function Navbar() {
       fetch("/api/user")
         .then((res) => res.json())
         .then((data) => {
-          console.log(data.user);
           setUser(data.user);
         });
     }
@@ -64,7 +63,6 @@ export default function Navbar() {
   };
 
   const makePost = async () => {
-    console.log(image);
     const form = new FormData();
     if (image) form.append("image", image);
     form.append("post", post);

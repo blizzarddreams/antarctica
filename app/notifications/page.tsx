@@ -29,6 +29,7 @@ interface Notification {
 export default function Notification() {
   const [notifications, setNotifications] = useState<Notification[]>([]!);
   const [skip, setSkip] = useState(0);
+  const [hasMore, setHasMore] = useState<boolean>(true);
 
   const getData = () => {
     fetch(`/api/notifications?skip=${skip}`)
@@ -36,6 +37,7 @@ export default function Notification() {
       .then((data) => {
         setNotifications([...notifications.concat(data.notifications)]);
         setSkip(skip + 1);
+        if (data.noMore) setHasMore(false);
       });
   };
   useEffect(() => {
@@ -138,7 +140,7 @@ export default function Notification() {
             <InfiniteScroll
               dataLength={notifications.length}
               next={getData}
-              hasMore={true}
+              hasMore={hasMore}
               loader={<div>Loading</div>}
               className="divide-y"
             >

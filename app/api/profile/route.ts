@@ -63,8 +63,11 @@ export async function GET(request: Request, response: Response) {
             (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any),
         );
       user.posts = posts.slice(skip * 10, skip * 10 + 10);
-
-      return NextResponse.json({ user });
+      if (user.posts.length <= 9) {
+        return NextResponse.json({ user, noMore: true });
+      } else {
+        return NextResponse.json({ user });
+      }
     }
   } else if (username) {
     const user = await prisma.user.findFirst({

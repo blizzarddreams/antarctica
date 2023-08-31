@@ -1,7 +1,7 @@
 "use client";
 
 import { signIn, signOut, useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Post from "../utils/Post";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { PusherClient } from "@/pusher";
@@ -43,26 +43,28 @@ export default function Dashboard() {
   const { data: session } = useSession();
   const [posts, setPosts] = useState<Post[]>([]!);
   const [skip, setSkip] = useState(0);
+  const [hasMore, setHasMore] = useState<boolean>(true);
 
-  const getData = () => {
+  const getData = useCallback(() => {
     if (session) {
       fetch(`/api/dashboard?skip=${skip}`)
         .then((res) => res.json())
         .then((data) => {
           setPosts([...posts.concat(data.posts)]);
           setSkip(skip + 1);
+          if (data.noMore) setHasMore(false);
         });
     }
-  };
+  }, [session, skip, posts]);
+
   useEffect(() => {
     getData();
-  }, [session]);
+  }, [getData]);
 
   useEffect(() => {
     if (session?.user?.email) {
       const channel = PusherClient.subscribe(`dashboard-${session.user.email}`);
       channel.bind("new message", (data) => {
-        console.log("new!");
         const posts_ = posts;
         posts_.unshift(data.post);
         setPosts(posts_);
@@ -76,7 +78,7 @@ export default function Dashboard() {
           <InfiniteScroll
             dataLength={posts.length}
             next={getData}
-            hasMore={true}
+            hasMore={hasMore}
             loader={<div>Loading</div>}
           >
             {posts.map((post, i) => (

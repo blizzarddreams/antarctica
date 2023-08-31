@@ -82,7 +82,6 @@ export async function POST(request: Request, response: Response) {
         });
         user.followers.forEach((follower) => {
           const email_ = follower.follower.email;
-          console.log(email_);
           PusherServer.trigger(`dashboard-${email_}`, "new message", {
             post: post_,
           });
@@ -91,7 +90,6 @@ export async function POST(request: Request, response: Response) {
         PusherServer.trigger(`dashboard-${user.email}`, "new message", {
           post: post_,
         });
-        console.log("sent");
         return NextResponse.json({});
       } else {
         return NextResponse.json({ error: "error" });

@@ -36,7 +36,10 @@ export async function GET(request: Request, response: Response) {
       skip: skip * 10,
       take: 10,
     });
-
-    return NextResponse.json({ notifications });
+    if (notifications.length <= 9) {
+      return NextResponse.json({ notifications, noMore: true });
+    } else {
+      return NextResponse.json({ notifications });
+    }
   }
 }

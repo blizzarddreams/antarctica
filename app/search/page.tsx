@@ -42,6 +42,7 @@ export default function Search() {
   const [posts, setPosts] = useState<Post[]>(null!);
   const search = searchParams.get("params");
   const [skip, setSkip] = useState(0);
+  const [hasMore, setHasMore] = useState<boolean>(true);
 
   const getData = () => {
     fetch(`/api/search?params=${search}&skip=${skip}`)
@@ -49,6 +50,7 @@ export default function Search() {
       .then((data) => {
         setPosts(data.posts);
         setSkip(skip + 1);
+        if (data.noMore) setHasMore(false);
       });
   };
   useEffect(() => {
@@ -63,7 +65,7 @@ export default function Search() {
             <InfiniteScroll
               dataLength={posts.length}
               next={getData}
-              hasMore={true}
+              hasMore={hasMore}
               loader={<div>Loading</div>}
             >
               {posts.map((post) => (
