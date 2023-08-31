@@ -53,10 +53,6 @@ export default function Navbar() {
     }
   }, [session]);
 
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
   const handleImageChange = (e) => {
     setPreview(URL.createObjectURL(e.target.files[0]));
     setImage(e.target.files[0]);
@@ -101,7 +97,7 @@ export default function Navbar() {
               <div className="mt-10">
                 <Link href="/dashboard" className="flex flex-row  items-end">
                   <HomeIcon className="h-10 w-10" />
-                  <p className="text-xl">Home</p>
+                  <p className="text-xl">Dashboard</p>
                 </Link>
               </div>
 
