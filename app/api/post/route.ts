@@ -3,7 +3,7 @@ import { OPTIONS } from "../auth/[...nextauth]/route";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { PusherServer } from "@/pusher";
-import md5 from "md5";
+import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
 
 export async function GET(request: Request, response: Response) {
@@ -39,15 +39,15 @@ export async function POST(request: Request, response: Response) {
         if (data.get("image")) {
           const image = data.get("image");
           const arrayBuffer = await (image as Blob).arrayBuffer();
-          let md5OfImage = `${md5(image.toString())}.png`;
+          const uuid = `${uuidv4()}.png`;
           fs.writeFileSync(
-            `./public/uploads/${md5OfImage}`,
+            `./public/uploads/${uuid}`,
             Buffer.from(arrayBuffer),
           );
           post = await prisma.post.create({
             data: {
               content: data.get("post") as string,
-              image: md5OfImage,
+              image: uuid,
               author: {
                 connect: {
                   id: user.id,

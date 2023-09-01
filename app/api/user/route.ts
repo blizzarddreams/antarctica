@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server";
 import { OPTIONS } from "../auth/[...nextauth]/route";
 import fs from "fs";
-import md5 from "md5";
+import { v4 as uuidv4 } from "uuid";
 
 export async function GET(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
@@ -36,44 +36,30 @@ export async function POST(request: Request, response: Response) {
         displayname: data.displayname,
       };
 
-      // check if username is taken
-
       if (data.newAvatar) {
         let dataImage = data.newAvatar.replace(/^data:image\/\w+;base64,/, "");
-        let md5OfImage = `${md5(dataImage)}.png`;
+        let uuid = `${uuidv4()}.png`;
         fs.writeFileSync(
-          `./public/avatars/${md5OfImage}`,
+          `./public/avatars/${uuid}`,
           Buffer.from(dataImage, "base64"),
         );
-        (dataToSave as any).avatar = md5OfImage;
+        (dataToSave as any).avatar = uuid;
       }
 
       if (data.newBanner) {
         let dataImage = data.newBanner.replace(/^data:image\/\w+;base64,/, "");
-        let md5OfImage = `${md5(dataImage)}.png`;
+        let uuid = `${uuidv4()}.png`;
         fs.writeFileSync(
-          `./public/banners/${md5OfImage}`,
+          `./public/avatars/${uuid}`,
           Buffer.from(dataImage, "base64"),
         );
-        (dataToSave as any).banner = md5OfImage;
+        (dataToSave as any).banner = uuid;
       }
       try {
         const user = await prisma.user.update({
           where: { email },
           data: { ...dataToSave },
         });
-        // if new avatar update it
-        if (data.newAvatar) {
-          let dataImage = data.newAvatar.replace(
-            /^data:image\/\w+;base64,/,
-            "",
-          );
-          let md5OfImage = `${md5(dataImage)}.png`;
-          fs.writeFileSync(
-            `./public/avatars/${md5OfImage}`,
-            Buffer.from(dataImage, "base64"),
-          );
-        }
         return NextResponse.json({ user });
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {

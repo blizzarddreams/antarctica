@@ -178,7 +178,7 @@ export default function Post({ post }: { post: Post }) {
               {post.image && (
                 <Image
                   src={`/uploads/${post.image}`}
-                  alt={"lol"}
+                  alt={post.author.username}
                   width={100}
                   height={100}
                 />
