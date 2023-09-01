@@ -68,7 +68,8 @@ export default function Dashboard() {
         setPosts([...[data.post].concat(posts)]);
       });
     }
-  }, [session]);
+  }, [session, posts]);
+
   return (
     <>
       {posts && (
