@@ -1,4 +1,5 @@
 import Post from "@/app/utils/Post";
+import { notFound } from "next/navigation";
 async function getData(id: number) {
   const res = await fetch(`${process.env.NEXTAUTH_URL}/api/post?id=${id}`, {
     method: "GET",
@@ -9,6 +10,7 @@ async function getData(id: number) {
 
 export async function generateMetadata({ params }: { params: { id: number } }) {
   const post = await getData(params.id);
+  if (!post) return notFound();
   const title = `${
     post.author.displayname ? post.author.displayname : post.author.username
   } (@${post.author.username}) / antarctica`;

@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import UserPage from "./User";
 
 export async function generateMetadata({
@@ -9,6 +10,7 @@ export async function generateMetadata({
     `${process.env.NEXTAUTH_URL}/api/profile?username=${params.slug}`,
   );
   const data = await res.json();
+  if (!data.user) return notFound();
   const title = `${
     data.user.displayname ? data.user.displayname : data.user.username
   } (@${data.user.username}) / antarctica`;
