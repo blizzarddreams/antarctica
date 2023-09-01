@@ -40,33 +40,10 @@ interface Repost {
 }
 
 export default function Dashboard() {
-  const [username, setUsername] = useState("");
   const { data: session } = useSession();
   const [posts, setPosts] = useState<Post[]>([]!);
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState<boolean>(true);
-  const [image, setImage] = useState("");
-  const [post, setPost] = useState("");
-  const [preview, setPreview] = useState("");
-
-  const handleImageChange = (e) => {
-    setPreview(URL.createObjectURL(e.target.files[0]));
-    setImage(e.target.files[0]);
-  };
-
-  const makePost = async () => {
-    const form = new FormData();
-    if (image) form.append("image", image);
-    form.append("post", post);
-    fetch("/api/post", {
-      method: "POST",
-      body: form,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setPost("");
-      });
-  };
 
   const getData = useCallback(() => {
     if (session) {
@@ -96,57 +73,7 @@ export default function Dashboard() {
     <>
       {posts && (
         <>
-          <div className="mt-2 w-full">
-            <textarea
-              id="content"
-              name="content"
-              rows={4}
-              value={post}
-              onChange={(e) => setPost(e.target.value)}
-              placeholder="What is happening?"
-              className="resize-none w-full border-none focus:border-none bg-slate-800 text-white outline-none focus:outline-none focus:ring-0"
-            />
-          </div>
-
-          <div className="mt-4 flex flex-row w-full items-center">
-            {post.replaceAll(" ", "").length === 0 ? (
-              <button
-                type="button"
-                className=" bg-slate-800/70 p-4 my-1 w-full mr-4"
-                onClick={makePost}
-                disabled
-              >
-                Post
-              </button>
-            ) : (
-              <button
-                type="button"
-                className=" bg-slate-800 p-4 my-1 w-full mr-4"
-                onClick={makePost}
-              >
-                Post
-              </button>
-            )}
-            {280 - post.length > 20 ? (
-              <p className="text-teal-400"> {280 - post.length}</p>
-            ) : (
-              <p className="text-rose-400"> {280 - post.length}</p>
-            )}
-            <label htmlFor="image">
-              <CameraIcon className="h-10 w-10" />
-            </label>
-            <input
-              type="file"
-              name="image"
-              id="image"
-              accept="image/png, image/jpeg, image/jpg"
-              onChange={handleImageChange}
-              className="hidden file:bg-gray-800 file:text-white file:border file:border-none block w-full border border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-700"
-            />
-            {preview && (
-              <Image src={preview} alt={"lol"} height={100} width={100} />
-            )}
-          </div>
+          <p className="font-bold text-4xl">Dashboard</p>
           <InfiniteScroll
             dataLength={posts.length}
             next={getData}
