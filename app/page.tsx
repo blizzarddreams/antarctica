@@ -13,7 +13,7 @@ export default function Home() {
         antarctica
       </p>
       <p className="text-xl  bg-gradient-to-r from-sky-500 to-slate-700 bg-clip-text text-transparent">
-        A Twitter/Bluesky clone
+        A Bluesky/Twitter clone
       </p>
       {!session && (
         <div className="flex flex-row">

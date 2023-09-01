@@ -14,4 +14,12 @@ jobs:
           host: ${{secrets.SSH_HOST}}
           username: ${{secrets.SSH_USERNAME}}
           key: ${{secrets.SSH_KEY}}
-          script: whoami
+          passphrase: ${{secrets.SSH_PASSPHRASE}}
+          script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            cd /var/www/antarctica
+            git pull
+            npm run build
+            pm2 restart antarctica
+            echo 'done'
