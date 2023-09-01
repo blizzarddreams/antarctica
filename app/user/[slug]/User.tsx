@@ -6,6 +6,7 @@ import Post from "@/app/utils/Post";
 import { useSession } from "next-auth/react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { PusherClient } from "@/pusher";
+import { notFound } from "next/navigation";
 interface User {
   id: number;
   username: string;
@@ -77,8 +78,8 @@ export default function UserPage({ params }: { params: { slug: string } }) {
     fetch(`/api/profile?username=${params.slug}&skip=${skip}`)
       .then((res) => res.json())
       .then((data) => {
+        if (!data.user) return notFound();
         setUser(data.user);
-
         if (session) {
           fetch(`/api/follow?id=${data.user.id}`)
             .then((res) => res.json())
