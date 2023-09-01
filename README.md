@@ -1,6 +1,6 @@
-# Macaw Next
+# Antarctica
 
-Macaw Next is a remake of [`Macaw`](https://github.com/arcaninebellies/macaw) bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Antarctica is a remake of [`Macaw`](https://github.com/arcaninebellies/macaw) bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
