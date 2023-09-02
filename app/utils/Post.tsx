@@ -11,6 +11,7 @@ import { CameraIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { FaTrash } from "react-icons/fa";
+import { BsFillBookmarkPlusFill, BsFillBookmarkDashFill } from "react-icons/bs";
 import {
   HoverCard,
   HoverCardContent,
@@ -73,6 +74,7 @@ export default function Post({ post }: { post: Post }) {
   const { data: session } = useSession();
   const [liked, setLiked] = useState(false);
   const [reposted, setReposted] = useState(false);
+  const [bookmarked, setBookmarked] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
 
   // check if liked and reposted
@@ -87,6 +89,11 @@ export default function Post({ post }: { post: Post }) {
         .then((res) => res.json())
         .then((data) => {
           setReposted(data.reposted);
+        });
+      fetch(`/api/bookmark?post_id=${post.id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setBookmarked(data.bookmarked);
         });
     }
   }, [session, post.id]);
@@ -103,6 +110,18 @@ export default function Post({ post }: { post: Post }) {
       .then((data) => {
         setIsOpenDelete(false);
       });
+  };
+
+  const toggleBookmark = () => {
+    fetch(`/api/bookmark`, {
+      method: "POST",
+      body: JSON.stringify({ id: post.id }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setBookmarked(data.bookmarked));
   };
 
   const toggleLike = (e: React.MouseEvent<SVGSVGElement>) => {
@@ -235,7 +254,33 @@ export default function Post({ post }: { post: Post }) {
                           id="dropdownMenu"
                         />
                       </DropdownMenuTrigger>
+
                       <DropdownMenuContent className="bg-slate-950">
+                        <DropdownMenuItem
+                          onSelect={(e) => e.preventDefault()}
+                          onClick={toggleBookmark}
+                        >
+                          {session &&
+                            session.user?.email === post.author.email && (
+                              <>
+                                {bookmarked ? (
+                                  <>
+                                    <BsFillBookmarkDashFill className="h-4 w-4 mr-2 text-white" />
+                                    <span className="text-white">
+                                      Unsave Post
+                                    </span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <BsFillBookmarkPlusFill className="h-4 w-4 mr-2 text-white" />
+                                    <span className="text-white">
+                                      Save Post
+                                    </span>
+                                  </>
+                                )}
+                              </>
+                            )}
+                        </DropdownMenuItem>
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                           {session &&
                             session.user?.email === post.author.email && (

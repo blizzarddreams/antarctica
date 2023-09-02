@@ -42,6 +42,7 @@ model User {
   directs Direct[]
 
   directMessages DirectMessage[]
+  bookmarks Bookmark[]
 }
 
 model Notification {
@@ -84,6 +85,15 @@ model Post {
   reposts      Repost[]
   notification Notification[]
   image String?
+  bookmarks Bookmark[]
+}
+
+model Bookmark {
+  id     Int  @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  post   Post @relation(fields: [postId], references: [id])
+  userId Int
+  postId Int
 }
 
 model Like {
