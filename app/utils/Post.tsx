@@ -77,7 +77,7 @@ export default function Post({ post }: { post: Post }) {
   const [bookmarked, setBookmarked] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
 
-  // check if liked and reposted
+  // check if liked, reposted, and bookmarked
   useEffect(() => {
     if (session) {
       fetch(`/api/like?post_id=${post.id}`)
@@ -156,7 +156,8 @@ export default function Post({ post }: { post: Post }) {
       e.target.tagName === "svg" ||
       e.target.tagName === "path" ||
       e.target.tagName === "BUTTON" ||
-      e.target.tagName === "SPAN"
+      e.target.tagName === "SPAN" ||
+      e.target.tagName === "IMG"
     ) {
       e.preventDefault();
     }
@@ -313,12 +314,24 @@ export default function Post({ post }: { post: Post }) {
               </div>
               <p className="break-all">{post.content}</p>
               {post.image && (
-                <Image
-                  src={`/uploads/${post.image}`}
-                  alt={post.author.username}
-                  width={100}
-                  height={100}
-                />
+                <Dialog>
+                  <DialogTrigger>
+                    <Image
+                      src={`/uploads/${post.image}`}
+                      alt={post.author.username}
+                      width={100}
+                      height={100}
+                    />
+                  </DialogTrigger>
+                  <DialogContent>
+                    <Image
+                      src={`/uploads/${post.image}`}
+                      alt={post.author.username}
+                      width={1000}
+                      height={1000}
+                    />
+                  </DialogContent>
+                </Dialog>
               )}
               <div className="flex flex-row">
                 {session && (
