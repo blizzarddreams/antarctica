@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { PusherClient } from "@/pusher";
 import { notFound } from "next/navigation";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 interface User {
   id: number;
   username: string;
@@ -35,6 +36,7 @@ interface Post {
   content: string;
   likes: Like[];
   reposts: Repost[];
+  image?: string;
 }
 
 interface Like {
@@ -62,6 +64,7 @@ export default function UserPage({ params }: { params: { slug: string } }) {
           ...data.user,
           posts: [...user.posts.concat(data.user.posts)],
         });
+        console.log(data.user.posts);
         setSkip(skip + 1);
         if (data.noMore) setHasMore(false);
 
@@ -187,9 +190,23 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                 </div>
 
                 <p className="text-lg mb-4  ml-4 md:ml-0">{user.description}</p>
-                <div className="w-full">
-                  {user.posts.length > 0 ? (
-                    <>
+                <Tabs defaultValue="posts" className="w-full">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger
+                      className="text-center cursor-pointer text-lg py-2"
+                      value="posts"
+                    >
+                      Posts
+                    </TabsTrigger>
+                    <TabsTrigger
+                      className="text-center cursor-pointer text-lg py-2"
+                      value="media"
+                    >
+                      Media
+                    </TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="posts">
+                    <div className="w-full">
                       <InfiniteScroll
                         dataLength={user.posts.length}
                         next={getData}
@@ -200,11 +217,25 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                           <Post post={post} key={post.id} />
                         ))}
                       </InfiniteScroll>
-                    </>
-                  ) : (
-                    <p className="text-4xl">No Posts</p>
-                  )}
-                </div>
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="media">
+                    <div className="w-full">
+                      <InfiniteScroll
+                        dataLength={user.posts.length}
+                        next={getData}
+                        hasMore={hasMore}
+                        loader={<div>Loading</div>}
+                      >
+                        {user.posts
+                          .filter((post) => post.image !== null)
+                          .map((post) => (
+                            <Post post={post} key={post.id} />
+                          ))}
+                      </InfiniteScroll>
+                    </div>
+                  </TabsContent>
+                </Tabs>
               </div>
             </div>
           </div>
