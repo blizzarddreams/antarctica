@@ -19,6 +19,7 @@ jobs:
             source ~/.nvm/nvm.sh
             cd /var/www/antarctica
             git pull
+            npm install
             npm run build
             pm2 restart antarctica
             echo 'done'

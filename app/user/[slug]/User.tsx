@@ -98,6 +98,12 @@ export default function UserPage({ params }: { params: { slug: string } }) {
         posts.unshift(data.post);
         setUser({ ...user, posts: posts });
       });
+      channel.bind("delete message", (data) => {
+        setUser({
+          ...user,
+          posts: user.posts.filter((post) => post.id !== data.post.id),
+        });
+      });
     }
   }, [user]);
 

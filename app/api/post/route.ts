@@ -16,6 +16,57 @@ export async function GET(request: Request, response: Response) {
   });
   return NextResponse.json({ post });
 }
+
+export async function DELETE(request: Request, response: Response) {
+  const session = await getServerSession(OPTIONS);
+  const data = await request.json();
+  if (session) {
+    const prisma = new PrismaClient();
+    const email = session.user?.email;
+    if (email) {
+      console.log(data);
+      console.log(email);
+      const post = await prisma.post.findFirst({
+        where: {
+          author: {
+            email: email,
+          },
+          id: data.id,
+        },
+        include: {
+          author: {
+            include: {
+              followers: {
+                include: {
+                  follower: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      await prisma.post.delete({ where: { id: post.id } });
+      PusherServer.trigger(
+        `profile-${post.author.username}`,
+        "delete message",
+        {
+          post: post,
+        },
+      );
+      post.author.followers.forEach((follower) => {
+        const email_ = follower.follower.email;
+        PusherServer.trigger(`dashboard-${email_}`, "delete message", {
+          post: post,
+        });
+      });
+      // send to self
+      PusherServer.trigger(`dashboard-${post.author.email}`, "delete message", {
+        post: post,
+      });
+      return NextResponse.json({ post });
+    }
+  }
+}
 export async function POST(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
 

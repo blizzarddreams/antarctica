@@ -9,12 +9,21 @@ import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
 import { ArrowPathRoundedSquareIcon } from "@heroicons/react/24/solid";
 import { CameraIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { FaTrash } from "react-icons/fa";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 interface User {
   id: number;
@@ -52,9 +61,10 @@ interface Repost {
 
 export default function Post({ post }: { post: Post }) {
   dayjs.extend(relativeTime);
-  const session = useSession();
+  const { data: session } = useSession();
   const [liked, setLiked] = useState(false);
   const [reposted, setReposted] = useState(false);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
 
   // check if liked and reposted
   useEffect(() => {
@@ -71,6 +81,20 @@ export default function Post({ post }: { post: Post }) {
         });
     }
   }, [session, post.id]);
+
+  const handleDelete = () => {
+    fetch(`/api/post/`, {
+      method: "DELETE",
+      body: JSON.stringify({ id: post.id }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setIsOpenDelete(false);
+      });
+  };
 
   const toggleLike = (e: React.MouseEvent<SVGSVGElement>) => {
     e.preventDefault();
@@ -98,11 +122,23 @@ export default function Post({ post }: { post: Post }) {
       .then((data) => setReposted(data.reposted));
   };
 
+  const stopLink = (e) => {
+    console.log(e.target.tagName);
+    if (
+      e.target.tagName === "svg" ||
+      e.target.tagName === "path" ||
+      e.target.tagName === "BUTTON"
+    ) {
+      return e.preventDefault();
+    }
+  };
+
   return (
     <>
       <div key={post.id}>
         <Link
           href={`/@${post.author.username}/${post.id}`}
+          onClick={stopLink}
           className="border border-slate-800 p-8 flex flex-col items-center"
         >
           <div className="h-full w-full items-center grid grid-cols-12">
@@ -124,55 +160,83 @@ export default function Post({ post }: { post: Post }) {
                 </div>
               )}
               <div className="flex flex-row items-center">
-                <HoverCard>
-                  <HoverCardTrigger className="flex flex-row items-center">
-                    <p className="mr-2">
-                      {post.author.displayname
-                        ? post.author.displayname
-                        : post.author.username}
-                    </p>{" "}
-                    <p className="mr-2 text-zinc-400 text-sm">
-                      {" "}
-                      @{post.author.username}
-                    </p>
-                  </HoverCardTrigger>
-                  <HoverCardContent className="bg-black">
-                    <div className="flex flex-col">
-                      <div className="flex flex-row">
-                        <Image
-                          className="rounded-full mr-4"
-                          src={`/avatars/${post.author.avatar}`}
-                          alt={post.author.username}
-                          width={50}
-                          height={50}
-                        />
+                <div className="flex justify-between w-full items-center">
+                  <div>
+                    <HoverCard>
+                      <HoverCardTrigger className="flex flex-row items-center">
+                        <p className="mr-2">
+                          {post.author.displayname
+                            ? post.author.displayname
+                            : post.author.username}
+                        </p>{" "}
+                        <p className="mr-2 text-zinc-400 text-sm">
+                          {" "}
+                          @{post.author.username}
+                        </p>
+                      </HoverCardTrigger>
+                      <HoverCardContent className="bg-black">
                         <div className="flex flex-col">
-                          <p className="mr-2">
-                            {post.author.displayname
-                              ? post.author.displayname
-                              : post.author.username}
-                          </p>{" "}
-                          <p className="mr-2 text-zinc-400 text-sm">
-                            {" "}
-                            @{post.author.username}
+                          <div className="flex flex-row">
+                            <Image
+                              className="rounded-full mr-4"
+                              src={`/avatars/${post.author.avatar}`}
+                              alt={post.author.username}
+                              width={50}
+                              height={50}
+                            />
+                            <div className="flex flex-col">
+                              <p className="mr-2">
+                                {post.author.displayname
+                                  ? post.author.displayname
+                                  : post.author.username}
+                              </p>{" "}
+                              <p className="mr-2 text-zinc-400 text-sm">
+                                {" "}
+                                @{post.author.username}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex flex-row">{}</div>
+                          <p className="text-white">
+                            {post.author.description}
                           </p>
                         </div>
-                      </div>
-                      <div className="flex flex-row">{}</div>
-                      <p className="text-white">{post.author.description}</p>
-                    </div>
-                  </HoverCardContent>
-                </HoverCard>
+                      </HoverCardContent>
+                    </HoverCard>
 
-                {post.isRepost ? (
-                  <p className="text-zinc-300 text-sm">
-                    {dayjs().to(dayjs(new Date(post.postCreatedAt!)))}
-                  </p>
-                ) : (
-                  <p className="text-zinc-300 text-sm">
-                    {dayjs().to(dayjs(new Date(post.createdAt!)))}
-                  </p>
-                )}
+                    {post.isRepost ? (
+                      <p className="text-zinc-300 text-sm">
+                        {dayjs().to(dayjs(new Date(post.postCreatedAt!)))}
+                      </p>
+                    ) : (
+                      <p className="text-zinc-300 text-sm">
+                        {dayjs().to(dayjs(new Date(post.createdAt!)))}
+                      </p>
+                    )}
+                  </div>
+                  {session && session.user?.email === post.author.email && (
+                    <>
+                      <Dialog
+                        open={isOpenDelete}
+                        onOpenChange={() => setIsOpenDelete(!isOpenDelete)}
+                      >
+                        <DialogTrigger>
+                          <FaTrash className="w-4 h-4 text-rose-400" />
+                        </DialogTrigger>
+                        <DialogContent className="bg-slate-950">
+                          Are you sure you want to delete this?
+                          <button
+                            onClick={handleDelete}
+                            className="bg-rose-400 p-4 rounded-xl"
+                            type="button"
+                          >
+                            Yes
+                          </button>
+                        </DialogContent>
+                      </Dialog>
+                    </>
+                  )}
+                </div>
               </div>
               <p className="break-all">{post.content}</p>
               {post.image && (

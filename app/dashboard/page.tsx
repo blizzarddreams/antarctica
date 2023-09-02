@@ -67,6 +67,9 @@ export default function Dashboard() {
       channel.bind("new message", (data) => {
         setPosts([...[data.post].concat(posts)]);
       });
+      channel.bind("delete message", (data) => {
+        setPosts([...posts.filter((post) => post.id !== data.post.id)]);
+      });
     }
   }, [session, posts]);
 
