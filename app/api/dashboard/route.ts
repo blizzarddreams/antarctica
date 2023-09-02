@@ -41,6 +41,18 @@ export async function GET(request: Request, response: Response) {
         author: true,
         likes: true,
         reposts: true,
+        reply: {
+          include: {
+            author: true,
+          },
+        },
+        replies: {
+          include: {
+            author: true,
+            likes: true,
+            reposts: true,
+          },
+        },
       },
     });
 
@@ -61,6 +73,14 @@ export async function GET(request: Request, response: Response) {
             author: true,
             likes: true,
             reposts: true,
+            reply: true,
+            replies: {
+              include: {
+                author: true,
+                likes: true,
+                reposts: true,
+              },
+            },
           },
         },
       },

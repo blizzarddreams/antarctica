@@ -4,14 +4,21 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Image from "next/image";
 import Link from "next/link";
-import { StarIcon as StarIconOutline } from "@heroicons/react/24/outline";
+import {
+  PencilSquareIcon,
+  StarIcon as StarIconOutline,
+} from "@heroicons/react/24/outline";
 import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
 import { ArrowPathRoundedSquareIcon } from "@heroicons/react/24/solid";
 import { CameraIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { FaTrash } from "react-icons/fa";
-import { BsFillBookmarkPlusFill, BsFillBookmarkDashFill } from "react-icons/bs";
+import {
+  BsFillBookmarkPlusFill,
+  BsFillBookmarkDashFill,
+  BsFillReplyAllFill,
+} from "react-icons/bs";
 import {
   HoverCard,
   HoverCardContent,
@@ -57,6 +64,9 @@ interface Post {
   postCreatedAt?: string;
   repostAuthor?: User;
   image?: string;
+  replies: Post[];
+  reply: Post;
+  replyId?: number;
 }
 
 interface Like {
@@ -76,6 +86,11 @@ export default function Post({ post }: { post: Post }) {
   const [reposted, setReposted] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const [isOpenReply, setIsOpenReply] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [preview, setPreview] = useState("");
+  const [image, setImage] = useState("");
+  const [text, setText] = useState("");
 
   // check if liked, reposted, and bookmarked
   useEffect(() => {
@@ -97,6 +112,39 @@ export default function Post({ post }: { post: Post }) {
         });
     }
   }, [session, post.id]);
+
+  const handleImageChange = (e) => {
+    setPreview(URL.createObjectURL(e.target.files[0]));
+    setImage(e.target.files[0]);
+  };
+
+  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.value.length > 280) {
+      e.preventDefault();
+      setText(text.slice(0, 280));
+      return false;
+    }
+    setText(e.target.value);
+  };
+
+  const makePost = () => {
+    const form = new FormData();
+    if (image) form.append("image", image);
+    form.append("post", text);
+    form.append("reply", post.id.toString());
+    console.log(post.id.toString());
+    setIsOpenReply(false);
+    fetch("/api/post", {
+      method: "POST",
+      body: form,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setText("");
+        setIsOpenReply(false);
+      });
+  };
 
   const handleDelete = () => {
     fetch(`/api/post/`, {
@@ -185,25 +233,44 @@ export default function Post({ post }: { post: Post }) {
               {post.isRepost && (
                 <div className="flex flex-row w-full">
                   <p className="text-emerald-400 text-xs">
-                    Reposted by {post.repostAuthor?.username}
+                    Reposted by{" "}
+                    <Link href={`/@${post.repostAuthor?.username}`}>
+                      {post.repostAuthor?.username}
+                    </Link>
                   </p>
                 </div>
               )}
+
               <div className="flex flex-row items-center">
                 <div className="flex justify-between w-full items-center">
                   <div>
                     <HoverCard>
                       <HoverCardTrigger className="flex flex-row items-center">
-                        <p className="mr-2">
-                          {post.author.displayname
-                            ? post.author.displayname
-                            : post.author.username}
-                        </p>{" "}
-                        <p className="mr-2 text-zinc-400 text-sm">
-                          {" "}
-                          @{post.author.username}
-                        </p>
+                        <Link
+                          href={`/@${post.author.username}`}
+                          className="flex flex-row items-center justify-center"
+                        >
+                          <p className="mr-2">
+                            {post.author.displayname
+                              ? post.author.displayname
+                              : post.author.username}
+                          </p>{" "}
+                          <p className="mr-2 text-zinc-400 text-sm">
+                            {" "}
+                            @{post.author.username}
+                          </p>
+                        </Link>
+                        {post.isRepost ? (
+                          <p className="text-zinc-300 text-sm">
+                            {dayjs().to(dayjs(new Date(post.postCreatedAt!)))}
+                          </p>
+                        ) : (
+                          <p className="text-emerald-400 text-sm">
+                            {dayjs().to(dayjs(new Date(post.createdAt!)))}
+                          </p>
+                        )}
                       </HoverCardTrigger>
+
                       <HoverCardContent className="bg-black">
                         <div className="flex flex-col">
                           <div className="flex flex-row">
@@ -233,15 +300,15 @@ export default function Post({ post }: { post: Post }) {
                         </div>
                       </HoverCardContent>
                     </HoverCard>
-
-                    {post.isRepost ? (
-                      <p className="text-zinc-300 text-sm">
-                        {dayjs().to(dayjs(new Date(post.postCreatedAt!)))}
-                      </p>
-                    ) : (
-                      <p className="text-zinc-300 text-sm">
-                        {dayjs().to(dayjs(new Date(post.createdAt!)))}
-                      </p>
+                    {post.replyId && post.reply && (
+                      <div className="mr-2 text-zinc-400 text-sm flex flex-row">
+                        {" "}
+                        <BsFillReplyAllFill className="h-5 w-5 mx-1" />
+                        Reply to{" "}
+                        <Link href={`/@${post.reply.author.username}`}>
+                          {post.reply.author.username}
+                        </Link>
+                      </div>
                     )}
                   </div>
                   <Dialog
@@ -336,7 +403,7 @@ export default function Post({ post }: { post: Post }) {
               <div className="flex flex-row">
                 {session && (
                   <>
-                    <div className="flex flex-row items-center">
+                    <div className="flex flex-row items-center mx-4">
                       {liked ? (
                         <StarIconSolid
                           onClick={toggleLike}
@@ -350,7 +417,7 @@ export default function Post({ post }: { post: Post }) {
                       )}
                       <p>{post.likes.length}</p>
                     </div>
-                    <div className="flex flex-row items-center">
+                    <div className="flex flex-row items-center mx-4">
                       {reposted ? (
                         <ArrowPathRoundedSquareIcon
                           onClick={toggleRepost}
@@ -364,6 +431,80 @@ export default function Post({ post }: { post: Post }) {
                       )}
                       <p>{post.reposts.length}</p>
                     </div>
+                    <Dialog
+                      open={isOpenReply}
+                      onOpenChange={() => setIsOpenReply(!isOpenReply)}
+                    >
+                      <DialogTrigger className="w-full">
+                        <div onClick={(e) => setIsOpenReply(!isOpenReply)}>
+                          <BsFillReplyAllFill className="h-5 w-5 mx-4" />
+                        </div>
+                      </DialogTrigger>
+                      <DialogContent className="bg-slate-950">
+                        <div className="mt-2 w-full">
+                          <textarea
+                            id="content"
+                            name="content"
+                            rows={4}
+                            value={text}
+                            onChange={handleTextChange}
+                            placeholder="What is happening? reply"
+                            className="resize-none w-full border-none focus:border-none bg-slate-800 text-white outline-none focus:outline-none focus:ring-0"
+                          />
+                        </div>
+
+                        <div className="mt-4 flex flex-col w-full justify-center items-center">
+                          {text.replaceAll(" ", "").length === 0 ? (
+                            <button
+                              type="button"
+                              className=" bg-slate-800/70 p-4 my-1 w-full m-4"
+                              onClick={makePost}
+                              disabled
+                            >
+                              Post
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              className=" bg-slate-800 p-4 my-1 w-full m-4"
+                              onClick={makePost}
+                            >
+                              Post
+                            </button>
+                          )}
+                          {280 - text.length > 20 ? (
+                            <p className="text-teal-400">
+                              {" "}
+                              {280 - text.length}
+                            </p>
+                          ) : (
+                            <p className="text-rose-400">
+                              {" "}
+                              {280 - text.length}
+                            </p>
+                          )}
+                          <label htmlFor="image">
+                            <CameraIcon className="h-7 w-7" />
+                          </label>
+                          <input
+                            type="file"
+                            name="image"
+                            id="image"
+                            accept="image/png, image/jpeg, image/jpg"
+                            onChange={handleImageChange}
+                            className="hidden file:bg-gray-800 file:text-white file:border file:border-none w-full border border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-700"
+                          />
+                          {preview && (
+                            <Image
+                              src={preview}
+                              alt={"lol"}
+                              height={100}
+                              width={100}
+                            />
+                          )}
+                        </div>
+                      </DialogContent>
+                    </Dialog>
                   </>
                 )}
               </div>

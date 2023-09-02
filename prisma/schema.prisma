@@ -11,38 +11,23 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-
-  email String @unique
-
-  username String @unique
-
-  avatar String @default("")
-
-  banner String @default("")
-
-  displayname String @default("")
-
-  description String @default("") @db.VarChar(1000)
-
-  posts Post[]
-
-  likes Like[]
-
-  reposts Repost[]
-
-  followers Follow[] @relation(name: "FollowingUser")
-
-  following Follow[] @relation(name: "FollowerUser")
-
-  notifications Notification[] @relation(name: "NotificationTo")
-
-  notificationsOut Notification[] @relation(name: "NotificationFrom")
-
-  directs Direct[]
-
-  directMessages DirectMessage[]
-  bookmarks Bookmark[]
+  id               Int             @id @default(autoincrement())
+  email            String          @unique
+  username         String          @unique
+  avatar           String          @default("")
+  banner           String          @default("")
+  displayname      String          @default("")
+  description      String          @default("") @db.VarChar(1000)
+  posts            Post[]
+  likes            Like[]
+  reposts          Repost[]
+  followers        Follow[]        @relation(name: "FollowingUser")
+  following        Follow[]        @relation(name: "FollowerUser")
+  notifications    Notification[]  @relation(name: "NotificationTo")
+  notificationsOut Notification[]  @relation(name: "NotificationFrom")
+  directs          Direct[]
+  directMessages   DirectMessage[]
+  bookmarks        Bookmark[]
 }
 
 model Notification {
@@ -84,13 +69,16 @@ model Post {
   likes        Like[]
   reposts      Repost[]
   notification Notification[]
-  image String?
-  bookmarks Bookmark[]
+  image        String?
+  bookmarks    Bookmark[]
+  reply        Post?          @relation("ReplyReplies", fields: [replyId], references: [id])
+  replyId      Int?
+  replies      Post[]         @relation("ReplyReplies")
 }
 
 model Bookmark {
   id     Int  @id @default(autoincrement())
-  user User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id])
   post   Post @relation(fields: [postId], references: [id])
   userId Int
   postId Int

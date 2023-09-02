@@ -50,7 +50,7 @@ export async function POST(request: Request, response: Response) {
         let dataImage = data.newBanner.replace(/^data:image\/\w+;base64,/, "");
         let uuid = `${uuidv4()}.png`;
         fs.writeFileSync(
-          `./public/avatars/${uuid}`,
+          `./public/banners/${uuid}`,
           Buffer.from(dataImage, "base64"),
         );
         (dataToSave as any).banner = uuid;
