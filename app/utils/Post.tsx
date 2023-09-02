@@ -24,6 +24,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface User {
   id: number;
@@ -127,9 +136,10 @@ export default function Post({ post }: { post: Post }) {
     if (
       e.target.tagName === "svg" ||
       e.target.tagName === "path" ||
-      e.target.tagName === "BUTTON"
+      e.target.tagName === "BUTTON" ||
+      e.target.tagName === "SPAN"
     ) {
-      return e.preventDefault();
+      e.preventDefault();
     }
   };
 
@@ -214,28 +224,46 @@ export default function Post({ post }: { post: Post }) {
                       </p>
                     )}
                   </div>
-                  {session && session.user?.email === post.author.email && (
-                    <>
-                      <Dialog
-                        open={isOpenDelete}
-                        onOpenChange={() => setIsOpenDelete(!isOpenDelete)}
-                      >
-                        <DialogTrigger>
-                          <FaTrash className="w-4 h-4 text-rose-400" />
-                        </DialogTrigger>
-                        <DialogContent className="bg-slate-950">
-                          Are you sure you want to delete this?
-                          <button
-                            onClick={handleDelete}
-                            className="bg-rose-400 p-4 rounded-xl"
-                            type="button"
-                          >
-                            Yes
-                          </button>
-                        </DialogContent>
-                      </Dialog>
-                    </>
-                  )}
+                  <Dialog
+                    open={isOpenDelete}
+                    onOpenChange={() => setIsOpenDelete(!isOpenDelete)}
+                  >
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>
+                        <BiDotsHorizontalRounded
+                          className="w-4 h-4 text-zinc-300"
+                          id="dropdownMenu"
+                        />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="bg-slate-950">
+                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                          {session &&
+                            session.user?.email === post.author.email && (
+                              <>
+                                <DialogTrigger>
+                                  <div className="flex flex-row items-center">
+                                    <FaTrash className="h-4 w-4 mr-2 text-white" />
+                                    <span className="text-white">
+                                      Delete Post
+                                    </span>
+                                  </div>
+                                </DialogTrigger>
+                                <DialogContent className="bg-slate-950">
+                                  Are you sure you want to delete this?
+                                  <button
+                                    onClick={handleDelete}
+                                    className="bg-rose-400 p-4 rounded-xl"
+                                    type="button"
+                                  >
+                                    Yes
+                                  </button>
+                                </DialogContent>
+                              </>
+                            )}
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </Dialog>
                 </div>
               </div>
               <p className="break-all">{post.content}</p>
