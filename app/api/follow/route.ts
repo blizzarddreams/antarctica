@@ -2,10 +2,10 @@ import { getServerSession } from "next-auth/next";
 import { OPTIONS } from "../auth/[...nextauth]/route";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import prisma from "@/prisma";
 
 export async function GET(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
-  const prisma = new PrismaClient();
   const { searchParams } = new URL(request.url);
   const id = parseInt(searchParams.get("id")!);
   if (session && session.user && session.user.email) {
@@ -52,7 +52,6 @@ export async function GET(request: Request, response: Response) {
 }
 
 export async function POST(request: Request, response: Response) {
-  const prisma = new PrismaClient();
   const session = await getServerSession(OPTIONS);
 
   if (session && session.user && session.user.email) {

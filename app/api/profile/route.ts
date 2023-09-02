@@ -2,11 +2,11 @@ import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { OPTIONS } from "../auth/[...nextauth]/route";
+import prisma from "@/prisma";
 
 export async function GET(request: Request, response: Response) {
   const { searchParams } = new URL(request.url);
   const username = searchParams.get("username")!;
-  const prisma = new PrismaClient();
   if (username && searchParams.get("skip")) {
     const skip = parseInt(searchParams.get("skip")!);
     const user = await prisma.user.findFirst({

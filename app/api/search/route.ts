@@ -1,15 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import prisma from "@/prisma";
 
 export async function GET(request: Request, response: Response) {
-  const prisma = new PrismaClient();
   const { searchParams } = new URL(request.url);
   const search = searchParams.get("params");
   const skip = parseInt(searchParams.get("skip")!);
 
   if (search) {
-    const prisma = new PrismaClient();
-
     const posts = await prisma.post.findMany({
       where: {
         content: {

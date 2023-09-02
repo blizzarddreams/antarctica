@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import NextAuth from "next-auth";
 import GithubHandler from "next-auth/providers/github";
+import prisma from "@/prisma";
 
 export const OPTIONS = {
   providers: [
@@ -11,8 +12,6 @@ export const OPTIONS = {
   ],
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      const prisma = new PrismaClient();
-
       const user_ = await prisma.user.findFirst({
         where: { email: profile.email },
       });

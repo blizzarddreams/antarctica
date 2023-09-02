@@ -3,11 +3,11 @@ import { OPTIONS } from "../auth/[...nextauth]/route";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { PusherServer } from "@/pusher";
+import prisma from "@/prisma";
 
 export async function POST(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
   if (session?.user?.email) {
-    const prisma = new PrismaClient();
     const data = await request.json();
     const directId = data.directId;
     const newMessage = data.message;

@@ -5,9 +5,9 @@ import { NextResponse } from "next/server";
 import { PusherServer } from "@/pusher";
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
+import prisma from "@/prisma";
 
 export async function GET(request: Request, response: Response) {
-  const prisma = new PrismaClient();
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
   const post = await prisma.post.findFirst({
@@ -42,7 +42,6 @@ export async function DELETE(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
   const data = await request.json();
   if (session) {
-    const prisma = new PrismaClient();
     const email = session.user?.email;
     if (email) {
       const post = await prisma.post.findFirst({
@@ -90,7 +89,6 @@ export async function POST(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
 
   if (session) {
-    const prisma = new PrismaClient();
     const email = session.user?.email;
     const data = await request.formData();
     const user = await prisma.user.findFirst({

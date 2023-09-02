@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { OPTIONS } from "../auth/[...nextauth]/route";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import prisma from "@/prisma";
 
 export async function GET(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
@@ -9,7 +10,6 @@ export async function GET(request: Request, response: Response) {
 
   const postId = searchParams.get("post_id")!;
   if (session) {
-    const prisma = new PrismaClient();
     const email = session.user?.email!;
     const user = await prisma.user.findFirst({
       where: { email },
@@ -42,7 +42,6 @@ export async function GET(request: Request, response: Response) {
 export async function POST(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
   if (session) {
-    const prisma = new PrismaClient();
     const email = session.user?.email!;
     const data = await request.json();
     const user = await prisma.user.findFirst({ where: { email } });

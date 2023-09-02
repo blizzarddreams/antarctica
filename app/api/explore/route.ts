@@ -1,10 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import prisma from "@/prisma";
 
 export async function GET(request: Request, response: Response) {
   const { searchParams } = new URL(request.url);
   const skip = parseInt(searchParams.get("skip")!);
-  const prisma = new PrismaClient();
   const posts = await prisma.post.findMany({
     orderBy: { createdAt: "desc" },
     include: {

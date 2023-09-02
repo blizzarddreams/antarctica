@@ -4,11 +4,11 @@ import { NextResponse } from "next/server";
 import { OPTIONS } from "../auth/[...nextauth]/route";
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
+import prisma from "@/prisma";
 
 export async function GET(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
   if (session) {
-    const prisma = new PrismaClient();
     const email = session.user?.email;
     if (email) {
       const user = await prisma.user.findFirst({
@@ -26,7 +26,6 @@ export async function GET(request: Request, response: Response) {
 export async function POST(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
   if (session) {
-    const prisma = new PrismaClient();
     const email = session.user?.email;
     if (email) {
       const data = await request.json();

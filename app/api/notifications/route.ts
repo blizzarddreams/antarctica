@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { OPTIONS } from "../auth/[...nextauth]/route";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import prisma from "@/prisma";
 
 export async function GET(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
@@ -9,7 +10,6 @@ export async function GET(request: Request, response: Response) {
   const skip = parseInt(searchParams.get("skip")!);
 
   if (session) {
-    const prisma = new PrismaClient();
     const email = session.user?.email!;
     await prisma.notification.updateMany({
       where: {

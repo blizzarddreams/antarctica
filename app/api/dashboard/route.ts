@@ -2,10 +2,10 @@ import { getServerSession } from "next-auth";
 import { OPTIONS } from "../auth/[...nextauth]/route";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import prisma from "@/prisma";
 
 export async function GET(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
-  const prisma = new PrismaClient();
   const { searchParams } = new URL(request.url);
   const id = parseInt(searchParams.get("id")!);
   const skip = parseInt(searchParams.get("skip")!);
