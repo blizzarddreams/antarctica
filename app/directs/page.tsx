@@ -48,9 +48,6 @@ export default function Direct() {
       channel.bind("new message", (data) => {
         setUser(data.user);
       });
-      channel.bind("delete message", (data) => {
-        setUser({...user, ...posts: user.posts.filter((post) => post.id !== data.post.id)});
-      });
     }
   }, [user]);
 
