@@ -20,6 +20,7 @@ jobs:
             cd /var/www/antarctica
             git pull
             npm install
+            npx prisma migrate dev
             npm run build
             pm2 restart antarctica
             echo 'done'
