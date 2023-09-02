@@ -267,14 +267,14 @@ export default function Post({ post }: { post: Post }) {
                                   <>
                                     <BsFillBookmarkDashFill className="h-4 w-4 mr-2 text-white" />
                                     <span className="text-white">
-                                      Unsave Post
+                                      Unbookmark Post
                                     </span>
                                   </>
                                 ) : (
                                   <>
                                     <BsFillBookmarkPlusFill className="h-4 w-4 mr-2 text-white" />
                                     <span className="text-white">
-                                      Save Post
+                                      Bookmark Post
                                     </span>
                                   </>
                                 )}

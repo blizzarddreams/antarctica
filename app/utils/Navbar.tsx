@@ -14,6 +14,7 @@ import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BsBookmark } from "react-icons/bs";
 import {
   Dialog,
   DialogContent,
@@ -94,72 +95,78 @@ export default function Navbar() {
         {user && (
           <>
             <div>
-              <div className="mt-10">
+              <div className="mt-4 p-4 hover:bg-slate-900 hover:rounded-xl">
                 <Link href="/dashboard" className="flex flex-row  items-end">
-                  <HomeIcon className="h-10 w-10" />
-                  <p className="text-xl">Dashboard</p>
+                  <HomeIcon className="h-7 w-7" />
+                  <p className="text-lg">Dashboard</p>
                 </Link>
               </div>
 
-              <div className="mt-10">
+              <div className="mt-4 p-4 hover:bg-slate-900 hover:rounded-xl">
                 <Link href="/explore" className="flex flex-row  items-end">
-                  <RiCompass3Line className="h-10 w-10" />
-                  <p className="text-xl">Explore</p>
+                  <RiCompass3Line className="h-7 w-7" />
+                  <p className="text-lg">Explore</p>
                 </Link>
               </div>
 
-              <div className="mt-10">
+              <div className="mt-4 p-4 hover:bg-slate-900 hover:rounded-xl">
                 <Link
                   href={`/@${user.username}`}
                   className="flex flex-row items-end"
                 >
-                  <UserCircleIcon className="h-10 w-10" />
-                  <p className="text-xl">Profile</p>
+                  <UserCircleIcon className="h-7 w-7" />
+                  <p className="text-lg">Profile</p>
                 </Link>
               </div>
 
-              <div className="mt-10">
+              <div className="mt-4 p-4 hover:bg-slate-900 hover:rounded-xl">
                 <Link href="/settings" className="flex flex-row items-end">
-                  <Cog6ToothIcon className="h-10 w-10" />
-                  <p className="text-xl">Settings</p>
+                  <Cog6ToothIcon className="h-7 w-7" />
+                  <p className="text-lg">Settings</p>
                 </Link>
               </div>
 
               <div
-                className="mt-10 flex flex-row items-center cursor-pointer"
+                className="mt-4 p-4 flex flex-row items-center cursor-pointer  hover:bg-slate-900 hover:rounded-xl"
                 onClick={() => signOut()}
               >
-                <RiLogoutCircleLine className="h-10 w-10" />
-                <p className="text-xl">Sign Out</p>
+                <RiLogoutCircleLine className="h-7 w-7" />
+                <p className="text-lg">Sign Out</p>
               </div>
 
-              <div className="mt-10 relative">
+              <div className="mt-4 p-4 relative  hover:bg-slate-900 hover:rounded-xl">
                 <Link href="/notifications" className="flex flex-row items-end">
-                  <BellIcon className="h-10 w-10" />
+                  <BellIcon className="h-7 w-7" />
                   {user._count.notifications > 0 && (
                     <div className="absolute -top-2 left-6 rounded-full bg-slate-700 px-2">
                       {user._count.notifications}
                     </div>
                   )}
-                  <p className="text-xl">Notifications</p>
+                  <p className="text-lg">Notifications</p>
                 </Link>
               </div>
 
-              <div className="mt-10 relative">
-                <Link href="/directs" className="flex flex-row items-end">
-                  <ChatBubbleBottomCenterTextIcon className="h-10 w-10" />
+              <div className="mt-4 p-4 hover:bg-slate-900 hover:rounded-xl">
+                <Link href="/bookmarks" className="flex flex-row items-end">
+                  <BsBookmark className="h-7 w-7" />
+                  <p className="text-lg">Bookmarks</p>
+                </Link>
+              </div>
 
-                  <p className="text-xl">Directs</p>
+              <div className="mt-4 p-4 relative  hover:bg-slate-900 hover:rounded-xl">
+                <Link href="/directs" className="flex flex-row items-end">
+                  <ChatBubbleBottomCenterTextIcon className="h-7 w-7" />
+                  <p className="text-lg">Directs</p>
                 </Link>
               </div>
               <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
-                <DialogTrigger>
+                <DialogTrigger className="w-full">
                   <div
-                    className="mt-10 cursor-pointer flex flex-row  items-end"
+                    className="mt-4 p-4 cursor-pointer flex flex-row  items-end  hover:bg-slate-900 hover:rounded-xl"
                     onClick={openModal}
                   >
-                    <PencilSquareIcon className="h-10 w-10" />{" "}
-                    <p className="text-xl">New Post</p>
+                    <PencilSquareIcon className="h-7 w-7" />{" "}
+                    <p className="text-lg">New Post</p>
                   </div>
                 </DialogTrigger>
                 <DialogContent className="bg-slate-950">
@@ -200,7 +207,7 @@ export default function Navbar() {
                       <p className="text-rose-400"> {280 - post.length}</p>
                     )}
                     <label htmlFor="image">
-                      <CameraIcon className="h-10 w-10" />
+                      <CameraIcon className="h-7 w-7" />
                     </label>
                     <input
                       type="file"
@@ -208,7 +215,7 @@ export default function Navbar() {
                       id="image"
                       accept="image/png, image/jpeg, image/jpg"
                       onChange={handleImageChange}
-                      className="hidden file:bg-gray-800 file:text-white file:border file:border-none block w-full border border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-700"
+                      className="hidden file:bg-gray-800 file:text-white file:border file:border-none w-full border border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-700"
                     />
                     {preview && (
                       <Image
@@ -221,24 +228,27 @@ export default function Navbar() {
                   </div>
                 </DialogContent>
               </Dialog>
+              <Link
+                href={`/@${user.username}`}
+                className="flex flex-row mt-4 p-4 "
+              >
+                <div className="flex justify-center flex-col">
+                  <Image
+                    src={`/avatars/${user.avatar}`}
+                    alt="a"
+                    height={30}
+                    width={30}
+                    className="rounded-full mr-1"
+                  />
+                </div>
+                <div className="flex flex-col justify-center">
+                  <p className="font-bold text-lg">
+                    {user.displayname ? user.displayname : user.username}
+                  </p>
+                  <p className="text-slate-500">@{user.username}</p>
+                </div>
+              </Link>
             </div>
-            <Link href={`/@${user.username}`} className="flex flex-row mt-10">
-              <div className="flex justify-center flex-col">
-                <Image
-                  src={`/avatars/${user.avatar}`}
-                  alt="a"
-                  height={40}
-                  width={40}
-                  className="rounded-full mr-1"
-                />
-              </div>
-              <div className="flex flex-col justify-center">
-                <p className="font-bold">
-                  {user.displayname ? user.displayname : user.username}
-                </p>
-                <p className="text-slate-500">@{user.username}</p>
-              </div>
-            </Link>
           </>
         )}
       </div>
@@ -247,7 +257,7 @@ export default function Navbar() {
           <>
             <div>
               <Link href="/dashboard" className="flex flex-row  items-end">
-                <HomeIcon className="h-10 w-10" />
+                <HomeIcon className="h-7 w-7" />
               </Link>
             </div>
 
@@ -256,13 +266,13 @@ export default function Navbar() {
                 href={`/@${user.username}`}
                 className="flex flex-row items-end"
               >
-                <UserCircleIcon className="h-10 w-10" />
+                <UserCircleIcon className="h-7 w-7" />
               </Link>
             </div>
 
             <div>
               <Link href="/settings" className="flex flex-row items-end">
-                <Cog6ToothIcon className="h-10 w-10" />
+                <Cog6ToothIcon className="h-7 w-7" />
               </Link>
             </div>
 
@@ -280,7 +290,7 @@ export default function Navbar() {
 
             <div>
               <Link href="/notifications" className="flex flex-row items-end">
-                <BellIcon className="h-10 w-10" />
+                <BellIcon className="h-7 w-7" />
                 {user._count.notifications > 0 && (
                   <div className="absolute -top-2 left-6 rounded-full bg-slate-700 px-2">
                     {user._count.notifications}
@@ -291,12 +301,12 @@ export default function Navbar() {
 
             <div>
               <Link href="/directs" className="flex flex-row items-end">
-                <ChatBubbleBottomCenterTextIcon className="h-10 w-10" />
+                <ChatBubbleBottomCenterTextIcon className="h-7 w-7" />
               </Link>
             </div>
 
             <div onClick={openModal}>
-              <PencilSquareIcon className="h-10 w-10" />{" "}
+              <PencilSquareIcon className="h-7 w-7" />{" "}
             </div>
           </>
         )}
