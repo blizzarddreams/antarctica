@@ -37,6 +37,9 @@ interface Post {
   likes: Like[];
   reposts: Repost[];
   image?: string;
+  replies: Post[];
+  reply: Post;
+  replyId?: number;
 }
 
 interface Like {

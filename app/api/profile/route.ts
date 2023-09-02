@@ -23,6 +23,18 @@ export async function GET(request: Request, response: Response) {
             },
             likes: true,
             reposts: true,
+            reply: {
+              include: {
+                author: true,
+              },
+            },
+            replies: {
+              include: {
+                author: true,
+                likes: true,
+                reposts: true,
+              },
+            },
           },
         },
         followers: true,
@@ -41,6 +53,14 @@ export async function GET(request: Request, response: Response) {
                 },
                 likes: true,
                 reposts: true,
+                reply: true,
+                replies: {
+                  include: {
+                    author: true,
+                    likes: true,
+                    reposts: true,
+                  },
+                },
               },
             },
           },

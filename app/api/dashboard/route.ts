@@ -95,7 +95,7 @@ export async function GET(request: Request, response: Response) {
     });
 
     const posts__ = posts_
-      .concat(...reposts)
+      .concat(...(reposts as any)) // TODO: fix this
       .sort(
         (a, b) =>
           (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any),

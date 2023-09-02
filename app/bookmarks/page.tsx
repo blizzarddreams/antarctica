@@ -24,6 +24,9 @@ interface Post {
   content: string;
   likes: Like[];
   reposts: Repost[];
+  replies: Post[];
+  reply: Post;
+  replyId?: number;
 }
 
 interface Like {

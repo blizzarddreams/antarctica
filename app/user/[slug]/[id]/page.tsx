@@ -24,6 +24,7 @@ interface Post {
   repostAuthor?: User;
   image?: string;
   replies: Post[];
+  reply: Post;
 }
 
 interface Like {

@@ -17,7 +17,28 @@ export async function GET(request: Request, response: Response) {
         },
       },
       orderBy: { createdAt: "desc" },
-      include: { author: true, likes: true, reposts: true },
+      include: {
+        author: {
+          include: {
+            followers: true,
+            following: true,
+          },
+        },
+        likes: true,
+        reposts: true,
+        reply: {
+          include: {
+            author: true,
+          },
+        },
+        replies: {
+          include: {
+            author: true,
+            likes: true,
+            reposts: true,
+          },
+        },
+      },
       skip: skip * 10,
       take: 10,
     });
