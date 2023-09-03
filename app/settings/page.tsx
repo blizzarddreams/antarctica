@@ -7,6 +7,7 @@ import "cropperjs/dist/cropper.css";
 import { Dialog, Transition } from "@headlessui/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { CldImage, getCldImageUrl } from "next-cloudinary";
 interface User {
   id: number;
   username: string;
@@ -29,6 +30,7 @@ export default function Settings() {
   const [profileIsOpen, setProfileIsOpen] = useState(false);
   const [bannerIsOpen, setBannerIsOpen] = useState(false);
   const [error, setError] = useState("");
+  const [bannerUrl, setBannerUrl] = useState<string>("");
 
   const router = useRouter();
 
@@ -37,6 +39,13 @@ export default function Settings() {
       .then((res) => res.json())
       .then((data) => {
         setUser(data.user);
+        setBannerUrl(
+          getCldImageUrl({
+            width: 1000,
+            height: 1000,
+            src: data.user.banner,
+          }),
+        );
       });
   }, []);
 
@@ -240,7 +249,7 @@ export default function Settings() {
                   <header
                     className={`w-full h-52 bg-cover bg-center cursor-pointer relative`}
                     style={{
-                      backgroundImage: `url('/banners/${user.banner}')`,
+                      backgroundImage: `url(${bannerUrl})`,
                     }}
                   >
                     <CameraIcon className="w-6 h-6  absolute bottom-0 right-0 bg-slate-950 rounded-full m-4 p-1 border-none" />
@@ -253,7 +262,7 @@ export default function Settings() {
                 id="banner"
                 accept="image/png, image/jpeg, image/jpg"
                 onChange={handleBannerChange}
-                className="hidden file:bg-gray-800 file:text-white file:border file:border-none block w-full border border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-700"
+                className="hidden file:bg-gray-800 file:text-white file:border file:border-none w-full border border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-700"
               />
               <div className="my-10 flex flex-row items-center w-100">
                 <label htmlFor="profile">
@@ -272,8 +281,8 @@ export default function Settings() {
                     </>
                   ) : (
                     <>
-                      <Image
-                        src={`/avatars/${user.avatar}`}
+                      <CldImage
+                        src={user.avatar}
                         alt={user.username}
                         width={100}
                         height={100}
