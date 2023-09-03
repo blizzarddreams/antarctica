@@ -76,7 +76,7 @@ export async function GET(request: Request, response: Response) {
         return repost.post;
       });
       const posts = user.posts
-        .concat(reposts)
+        .concat(reposts as any)
         .flat()
         .sort(
           (a, b) =>
