@@ -17,7 +17,19 @@ import "react-toastify/dist/ReactToastify.css";
 import { BsBookmark } from "react-icons/bs";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CldImage } from "next-cloudinary";
-
+import EmojiPicker from "emoji-picker-react";
+import { Theme } from "emoji-picker-react";
+import { EmojiStyle } from "emoji-picker-react";
+import { GoSmiley } from "react-icons/go";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { DropdownMenuArrow } from "@radix-ui/react-dropdown-menu";
 interface User {
   id: number;
   username: string;
@@ -80,6 +92,10 @@ export default function Navbar() {
 
   const openModal = () => {
     setIsOpen(true);
+  };
+
+  const handleEmojiClick = (emojiObject, e) => {
+    setPost((post) => post + emojiObject.emoji);
   };
 
   return (
@@ -163,6 +179,37 @@ export default function Navbar() {
                   </div>
                 </DialogTrigger>
                 <DialogContent className="bg-slate-950">
+                  <div className="flex flex-row items-center">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger className="flex flex-row items-center">
+                        <div className="flex flex-row items-center">
+                          <DropdownMenuLabel>
+                            <GoSmiley className="h-4 w-4" />
+                          </DropdownMenuLabel>
+                        </div>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <EmojiPicker
+                          onEmojiClick={handleEmojiClick}
+                          theme={Theme.DARK}
+                          emojiStyle={EmojiStyle.TWITTER}
+                        />
+                        <DropdownMenuArrow />
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    <label htmlFor="image">
+                      <CameraIcon className="h-4 w-4 cursor-pointer" />
+                    </label>
+                    <input
+                      type="file"
+                      name="image"
+                      id="image"
+                      accept="image/png, image/jpeg, image/jpg"
+                      onChange={handleImageChange}
+                      className="hidden file:bg-gray-800 file:text-white file:border file:border-none w-full border border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-700"
+                    />
+                  </div>
+
                   <div className="mt-2 w-full">
                     <textarea
                       id="content"
@@ -199,17 +246,7 @@ export default function Navbar() {
                     ) : (
                       <p className="text-rose-400"> {280 - post.length}</p>
                     )}
-                    <label htmlFor="image">
-                      <CameraIcon className="h-7 w-7" />
-                    </label>
-                    <input
-                      type="file"
-                      name="image"
-                      id="image"
-                      accept="image/png, image/jpeg, image/jpg"
-                      onChange={handleImageChange}
-                      className="hidden file:bg-gray-800 file:text-white file:border file:border-none w-full border border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-700"
-                    />
+
                     {preview && (
                       <Image
                         src={preview}

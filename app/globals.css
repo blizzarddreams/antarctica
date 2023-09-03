@@ -25,3 +25,12 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.EmojiPickerReact,
+.epr-emoji-category-label {
+  background-color: #0f172a !important;
+}
+.epr-search {
+  background-color: #1e293b !important;
+  border-color: #1e293b !important;
+}
