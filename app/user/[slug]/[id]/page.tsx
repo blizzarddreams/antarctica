@@ -1,4 +1,5 @@
 import Post from "@/app/utils/Post";
+import { getCldImageUrl } from "next-cloudinary";
 import { notFound } from "next/navigation";
 
 interface User {
@@ -50,27 +51,75 @@ export async function generateMetadata({ params }: { params: { id: number } }) {
   const title = `${
     post.author.displayname ? post.author.displayname : post.author.username
   } (@${post.author.username}) / antarctica`;
-  return {
-    title: title,
-    description: post.content,
-    openGraph: {
-      url: `${process.env.NEXTAUTH_URL}/@${post.author.username}`,
-      images: [`${process.env.NEXTAUTH_URL}/avatars/${post.author.avatar}`],
-      type: "website",
-      title: title,
-      siteName: "antarctica",
-      description: post.content,
-    },
-    twitter: {
+  if (post.image) {
+    return {
       title: title,
       description: post.content,
-      images: [`${process.env.NEXTAUTH_URL}/avatars/${post.author.avatar}`],
-      siteName: "antarctica",
-      card: "summary",
-      creator: "@arcaninebellies",
-      creatorId: "1292500579604996096",
-    },
-  };
+      openGraph: {
+        url: `${process.env.NEXTAUTH_URL}/@${post.author.username}`,
+        images: [
+          `${getCldImageUrl({
+            width: 100,
+            height: 100,
+            src: post.author.avatar,
+          })}`,
+        ],
+        title: title,
+        siteName: "antarctica",
+        description: post.content,
+        card: "summary_large_image",
+      },
+      twitter: {
+        title: title,
+        description: post.content,
+        images: [
+          `${getCldImageUrl({
+            width: 100,
+            height: 100,
+            src: post.author.avatar,
+          })}`,
+        ],
+        siteName: "antarctica",
+        card: "summary_large_image",
+        creator: "@arcaninebellies",
+        creatorId: "1292500579604996096",
+      },
+    };
+  } else {
+    return {
+      title: title,
+      description: post.content,
+      openGraph: {
+        url: `${process.env.NEXTAUTH_URL}/@${post.author.username}`,
+        images: [
+          `${getCldImageUrl({
+            width: 100,
+            height: 100,
+            src: post.author.avatar,
+          })}`,
+        ],
+        type: "website",
+        title: title,
+        siteName: "antarctica",
+        description: post.content,
+      },
+      twitter: {
+        title: title,
+        description: post.content,
+        images: [
+          `${getCldImageUrl({
+            width: 100,
+            height: 100,
+            src: post.author.avatar,
+          })}`,
+        ],
+        siteName: "antarctica",
+        card: "summary",
+        creator: "@arcaninebellies",
+        creatorId: "1292500579604996096",
+      },
+    };
+  }
 }
 export default async function ViewPost({ params }: { params: { id: number } }) {
   const post: Post = await getData(params.id);
