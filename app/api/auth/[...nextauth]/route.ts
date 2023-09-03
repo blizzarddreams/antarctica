@@ -22,8 +22,6 @@ export const OPTIONS = {
           create: {
             email: profile.email,
             username: profile.login,
-            avatar: "default_profile.png",
-            banner: "default_banner.png",
           },
         });
       }
