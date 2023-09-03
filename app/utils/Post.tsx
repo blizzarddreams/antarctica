@@ -308,7 +308,7 @@ export default function Post({ post }: { post: Post }) {
                         <BsFillReplyAllFill className="h-5 w-5 mx-1" />
                         Reply to{" "}
                         <Link href={`/@${post.reply.author.username}`}>
-                          {post.reply.author.username}
+                          {` ${post.reply.author.username}`}
                         </Link>
                       </div>
                     )}
