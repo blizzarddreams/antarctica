@@ -59,6 +59,7 @@ export default function UserPage({ params }: { params: { slug: string } }) {
   const [skip, setSkip] = useState<number>(0);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const { data: session } = useSession();
+  const [tab, setTab] = useState<string>("posts");
 
   const getData = () => {
     fetch(`/api/profile?username=${params.slug}&skip=${skip}`)
@@ -194,19 +195,25 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                 </div>
 
                 <p className="text-lg mb-4  ml-4 md:ml-0">{user.description}</p>
-                <Tabs defaultValue="posts" className="w-full">
-                  <TabsList className="grid w-full grid-cols-2">
+                <Tabs className="w-full">
+                  <TabsList className="grid w-full grid-cols-3 gap-0">
                     <TabsTrigger
-                      className="text-center cursor-pointer text-lg py-2"
+                      className="text-center cursor-pointer text-lg data-[state=active]:bg-slate-900"
                       value="posts"
                     >
                       Posts
                     </TabsTrigger>
                     <TabsTrigger
-                      className="text-center cursor-pointer text-lg py-2"
+                      className="text-center cursor-pointer text-lg data-[state=active]:bg-slate-900"
                       value="media"
                     >
                       Media
+                    </TabsTrigger>
+                    <TabsTrigger
+                      className="text-center cursor-pointer text-lg data-[state=active]:bg-slate-900"
+                      value="replies"
+                    >
+                      Posts & Replies
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent value="posts">
@@ -217,9 +224,11 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                         hasMore={hasMore}
                         loader={<div>Loading</div>}
                       >
-                        {user.posts.map((post) => (
-                          <Post post={post} key={post.id} />
-                        ))}
+                        {user.posts
+                          .filter((post) => post.replyId === null)
+                          .map((post) => (
+                            <Post post={post} key={post.id} />
+                          ))}
                       </InfiniteScroll>
                     </div>
                   </TabsContent>
@@ -236,6 +245,20 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                           .map((post) => (
                             <Post post={post} key={post.id} />
                           ))}
+                      </InfiniteScroll>
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="replies">
+                    <div className="w-full">
+                      <InfiniteScroll
+                        dataLength={user.posts.length}
+                        next={getData}
+                        hasMore={hasMore}
+                        loader={<div>Loading</div>}
+                      >
+                        {user.posts.map((post) => (
+                          <Post post={post} key={post.id} />
+                        ))}
                       </InfiniteScroll>
                     </div>
                   </TabsContent>
