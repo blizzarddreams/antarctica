@@ -134,7 +134,6 @@ export default function Post({ post }: { post: Post }) {
     if (image) form.append("image", image);
     form.append("post", text);
     form.append("reply", post.id.toString());
-    console.log(post.id.toString());
     setIsOpenReply(false);
     fetch("/api/post", {
       method: "POST",
@@ -142,7 +141,6 @@ export default function Post({ post }: { post: Post }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setText("");
         setIsOpenReply(false);
       });
@@ -201,7 +199,6 @@ export default function Post({ post }: { post: Post }) {
   };
 
   const stopLink = (e) => {
-    console.log(e.target.tagName);
     if (
       e.target.tagName === "svg" ||
       e.target.tagName === "path" ||

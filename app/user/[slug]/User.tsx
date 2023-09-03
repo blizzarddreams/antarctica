@@ -195,7 +195,7 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                 </div>
 
                 <p className="text-lg mb-4  ml-4 md:ml-0">{user.description}</p>
-                <Tabs className="w-full">
+                <Tabs className="w-full" defaultValue="posts">
                   <TabsList className="grid w-full grid-cols-3 gap-0">
                     <TabsTrigger
                       className="text-center cursor-pointer text-lg data-[state=active]:bg-slate-900"

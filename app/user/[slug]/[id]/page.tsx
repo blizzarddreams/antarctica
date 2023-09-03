@@ -46,8 +46,6 @@ async function getData(id: number) {
 
 export async function generateMetadata({ params }: { params: { id: number } }) {
   const post: Post = await getData(params.id);
-  console.log("post");
-  console.log(post);
   if (!post) return notFound();
   const title = `${
     post.author.displayname ? post.author.displayname : post.author.username
