@@ -235,6 +235,7 @@ export default function Navbar() {
                 <div className="flex justify-center flex-col">
                   <Image
                     src={`/avatars/${user.avatar}`}
+                    loader={() => `/avatars/${user.avatar}`}
                     alt="a"
                     height={30}
                     width={30}
@@ -280,6 +281,7 @@ export default function Navbar() {
               <div className="flex justify-center flex-col">
                 <Image
                   src={`/avatars/${user.avatar}`}
+                  loader={() => `/avatars/${user.avatar}`}
                   alt="a"
                   height={60}
                   width={60}

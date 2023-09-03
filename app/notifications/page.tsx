@@ -59,6 +59,7 @@ export default function Notification() {
               >
                 <Image
                   src={`/avatars/${notification.from.avatar}`}
+                  loader={() => `/avatars/${notification.from.avatar}`}
                   height={20}
                   width={20}
                   alt={notification.from.username}
@@ -83,6 +84,7 @@ export default function Notification() {
               >
                 <Image
                   src={`/avatars/${notification.from.avatar}`}
+                  loader={() => `/avatars/${notification.from.avatar}`}
                   height={20}
                   width={20}
                   alt={notification.from.username}
@@ -112,6 +114,7 @@ export default function Notification() {
               >
                 <Image
                   src={`/avatars/${notification.from.avatar}`}
+                  loader={() => `/avatars/${notification.from.avatar}`}
                   height={20}
                   width={20}
                   alt={notification.from.username}

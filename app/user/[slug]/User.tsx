@@ -139,6 +139,7 @@ export default function UserPage({ params }: { params: { slug: string } }) {
             <div className="my-1 flex flex-row items-center w-100">
               <Image
                 src={`/avatars/${user.avatar}`}
+                loader={() => `/avatars/${user.avatar}`}
                 alt={user.username}
                 width={100}
                 height={100}
