@@ -47,7 +47,7 @@ export default function Dashboard() {
   const [hasMore, setHasMore] = useState<boolean>(true);
 
   const getData = useCallback(() => {
-    if (session) {
+    if (session && hasMore) {
       fetch(`/api/dashboard?skip=${skip}`)
         .then((res) => res.json())
         .then((data) => {
@@ -56,7 +56,7 @@ export default function Dashboard() {
           if (data.noMore) setHasMore(false);
         });
     }
-  }, [session, skip, posts]);
+  }, [session, skip, posts, hasMore]);
 
   useEffect(() => {
     getData();
