@@ -224,7 +224,6 @@ export default function Post({ post }: { post: Post }) {
               <Image
                 className="rounded-full mr-4"
                 src={`/avatars/${post.author.avatar}`}
-                loader={() => `/avatars/${post.author.avatar}`}
                 alt={post.author.username}
                 width={50}
                 height={50}
@@ -278,7 +277,6 @@ export default function Post({ post }: { post: Post }) {
                             <Image
                               className="rounded-full mr-4"
                               src={`/avatars/${post.author.avatar}`}
-                              loader={() => `/avatars/${post.author.avatar}`}
                               alt={post.author.username}
                               width={50}
                               height={50}
@@ -387,7 +385,6 @@ export default function Post({ post }: { post: Post }) {
                   <DialogTrigger>
                     <Image
                       src={`/uploads/${post.image}`}
-                      loader={() => `/uploads/${post.image}`}
                       alt={post.author.username}
                       width={100}
                       height={100}
@@ -396,7 +393,6 @@ export default function Post({ post }: { post: Post }) {
                   <DialogContent>
                     <Image
                       src={`/uploads/${post.image}`}
-                      loader={() => `/uploads/${post.image}`}
                       alt={post.author.username}
                       width={1000}
                       height={1000}
