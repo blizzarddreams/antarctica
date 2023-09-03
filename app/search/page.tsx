@@ -48,13 +48,15 @@ export default function Search() {
   const [hasMore, setHasMore] = useState<boolean>(true);
 
   const getData = () => {
-    fetch(`/api/search?params=${search}&skip=${skip}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setPosts(data.posts);
-        setSkip(skip + 1);
-        if (data.noMore) setHasMore(false);
-      });
+    if (hasMore) {
+      fetch(`/api/search?params=${search}&skip=${skip}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setPosts(data.posts);
+          setSkip(skip + 1);
+          if (data.noMore) setHasMore(false);
+        });
+    }
   };
   useEffect(() => {
     getData();

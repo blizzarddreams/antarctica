@@ -33,14 +33,17 @@ export default function Notification() {
   const [hasMore, setHasMore] = useState<boolean>(true);
 
   const getData = () => {
-    fetch(`/api/notifications?skip=${skip}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setNotifications([...notifications.concat(data.notifications)]);
-        setSkip(skip + 1);
-        if (data.noMore) setHasMore(false);
-      });
+    if (hasMore) {
+      fetch(`/api/notifications?skip=${skip}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setNotifications([...notifications.concat(data.notifications)]);
+          setSkip(skip + 1);
+          if (data.noMore) setHasMore(false);
+        });
+    }
   };
+
   useEffect(() => {
     getData();
   }, []);

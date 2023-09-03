@@ -50,14 +50,16 @@ export default function Bookmarks() {
   const [skip, setSkip] = useState(0);
 
   const getData = useCallback(() => {
-    fetch(`/api/bookmark/all?skip=${skip}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setBookmarks([...bookmarks.concat(data.bookmarks)]);
-        if (data.noMore) setHasMore(false);
-        setSkip(skip + 1);
-      });
-  }, [bookmarks, skip]);
+    if (hasMore) {
+      fetch(`/api/bookmark/all?skip=${skip}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setBookmarks([...bookmarks.concat(data.bookmarks)]);
+          if (data.noMore) setHasMore(false);
+          setSkip(skip + 1);
+        });
+    }
+  }, [bookmarks, skip, hasMore]);
 
   useEffect(() => {
     getData();

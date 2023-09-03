@@ -45,14 +45,16 @@ export default function Explore() {
   const [hasMore, setHasMore] = useState<boolean>(true);
 
   const getData = useCallback(() => {
-    fetch(`/api/explore?skip=${skip}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setPosts([...posts.concat(data.posts)]);
-        setSkip(skip + 1);
-        if (data.noMore) setHasMore(false);
-      });
-  }, [posts, skip]);
+    if (hasMore) {
+      fetch(`/api/explore?skip=${skip}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setPosts([...posts.concat(data.posts)]);
+          setSkip(skip + 1);
+          if (data.noMore) setHasMore(false);
+        });
+    }
+  }, [posts, skip, hasMore]);
 
   useEffect(() => {
     getData();

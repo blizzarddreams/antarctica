@@ -61,24 +61,26 @@ export default function UserPage({ params }: { params: { slug: string } }) {
   const [tab, setTab] = useState<string>("posts");
 
   const getData = () => {
-    fetch(`/api/profile?username=${params.slug}&skip=${skip}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setUser({
-          ...data.user,
-          posts: [...user.posts.concat(data.user.posts)],
-        });
-        setSkip(skip + 1);
-        if (data.noMore) setHasMore(false);
+    if (hasMore) {
+      fetch(`/api/profile?username=${params.slug}&skip=${skip}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setUser({
+            ...data.user,
+            posts: [...user.posts.concat(data.user.posts)],
+          });
+          setSkip(skip + 1);
+          if (data.noMore) setHasMore(false);
 
-        if (session) {
-          fetch(`/api/follow?id=${data.user.id}`)
-            .then((res) => res.json())
-            .then((data) => {
-              setIsFollowing(data.following);
-            });
-        }
-      });
+          if (session) {
+            fetch(`/api/follow?id=${data.user.id}`)
+              .then((res) => res.json())
+              .then((data) => {
+                setIsFollowing(data.following);
+              });
+          }
+        });
+    }
   };
   useEffect(() => {
     fetch(`/api/profile?username=${params.slug}&skip=${skip}`)
