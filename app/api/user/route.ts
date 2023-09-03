@@ -2,8 +2,6 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server";
 import { OPTIONS } from "../auth/[...nextauth]/route";
-import fs from "fs";
-import { v4 as uuidv4 } from "uuid";
 import prisma from "@/prisma";
 import upload from "@/upload";
 

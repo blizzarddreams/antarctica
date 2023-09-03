@@ -1,12 +1,10 @@
 "use client";
 
-import { signIn, signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useState } from "react";
 import Post from "../utils/Post";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { PusherClient } from "@/pusher";
-import Image from "next/image";
-import { CameraIcon } from "@heroicons/react/24/outline";
 interface User {
   id: number;
   email: string;

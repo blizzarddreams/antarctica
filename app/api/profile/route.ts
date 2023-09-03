@@ -1,9 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { OPTIONS } from "../auth/[...nextauth]/route";
 import prisma from "@/prisma";
-import cloudinary from "@/cloudinary";
 
 export async function GET(request: Request, response: Response) {
   const { searchParams } = new URL(request.url);

@@ -1,7 +1,6 @@
 "use client";
 
-import { signIn, signOut, useSession } from "next-auth/react";
-import Image from "next/image";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 
 export default function Home() {

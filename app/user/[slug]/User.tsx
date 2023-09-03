@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Post from "@/app/utils/Post";
 import { useSession } from "next-auth/react";
 import InfiniteScroll from "react-infinite-scroll-component";
