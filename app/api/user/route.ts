@@ -5,6 +5,7 @@ import { OPTIONS } from "../auth/[...nextauth]/route";
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import prisma from "@/prisma";
+import upload from "@/upload";
 
 export async function GET(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
@@ -28,31 +29,22 @@ export async function POST(request: Request, response: Response) {
   if (session) {
     const email = session.user?.email;
     if (email) {
-      const data = await request.json();
+      const data = await request.formData();
       let dataToSave = {
-        username: data.username,
-        description: data.description,
-        displayname: data.displayname,
+        username: data.get("username") as string,
+        description: data.get("description") as string,
+        displayname: data.get("displayname") as string,
       };
+      if (data.get("avatar")) {
+        console.log(data.get("avatar"));
+        const result = (await upload(data.get("avatar"), "avatars")) as string;
 
-      if (data.newAvatar) {
-        let dataImage = data.newAvatar.replace(/^data:image\/\w+;base64,/, "");
-        let uuid = `${uuidv4()}.png`;
-        fs.writeFileSync(
-          `./public/avatars/${uuid}`,
-          Buffer.from(dataImage, "base64"),
-        );
-        (dataToSave as any).avatar = uuid;
+        (dataToSave as any).avatar = result;
       }
+      if (data.get("banner")) {
+        const result = (await upload(data.get("banner"), "banners")) as string;
 
-      if (data.newBanner) {
-        let dataImage = data.newBanner.replace(/^data:image\/\w+;base64,/, "");
-        let uuid = `${uuidv4()}.png`;
-        fs.writeFileSync(
-          `./public/banners/${uuid}`,
-          Buffer.from(dataImage, "base64"),
-        );
-        (dataToSave as any).banner = uuid;
+        (dataToSave as any).banner = result;
       }
       try {
         const user = await prisma.user.update({

@@ -7,6 +7,7 @@ import { ArrowPathRoundedSquareIcon } from "@heroicons/react/20/solid";
 import { UserPlusIcon } from "@heroicons/react/24/outline";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { NotificationType } from "@prisma/client";
+import { CldImage } from "next-cloudinary";
 
 interface User {
   id: number;
@@ -57,8 +58,8 @@ export default function Notification() {
                 href={`/@${notification.from.username}`}
                 className="flex flex-row justify-center items-center"
               >
-                <Image
-                  src={`/avatars/${notification.from.avatar}`}
+                <CldImage
+                  src={notification.from.avatar}
                   height={20}
                   width={20}
                   alt={notification.from.username}
@@ -82,7 +83,7 @@ export default function Notification() {
                 className="flex flex-row justify-center items-center"
               >
                 <Image
-                  src={`/avatars/${notification.from.avatar}`}
+                  src={notification.from.avatar}
                   height={20}
                   width={20}
                   alt={notification.from.username}
@@ -111,7 +112,7 @@ export default function Notification() {
                 className="flex flex-row justify-center items-center"
               >
                 <Image
-                  src={`/avatars/${notification.from.avatar}`}
+                  src={notification.from.avatar}
                   height={20}
                   width={20}
                   alt={notification.from.username}

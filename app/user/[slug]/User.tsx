@@ -8,6 +8,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { PusherClient } from "@/pusher";
 import { notFound } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CldImage } from "next-cloudinary";
 interface User {
   id: number;
   username: string;
@@ -134,11 +135,11 @@ export default function UserPage({ params }: { params: { slug: string } }) {
           <div className="flex flex-col">
             <header
               className={`w-full h-32 md:h-52 bg-cover bg-center `}
-              style={{ backgroundImage: `url('/banners/${user.banner}')` }}
+              style={{ backgroundImage: `url('${user.banner}')` }}
             ></header>
             <div className="my-1 flex flex-row items-center w-100">
-              <Image
-                src={`/avatars/${user.avatar}`}
+              <CldImage
+                src={user.avatar}
                 alt={user.username}
                 width={100}
                 height={100}

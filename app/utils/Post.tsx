@@ -41,6 +41,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { CldImage } from "next-cloudinary";
+import { format } from "path";
 
 interface User {
   id: number;
@@ -221,9 +223,9 @@ export default function Post({ post }: { post: Post }) {
         >
           <div className="h-full w-full items-center grid grid-cols-12">
             <div className="flex flex-col col-span-1 justify-center items-center">
-              <Image
+              <CldImage
                 className="rounded-full mr-4"
-                src={`/avatars/${post.author.avatar}`}
+                src={post.author.avatar}
                 alt={post.author.username}
                 width={50}
                 height={50}
@@ -274,9 +276,9 @@ export default function Post({ post }: { post: Post }) {
                       <HoverCardContent className="bg-black">
                         <div className="flex flex-col">
                           <div className="flex flex-row">
-                            <Image
+                            <CldImage
                               className="rounded-full mr-4"
-                              src={`/avatars/${post.author.avatar}`}
+                              src={post.author.avatar}
                               alt={post.author.username}
                               width={50}
                               height={50}
@@ -383,16 +385,16 @@ export default function Post({ post }: { post: Post }) {
               {post.image && (
                 <Dialog>
                   <DialogTrigger>
-                    <Image
-                      src={`/uploads/${post.image}`}
+                    <CldImage
+                      src={post.image}
                       alt={post.author.username}
                       width={100}
                       height={100}
                     />
                   </DialogTrigger>
                   <DialogContent>
-                    <Image
-                      src={`/uploads/${post.image}`}
+                    <CldImage
+                      src={post.image}
                       alt={post.author.username}
                       width={1000}
                       height={1000}

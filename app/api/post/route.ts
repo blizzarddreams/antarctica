@@ -6,6 +6,10 @@ import { PusherServer } from "@/pusher";
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
 import prisma from "@/prisma";
+import cloudinary from "@/cloudinary";
+import { error } from "console";
+import streamifier from "streamifier";
+import upload from "@/upload";
 
 export async function GET(request: Request, response: Response) {
   const { searchParams } = new URL(request.url);
@@ -106,8 +110,8 @@ export async function POST(request: Request, response: Response) {
       if (data.get("image")) {
         const image = data.get("image");
         const arrayBuffer = await (image as Blob).arrayBuffer();
-        const uuid = `${uuidv4()}.png`;
-        fs.writeFileSync(`./public/uploads/${uuid}`, Buffer.from(arrayBuffer));
+        console.log("ok");
+        const result = (await upload(arrayBuffer, "uploads")) as string;
         if (data.get("reply")) {
           const postToConnectTo = await prisma.post.findFirst({
             where: {
@@ -117,7 +121,7 @@ export async function POST(request: Request, response: Response) {
           post = await prisma.post.create({
             data: {
               content: data.get("post") as string,
-              image: uuid,
+              image: result,
               author: {
                 connect: {
                   id: user.id,
@@ -134,7 +138,7 @@ export async function POST(request: Request, response: Response) {
           post = await prisma.post.create({
             data: {
               content: data.get("post") as string,
-              image: uuid,
+              image: result,
               author: {
                 connect: {
                   id: user.id,

@@ -87,14 +87,15 @@ export default function Settings() {
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     let postData = user!;
-    postData.newAvatar = cropperProfile;
-    postData.newBanner = cropperBanner;
+    const form = new FormData();
+    if (cropperProfile) form.append("avatar", cropperProfile);
+    if (cropperBanner) form.append("banner", cropperBanner);
+    form.append("username", user.username);
+    form.append("displayname", user.displayname);
+    form.append("description", user.description);
     fetch("/api/user", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...postData }),
+      body: form,
     })
       .then((res) => res.json())
       .then((data) => {

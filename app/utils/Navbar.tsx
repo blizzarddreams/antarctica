@@ -24,6 +24,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { CldImage } from "next-cloudinary";
 
 interface User {
   id: number;
@@ -233,8 +234,8 @@ export default function Navbar() {
                 className="flex flex-row mt-4 p-4 "
               >
                 <div className="flex justify-center flex-col">
-                  <Image
-                    src={`/avatars/${user.avatar}`}
+                  <CldImage
+                    src={user.avatar}
                     alt="a"
                     height={30}
                     width={30}
