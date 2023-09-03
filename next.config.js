@@ -12,9 +12,6 @@ const nextConfig = {
       },
     ];
   },
-  images: {
-    domains: ["antarctica.notblizzard.dev", "localhost"],
-  },
 };
 
 module.exports = nextConfig;
