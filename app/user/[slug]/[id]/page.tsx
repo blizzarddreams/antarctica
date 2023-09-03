@@ -59,9 +59,9 @@ export async function generateMetadata({ params }: { params: { id: number } }) {
         url: `${process.env.NEXTAUTH_URL}/@${post.author.username}`,
         images: [
           `${getCldImageUrl({
-            width: 100,
-            height: 100,
-            src: post.author.avatar,
+            width: 1000,
+            height: 1000,
+            src: post.image,
           })}`,
         ],
         title: title,
@@ -74,9 +74,9 @@ export async function generateMetadata({ params }: { params: { id: number } }) {
         description: post.content,
         images: [
           `${getCldImageUrl({
-            width: 100,
-            height: 100,
-            src: post.author.avatar,
+            width: 1000,
+            height: 1000,
+            src: post.image,
           })}`,
         ],
         siteName: "antarctica",
