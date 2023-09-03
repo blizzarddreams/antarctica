@@ -12,6 +12,10 @@ const nextConfig = {
       },
     ];
   },
+  images: {
+    loader: "custom",
+    loaderFile: "./loader.ts",
+  },
 };
 
 module.exports = nextConfig;
