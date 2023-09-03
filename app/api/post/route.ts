@@ -1,14 +1,8 @@
 import { getServerSession } from "next-auth/next";
 import { OPTIONS } from "../auth/[...nextauth]/route";
-import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { PusherServer } from "@/pusher";
-import { v4 as uuidv4 } from "uuid";
-import fs from "fs";
 import prisma from "@/prisma";
-import cloudinary from "@/cloudinary";
-import { error } from "console";
-import streamifier from "streamifier";
 import upload from "@/upload";
 import redis from "@/redis";
 
@@ -128,7 +122,6 @@ export async function POST(request: Request, response: Response) {
             },
           });
         } else {
-          console.log("its not a reply");
           post = await prisma.post.create({
             data: {
               content: data.get("post") as string,

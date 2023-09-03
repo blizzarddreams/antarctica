@@ -69,7 +69,6 @@ export default function UserPage({ params }: { params: { slug: string } }) {
           ...data.user,
           posts: [...user.posts.concat(data.user.posts)],
         });
-        console.log(data.user.posts);
         setSkip(skip + 1);
         if (data.noMore) setHasMore(false);
 

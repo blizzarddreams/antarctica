@@ -48,7 +48,6 @@ export default function Explore() {
     fetch(`/api/explore?skip=${skip}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setPosts([...posts.concat(data.posts)]);
         setSkip(skip + 1);
         if (data.noMore) setHasMore(false);

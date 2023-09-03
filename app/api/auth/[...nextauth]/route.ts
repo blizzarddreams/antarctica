@@ -28,6 +28,8 @@ export const OPTIONS = {
           create: {
             email: profile.email,
             username: profile.login,
+            avatar: "avatars/djvyrffxxuilpwiisdlr",
+            banner: "avatars/djvyrffxxuilpwiisdlr",
           },
         });
       }

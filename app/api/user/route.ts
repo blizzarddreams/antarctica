@@ -36,7 +36,6 @@ export async function POST(request: Request, response: Response) {
         displayname: data.get("displayname") as string,
       };
       if (data.get("avatar")) {
-        console.log(data.get("avatar"));
         const result = (await upload(data.get("avatar"), "avatars")) as string;
 
         (dataToSave as any).avatar = result;

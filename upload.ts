@@ -6,7 +6,6 @@ export default async function upload(arrayBuffer, folder) {
     const stream = cloudinary.uploader.upload_stream(
       { folder: folder },
       async (err, result) => {
-        console.log(result);
         return resolve(result.secure_url);
       },
     );

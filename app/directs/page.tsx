@@ -38,7 +38,6 @@ export default function Direct() {
       .then((res) => res.json())
       .then((data) => {
         setUser(data.user);
-        console.log(data.user);
       });
   }, []);
 
@@ -63,9 +62,7 @@ export default function Direct() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ username: dialogUsername }),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    });
   };
 
   const handleNewMessage = (e) => {
@@ -76,9 +73,7 @@ export default function Direct() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ message: newMessage, directId }),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    });
   };
 
   return (
