@@ -43,6 +43,8 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+      - name: Run prisma migrations
+        run: npx prisma migrate dev
       - name: Run Playwright tests
         run: npx playwright test
       - uses: actions/upload-artifact@v3
