@@ -184,7 +184,9 @@ export default function Navbar() {
                       <DropdownMenuTrigger className="flex flex-row items-center">
                         <div className="flex flex-row items-center">
                           <DropdownMenuLabel>
-                            <GoSmiley className="h-4 w-4" />
+                            <div className="bg-slate-800 p-2 rounded-full">
+                              <GoSmiley className="h-4 w-4" />
+                            </div>
                           </DropdownMenuLabel>
                         </div>
                       </DropdownMenuTrigger>
@@ -198,7 +200,9 @@ export default function Navbar() {
                       </DropdownMenuContent>
                     </DropdownMenu>
                     <label htmlFor="image">
-                      <CameraIcon className="h-4 w-4 cursor-pointer" />
+                      <div className="bg-slate-800 p-2 rounded-full">
+                        <CameraIcon className="h-4 w-4 cursor-pointer" />
+                      </div>
                     </label>
                     <input
                       type="file"

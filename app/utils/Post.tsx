@@ -11,6 +11,7 @@ import { CameraIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
+import { AiOutlineLink } from "react-icons/ai";
 import {
   BsFillBookmarkPlusFill,
   BsFillBookmarkDashFill,
@@ -30,6 +31,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { CldImage } from "next-cloudinary";
+import copy from "copy-to-clipboard";
 
 interface User {
   id: number;
@@ -197,6 +199,10 @@ export default function Post({ post }: { post: Post }) {
     }
   };
 
+  const copyLink = () => {
+    copy(`${process.env.NEXT_PUBLIC_URL}/@${post.author.username}/${post.id}`);
+  };
+
   return (
     <>
       <div key={post.id}>
@@ -359,6 +365,15 @@ export default function Post({ post }: { post: Post }) {
                                 </DialogContent>
                               </>
                             )}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                          <div
+                            className="flex flex-row items-center cursor-pointer"
+                            onClick={copyLink}
+                          >
+                            <AiOutlineLink className="h-4 w-4 mr-2 text-white" />
+                            Save Link
+                          </div>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>

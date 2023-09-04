@@ -23,6 +23,7 @@
     "@types/streamifier": "^0.1.0",
     "autoprefixer": "10.4.14",
     "cloudinary": "^1.40.0",
+    "copy-to-clipboard": "^3.3.3",
     "dayjs": "^1.11.9",
     "emoji-picker-react": "^4.4.12",
     "encoding": "^0.1.13",
