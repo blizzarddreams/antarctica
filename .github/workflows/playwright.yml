@@ -9,6 +9,14 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     services:
+      redis:
+        image: redis
+        # Set health checks to wait until redis has started
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
       postgres:
         image: postgres:13
         env:
@@ -27,10 +35,6 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: build next
-        run: npm run build
-      - name: start next server
-        run: npm run start
       - name: Run Playwright tests
         run: npx playwright test
       - uses: actions/upload-artifact@v3
