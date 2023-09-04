@@ -14,3 +14,11 @@ test("show posts on explore", async ({ page }) => {
   await page.goto("http://localhost:7040/explore");
   await expect(page.getByText("nextjs hello world")).toBeVisible();
 });
+
+test("has explore link", async ({ page }) => {
+  await page.goto("http://localhost:7040");
+
+  await expect(page.getByRole("button", { name: /Explore/i })).toHaveText(
+    "Explore",
+  );
+});
