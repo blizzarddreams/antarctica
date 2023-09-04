@@ -86,6 +86,7 @@ export default function UserPage({ params }: { params: { slug: string } }) {
     fetch(`/api/profile?username=${params.slug}&skip=${skip}`)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         if (!data.user) return notFound();
         setUser(data.user);
         if (session) {

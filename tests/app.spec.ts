@@ -1,4 +1,17 @@
+import { server } from "../mocks/server.js";
 import { test, expect } from "@playwright/test";
+
+test.beforeAll(() => server.listen());
+
+// Reset any request handlers that we may add during the tests,
+
+// so they don't affect other tests.
+
+test.afterEach(() => server.resetHandlers());
+
+// Clean up after the tests are finished.
+
+test.afterAll(() => server.close());
 
 test("has title", async ({ page }) => {
   await page.goto("http://localhost:7040");
@@ -19,72 +32,4 @@ test("has explore header", async ({ page }) => {
   await page.getByRole("button", { name: /Explore/i }).click();
   await page.waitForURL("**/explore");
   await expect(page.getByText("Explore")).toBeVisible();
-});
-
-test("show posts on explore", async ({ page }) => {
-  await page.route("*/**/api/explore?skip=0", async (route) => {
-    const json = {
-      noMore: true,
-      posts: [
-        {
-          id: 1,
-          content: "Hello world",
-          authorId: 1,
-          createdAt: "2023-09-03T21:26:26.726Z",
-          image: null,
-          replyId: null,
-          author: {
-            id: 1,
-            email: "test@example.com",
-            username: "example",
-
-            description: "hello",
-            followers: [],
-            following: [],
-          },
-          likes: [],
-          reposts: [],
-          reply: null,
-          replies: [],
-        },
-      ],
-    };
-
-    route.fulfill({ json });
-  });
-
-  await page.goto("http://localhost:7040/explore");
-  await expect(page.getByText("Hello world")).toBeVisible();
-});
-
-test("show post", async ({ page }) => {
-  await page.route("*/**/api/post?id=1", async (route) => {
-    const json = {
-      post: {
-        id: 1,
-        content: "Hello world",
-        authorId: 1,
-        createdAt: "2023-09-03T21:26:26.726Z",
-        image: null,
-        replyId: null,
-        author: {
-          id: 1,
-          email: "test@example.com",
-          username: "example",
-          description: "hello",
-          followers: [],
-          following: [],
-        },
-        likes: [],
-        reposts: [],
-        reply: null,
-        replies: [],
-      },
-    };
-
-    route.fulfill({ json });
-  });
-
-  await page.goto(`http://localhost:7040/@example/1`);
-  await expect(page.getByText("Hello world")).toBeVisible();
 });

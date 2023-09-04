@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import UserPage from "./User";
-
+/*
 export async function generateMetadata({
   params,
 }: {
@@ -36,6 +36,7 @@ export async function generateMetadata({
     },
   };
 }
+*/
 export default function User({ params }: { params: { slug: string } }) {
   return <UserPage params={params} />;
 }
