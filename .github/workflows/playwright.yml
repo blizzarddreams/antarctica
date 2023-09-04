@@ -9,6 +9,7 @@ jobs:
     timeout-minutes: 60
     env:
       DATABASE_URL: ${{secrets.DATABASE_URL}}
+      NEXTAUTH_SECRET: ${{secrets.NEXTAUTH_SECRET}}
     runs-on: ubuntu-latest
     services:
       redis:
