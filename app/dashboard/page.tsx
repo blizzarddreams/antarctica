@@ -76,7 +76,7 @@ export default function Dashboard() {
 
   return (
     <>
-      {posts && (
+      {posts.length > 0 && (
         <>
           <p className="font-bold text-4xl">Dashboard</p>
           <InfiniteScroll

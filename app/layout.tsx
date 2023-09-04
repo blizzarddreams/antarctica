@@ -37,12 +37,6 @@ export default function RootLayout({
               <ToastContainer position="bottom-left" />
             </div>
           </div>
-          <div className="block md:hidden">
-            <div>{children}</div>
-            <div className="fixed bottom-0 w-full">
-              <Navbar />
-            </div>
-          </div>
         </body>
       </AuthContext>
     </html>

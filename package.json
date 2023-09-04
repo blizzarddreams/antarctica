@@ -51,6 +51,7 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
+    "@playwright/test": "^1.37.1",
     "@tailwindcss/forms": "^0.5.4",
     "@types/md5": "^2.3.2",
     "@types/node": "^20.4.8",

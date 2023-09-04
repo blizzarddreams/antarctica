@@ -137,7 +137,7 @@ export default function Notification() {
   };
   return (
     <div>
-      {notifications && (
+      {notifications.length > 0 && (
         <div>
           <p className="font-bold text-4xl">Notifications</p>
           <div className="divide-y">

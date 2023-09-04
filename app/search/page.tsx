@@ -64,7 +64,7 @@ export default function Search() {
 
   return (
     <div>
-      {posts && (
+      {posts.length > 0 && (
         <>
           <>
             <InfiniteScroll
