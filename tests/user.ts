@@ -5,13 +5,13 @@ const user = {
   avatar: "",
   banner: "",
   displayname: "",
-  description: "",
+  description: "nextjs description",
   followers: [],
   following: [],
   posts: [
     {
       id: 1,
-      content: "hello world",
+      content: "nextjs hello world",
       authorId: 1,
       createdAt: "2023-09-03T16:01:49.169Z",
       image: null,
