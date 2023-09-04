@@ -45,6 +45,10 @@ jobs:
         run: npx playwright install --with-deps
       - name: Run prisma migrations
         run: npx prisma migrate dev
+      - name: Build next
+        run: npm run build
+      - name: Start next
+        run: npm run start &
       - name: Run Playwright tests
         run: npx playwright test
       - uses: actions/upload-artifact@v3

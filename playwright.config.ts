@@ -69,10 +69,10 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: {
+  /* webServer: {
     command: "npm run build && npm run start",
     url: "http://localhost:7040",
     reuseExistingServer: !process.env.CI,
     timeout: 120000,
-  },
+  },*/
 });
