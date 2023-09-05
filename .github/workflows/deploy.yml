@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   workflow_run:
-    workflows: ["Playwright Tests"]
+    workflows: [Playwright Tests]
     branches: [main]
     types:
       - completed
