@@ -11,7 +11,7 @@ export default function Search() {
 
   const handleSubmit = (e) => {
     if (e.key === "Enter") {
-      return router.push(`/search?params=${text}`);
+      return router.push(`/search?params=${text.replace("#", "%23")}`);
     }
   };
   return (

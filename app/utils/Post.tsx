@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { AiOutlineLink } from "react-icons/ai";
+import reactStringReplace from "react-string-replace";
 import {
   BsFillBookmarkPlusFill,
   BsFillBookmarkDashFill,
@@ -380,7 +381,14 @@ export default function Post({ post }: { post: Post }) {
                   </Dialog>
                 </div>
               </div>
-              <p className="break-all">{post.content}</p>
+              <p className="break-all">
+                {reactStringReplace(post.content, /\#(\w+)/g, (match) => (
+                  <Link
+                    className="text-sky-400 hover:underline"
+                    href={`/search?params=%23${match}`}
+                  >{`#${match}`}</Link>
+                ))}
+              </p>
               {post.image && (
                 <Dialog>
                   <DialogTrigger>

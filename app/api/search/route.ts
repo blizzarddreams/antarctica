@@ -3,14 +3,18 @@ import prisma from "@/prisma";
 
 export async function GET(request: Request, response: Response) {
   const { searchParams } = new URL(request.url);
-  const search = searchParams.get("params");
+  let search = searchParams
+    .get("params")!
+    .replace("%23", "#")
+    .split(" ")
+    .join(" & ");
   const skip = parseInt(searchParams.get("skip")!);
-
+  console.log(search);
   if (search) {
     const posts = await prisma.post.findMany({
       where: {
         content: {
-          contains: search!,
+          search: search,
         },
       },
       orderBy: { createdAt: "desc" },

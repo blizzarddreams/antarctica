@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Post from "../utils/Post";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -43,28 +43,32 @@ interface Repost {
 export default function Search() {
   const searchParams = useSearchParams();
   const [posts, setPosts] = useState<Post[]>(null!);
-  const search = searchParams.get("params");
+  const search = searchParams.get("params").replace("#", "%23");
+
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState<boolean>(true);
 
-  const getData = () => {
+  const getData = useCallback(() => {
     if (hasMore) {
+      console.log(search);
       fetch(`/api/search?params=${search}&skip=${skip}`)
         .then((res) => res.json())
         .then((data) => {
+          console.log("ok!");
           setPosts(data.posts);
           setSkip(skip + 1);
           if (data.noMore) setHasMore(false);
         });
     }
-  };
+  }, [hasMore, search, skip]);
+
   useEffect(() => {
     getData();
-  }, [search]);
+  }, [search, getData]);
 
   return (
     <div>
-      {posts.length > 0 && (
+      {posts && (
         <>
           <>
             <InfiniteScroll

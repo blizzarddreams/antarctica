@@ -62,7 +62,7 @@ export default function Explore() {
 
   return (
     <>
-      {posts.length > 0 && (
+      {posts.length && (
         <>
           <p className="font-bold text-4xl">Explore</p>
           <InfiniteScroll
