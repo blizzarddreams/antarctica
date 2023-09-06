@@ -34,14 +34,24 @@ export async function POST(request: Request, response: Response) {
         displayname: data.get("displayname") as string,
       };
       if (data.get("avatar")) {
-        const result = (await upload(data.get("avatar"), "avatars")) as string;
+        const avatar = data.get("avatar") as string;
+        const buffer = Buffer.from(
+          avatar.replace(/^data:image\/\w+;base64,/, ""),
+          "base64",
+        );
+        const uuid = await upload(buffer, "avatars");
 
-        (dataToSave as any).avatar = result;
+        (dataToSave as any).avatar = uuid;
       }
       if (data.get("banner")) {
-        const result = (await upload(data.get("banner"), "banners")) as string;
+        const banner = data.get("banner") as string;
+        const buffer = Buffer.from(
+          banner.replace(/^data:image\/\w+;base64,/, ""),
+          "base64",
+        );
+        const uuid = await upload(buffer, "banners");
 
-        (dataToSave as any).banner = result;
+        (dataToSave as any).banner = uuid;
       }
       try {
         const user = await prisma.user.update({

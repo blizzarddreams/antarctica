@@ -267,9 +267,9 @@ export default function Navbar() {
                 className="flex flex-row mt-4 p-4 "
               >
                 <div className="flex justify-center flex-col">
-                  <CldImage
-                    src={user.avatar}
-                    alt="a"
+                  <Image
+                    src={`https://cdn.notblizzard.dev/antarctica/avatars/${user.avatar}.png`}
+                    alt=""
                     height={30}
                     width={30}
                     className="rounded-full mr-1"
@@ -313,7 +313,7 @@ export default function Navbar() {
             <Link href={`/@${user.username}`} className="flex flex-row">
               <div className="flex justify-center flex-col">
                 <Image
-                  src={`/avatars/${user.avatar}`}
+                  src={`https://cdn.notblizzard.dev/antarctica/avatars/${user.avatar}.png`}
                   alt="a"
                   height={60}
                   width={60}

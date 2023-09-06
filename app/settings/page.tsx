@@ -281,8 +281,8 @@ export default function Settings() {
                     </>
                   ) : (
                     <>
-                      <CldImage
-                        src={user.avatar}
+                      <Image
+                        src={`https://cdn.notblizzard.dev/antarctica/avatars/${user.avatar}.png`}
                         alt={user.username}
                         width={100}
                         height={100}

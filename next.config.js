@@ -13,9 +13,7 @@ const nextConfig = {
     ];
   },
   images: {
-    domains: ["antarctica.notblizzard.dev"],
-    loader: "custom",
-    loaderFile: "./loader.ts",
+    domains: ["cdn.notblizzard.dev"],
   },
 };
 

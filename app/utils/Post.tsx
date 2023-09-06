@@ -214,9 +214,9 @@ export default function Post({ post }: { post: Post }) {
         >
           <div className="h-full w-full items-center grid grid-cols-12">
             <div className="flex flex-col col-span-1 justify-center items-center">
-              <CldImage
+              <Image
                 className="rounded-full mr-4"
-                src={post.author.avatar}
+                src={`https://cdn.notblizzard.dev/antarctica/avatars/${post.author.avatar}.png`}
                 alt={post.author.username}
                 width={50}
                 height={50}
@@ -267,9 +267,9 @@ export default function Post({ post }: { post: Post }) {
                       <HoverCardContent className="bg-black">
                         <div className="flex flex-col">
                           <div className="flex flex-row">
-                            <CldImage
+                            <Image
                               className="rounded-full mr-4"
-                              src={post.author.avatar}
+                              src={`https://cdn.notblizzard.dev/antarctica/avatars/${post.author.avatar}.png`}
                               alt={post.author.username}
                               width={50}
                               height={50}
@@ -392,16 +392,16 @@ export default function Post({ post }: { post: Post }) {
               {post.image && (
                 <Dialog>
                   <DialogTrigger>
-                    <CldImage
-                      src={post.image}
+                    <Image
+                      src={`https://cdn.notblizzard.dev/antarctica/uploads/${post.image}.png`}
                       alt={post.author.username}
                       width={100}
                       height={100}
                     />
                   </DialogTrigger>
                   <DialogContent>
-                    <CldImage
-                      src={post.image}
+                    <Image
+                      src={`https://cdn.notblizzard.dev/antarctica/uploads/${post.image}.png`}
                       alt={post.author.username}
                       width={1000}
                       height={1000}

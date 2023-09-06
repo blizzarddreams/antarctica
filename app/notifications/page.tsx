@@ -61,8 +61,8 @@ export default function Notification() {
                 href={`/@${notification.from.username}`}
                 className="flex flex-row justify-center items-center"
               >
-                <CldImage
-                  src={notification.from.avatar}
+                <Image
+                  src={`https://cdn.notblizzard.dev/antarctica/avatars/${notification.from.avatar}.png`}
                   height={20}
                   width={20}
                   alt={notification.from.username}

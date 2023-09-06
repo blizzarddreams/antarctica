@@ -1,14 +1,18 @@
 import cloudinary from "./cloudinary";
 import streamifier from "streamifier";
+import { v4 as uuidv4 } from "uuid";
+import { s3Client } from "./spaces";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 
-export default async function upload(arrayBuffer, folder) {
-  return new Promise((resolve, reject) => {
-    const stream = cloudinary.uploader.upload_stream(
-      { folder: folder },
-      async (err, result) => {
-        return resolve(result.secure_url);
-      },
-    );
-    streamifier.createReadStream(Buffer.from(arrayBuffer)).pipe(stream);
-  });
+export default async function upload(image, folder) {
+  const uuid = uuidv4();
+  let bucketParams = {
+    Bucket: "arcanines",
+    Key: `antarctica/${folder}/${uuid}.png`,
+    Body: image,
+    ACL: "public-read",
+  };
+  const data = await s3Client.send(new PutObjectCommand(bucketParams));
+
+  return uuid;
 }
