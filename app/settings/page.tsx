@@ -4,7 +4,14 @@ import React, { useState, useEffect, useRef, Fragment } from "react";
 import Cropper, { ReactCropperElement } from "react-cropper";
 import { CameraIcon } from "@heroicons/react/24/outline";
 import "cropperjs/dist/cropper.css";
-import { Dialog, Transition } from "@headlessui/react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { CldImage, getCldImageUrl } from "next-cloudinary";
@@ -30,7 +37,6 @@ export default function Settings() {
   const [profileIsOpen, setProfileIsOpen] = useState(false);
   const [bannerIsOpen, setBannerIsOpen] = useState(false);
   const [error, setError] = useState("");
-  const [bannerUrl, setBannerUrl] = useState<string>("");
 
   const router = useRouter();
 
@@ -39,23 +45,8 @@ export default function Settings() {
       .then((res) => res.json())
       .then((data) => {
         setUser(data.user);
-        setBannerUrl(
-          getCldImageUrl({
-            width: 1000,
-            height: 1000,
-            src: data.user.banner,
-          }),
-        );
       });
   }, []);
-
-  const closeProfileModal = () => {
-    setProfileIsOpen(false);
-  };
-
-  const closeBannerModal = () => {
-    setBannerIsOpen(false);
-  };
 
   const onCropProfile = () => {
     const cropper = cropperRefProfile.current?.cropper;
@@ -123,115 +114,59 @@ export default function Settings() {
         <div>
           {imageProfile && (
             <>
-              <Transition appear show={profileIsOpen} as={Fragment}>
-                <Dialog
-                  as="div"
-                  className="relative z-10"
-                  onClose={closeProfileModal}
-                >
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
+              <Dialog
+                onOpenChange={() => setProfileIsOpen(!profileIsOpen)}
+                open={profileIsOpen}
+              >
+                <DialogContent>
+                  <Cropper
+                    src={imageProfile}
+                    crop={onCropProfile}
+                    ref={cropperRefProfile}
+                    initialAspectRatio={1 / 1}
+                    aspectRatio={1 / 1}
+                    movable={false}
+                    rotatable={false}
+                    scalable={false}
+                  />
+                  <button
+                    className="bg-sky-500 mt-4 p-4"
+                    onClick={() => setProfileIsOpen(!profileIsOpen)}
                   >
-                    <div className="fixed inset-0 bg-black bg-opacity-25" />
-                  </Transition.Child>
-
-                  <div className="fixed inset-0 overflow-y-auto">
-                    <div className="flex min-h-full items-center justify-center p-4 text-center">
-                      <Transition.Child
-                        as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0 scale-95"
-                        enterTo="opacity-100 scale-100"
-                        leave="ease-in duration-200"
-                        leaveFrom="opacity-100 scale-100"
-                        leaveTo="opacity-0 scale-95"
-                      >
-                        <Dialog.Panel className="flex flex-col justify-center w-full max-w-md transform overflow-hidden rounded-2xl bg-slate-950 p-6 text-left align-middle shadow-xl transition-all">
-                          <Cropper
-                            src={imageProfile}
-                            crop={onCropProfile}
-                            ref={cropperRefProfile}
-                            initialAspectRatio={1 / 1}
-                            aspectRatio={1 / 1}
-                            movable={false}
-                            rotatable={false}
-                            scalable={false}
-                          />
-                          <button
-                            className="bg-sky-500 mt-4 p-4"
-                            onClick={closeProfileModal}
-                          >
-                            Save
-                          </button>
-                        </Dialog.Panel>
-                      </Transition.Child>
-                    </div>
-                  </div>
-                </Dialog>
-              </Transition>
+                    Save
+                  </button>
+                </DialogContent>
+              </Dialog>
             </>
           )}
 
           {imageBanner && (
             <>
-              <Transition appear show={bannerIsOpen} as={Fragment}>
+              <>
                 <Dialog
-                  as="div"
-                  className="relative z-10"
-                  onClose={closeBannerModal}
+                  onOpenChange={() => setBannerIsOpen(!bannerIsOpen)}
+                  open={bannerIsOpen}
                 >
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <div className="fixed inset-0 bg-black bg-opacity-25" />
-                  </Transition.Child>
-
-                  <div className="fixed inset-0 overflow-y-auto">
-                    <div className="flex min-h-full items-center justify-center p-4 text-center">
-                      <Transition.Child
-                        as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0 scale-95"
-                        enterTo="opacity-100 scale-100"
-                        leave="ease-in duration-200"
-                        leaveFrom="opacity-100 scale-100"
-                        leaveTo="opacity-0 scale-95"
-                      >
-                        <Dialog.Panel className="flex flex-col justify-center w-full max-w-md transform overflow-hidden rounded-2xl bg-slate-950 p-6 text-left align-middle shadow-xl transition-all">
-                          <Cropper
-                            src={imageBanner}
-                            crop={onCropBanner}
-                            ref={cropperRefBanner}
-                            initialAspectRatio={21 / 9}
-                            aspectRatio={21 / 9}
-                            movable={false}
-                            rotatable={false}
-                            scalable={false}
-                          />
-                          <button
-                            className="bg-sky-500 mt-4 p-4"
-                            onClick={closeBannerModal}
-                          >
-                            Save
-                          </button>
-                        </Dialog.Panel>
-                      </Transition.Child>
-                    </div>
-                  </div>
+                  <DialogContent>
+                    <Cropper
+                      src={imageBanner}
+                      crop={onCropBanner}
+                      ref={cropperRefBanner}
+                      initialAspectRatio={21 / 9}
+                      aspectRatio={29 / 9}
+                      movable={false}
+                      rotatable={false}
+                      scalable={false}
+                    />
+                    <button
+                      className="bg-sky-500 mt-4 p-4"
+                      onClick={() => setBannerIsOpen(!bannerIsOpen)}
+                    >
+                      Save
+                    </button>
+                  </DialogContent>
                 </Dialog>
-              </Transition>
+              </>
             </>
           )}
 
@@ -249,7 +184,7 @@ export default function Settings() {
                   <header
                     className={`w-full h-52 bg-cover bg-center cursor-pointer relative`}
                     style={{
-                      backgroundImage: `url(${bannerUrl})`,
+                      backgroundImage: `url('https://cdn.notblizzard.dev/antarctica/banners/${user.banner}.png')})`,
                     }}
                   >
                     <CameraIcon className="w-6 h-6  absolute bottom-0 right-0 bg-slate-950 rounded-full m-4 p-1 border-none" />
@@ -282,7 +217,7 @@ export default function Settings() {
                   ) : (
                     <>
                       <Image
-                        src={`https://cdn.notblizzard.dev/antarctica/avatars/${user.avatar}.png`}
+                        src={`https://cdn.notblizzard.dev/antarctica/avatars/${user.banner}.png`}
                         alt={user.username}
                         width={100}
                         height={100}
