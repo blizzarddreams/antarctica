@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import Post from "../utils/Post";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { PusherClient } from "@/pusher";
-interface User {
+type User = {
   id: number;
   email: string;
   username: string;
@@ -14,9 +14,9 @@ interface User {
   avatar: string;
   banner: string;
   posts: Post[];
-}
+};
 
-interface Post {
+type Post = {
   id: number;
   author: User;
   content: string;
@@ -28,17 +28,17 @@ interface Post {
   replies: Post[];
   reply: Post;
   replyId?: number;
-}
+};
 
-interface Like {
+type Like = {
   author: User;
   post: Post;
-}
+};
 
-interface Repost {
+type Repost = {
   author: User;
   post: Post;
-}
+};
 
 export default function Dashboard() {
   const { data: session } = useSession();

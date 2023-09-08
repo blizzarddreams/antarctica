@@ -2,30 +2,29 @@
 
 import { PusherClient } from "@/pusher";
 import { Dialog, Tab, Transition } from "@headlessui/react";
-import Image from "next/image";
 import { Fragment, useEffect, useState } from "react";
 
-interface Direct {
+type Direct = {
   id: number;
   createdAt: string;
   members: User[];
   messages: DirectMessage[];
-}
+};
 
-interface User {
+type User = {
   id: number;
   username: string;
   directs: Direct[];
   avatar: string;
-}
+};
 
-interface DirectMessage {
+type DirectMessage = {
   id: number;
   createdAt: string;
   user: User;
   content: string;
   direct: Direct;
-}
+};
 
 export default function Direct() {
   const [user, setUser] = useState<User>(null!);

@@ -7,16 +7,15 @@ import { ArrowPathRoundedSquareIcon } from "@heroicons/react/20/solid";
 import { UserPlusIcon } from "@heroicons/react/24/outline";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { NotificationType } from "@prisma/client";
-import { CldImage } from "next-cloudinary";
 
-interface User {
+type User = {
   id: number;
   username: string;
   displayname: string;
   avatar: string;
-}
+};
 
-interface Notification {
+type Notification = {
   id: number;
   type: NotificationType;
   from: User;
@@ -25,7 +24,7 @@ interface Notification {
   post: {
     id: number;
   };
-}
+};
 
 export default function Notification() {
   const [notifications, setNotifications] = useState<Notification[]>([]!);

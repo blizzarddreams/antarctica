@@ -9,7 +9,7 @@ import { notFound } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
 
-interface User {
+type User = {
   id: number;
   username: string;
   description: string;
@@ -22,15 +22,15 @@ interface User {
   reposts: Repost[];
   followers: Follow[];
   following: Follow[];
-}
+};
 
-interface Follow {
+type Follow = {
   id: number;
   follower: User;
   following: User;
-}
+};
 
-interface Post {
+type Post = {
   author: User;
   id: number;
   createdAt: string;
@@ -41,17 +41,17 @@ interface Post {
   replies: Post[];
   reply: Post;
   replyId?: number;
-}
+};
 
-interface Like {
+type Like = {
   author: User;
   post: Post;
-}
+};
 
-interface Repost {
+type Repost = {
   author: User;
   post: Post;
-}
+};
 
 export default function UserPage({ params }: { params: { slug: string } }) {
   const [isFollowing, setIsFollowing] = useState<boolean>(false);

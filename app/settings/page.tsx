@@ -1,21 +1,14 @@
 "use client";
 
-import React, { useState, useEffect, useRef, Fragment } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Cropper, { ReactCropperElement } from "react-cropper";
 import { CameraIcon } from "@heroicons/react/24/outline";
 import "cropperjs/dist/cropper.css";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { CldImage, getCldImageUrl } from "next-cloudinary";
-interface User {
+
+type User = {
   id: number;
   username: string;
   description: string;
@@ -24,7 +17,7 @@ interface User {
   newAvatar: string;
   banner: string;
   newBanner: string;
-}
+};
 
 export default function Settings() {
   const [user, setUser] = useState<User | null>(null);

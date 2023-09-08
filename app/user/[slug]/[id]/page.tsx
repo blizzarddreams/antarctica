@@ -2,7 +2,7 @@ import Post from "@/app/utils/Post";
 import { getCldImageUrl } from "next-cloudinary";
 import { notFound } from "next/navigation";
 
-interface User {
+type User = {
   id: number;
   username: string;
   description: string;
@@ -11,9 +11,9 @@ interface User {
   avatar: string;
   banner: string;
   posts: Post[];
-}
+};
 
-interface Post {
+type Post = {
   author: User;
   id: number;
   createdAt: string;
@@ -26,17 +26,17 @@ interface Post {
   image?: string;
   replies: Post[];
   reply: Post;
-}
+};
 
-interface Like {
+type Like = {
   author: User;
   post: Post;
-}
+};
 
-interface Repost {
+type Repost = {
   author: User;
   post: Post;
-}
+};
 async function getData(id: number) {
   const res = await fetch(`${process.env.NEXTAUTH_URL}/api/post?id=${id}`, {
     method: "GET",

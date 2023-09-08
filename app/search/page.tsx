@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import Post from "../utils/Post";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-interface User {
+type User = {
   id: number;
   username: string;
   description: string;
@@ -16,9 +16,9 @@ interface User {
   posts: Post[];
   likes: Like[];
   reposts: Repost[];
-}
+};
 
-interface Post {
+type Post = {
   author: User;
   id: number;
   createdAt: string;
@@ -28,17 +28,17 @@ interface Post {
   replies: Post[];
   reply: Post;
   replyId?: number;
-}
+};
 
-interface Like {
+type Like = {
   author: User;
   post: Post;
-}
+};
 
-interface Repost {
+type Repost = {
   author: User;
   post: Post;
-}
+};
 
 export default function Search() {
   const searchParams = useSearchParams();

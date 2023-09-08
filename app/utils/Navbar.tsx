@@ -16,7 +16,6 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BsBookmark } from "react-icons/bs";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { CldImage } from "next-cloudinary";
 import EmojiPicker from "emoji-picker-react";
 import { Theme } from "emoji-picker-react";
 import { EmojiStyle } from "emoji-picker-react";
@@ -24,9 +23,7 @@ import { GoSmiley } from "react-icons/go";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DropdownMenuArrow } from "@radix-ui/react-dropdown-menu";
