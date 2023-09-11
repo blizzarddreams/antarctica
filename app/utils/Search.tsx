@@ -7,7 +7,7 @@ import { useState } from "react";
 export default function Search() {
   const router = useRouter();
   const [text, setText] = useState("");
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   const handleSubmit = (e) => {
     if (e.key === "Enter") {
@@ -23,7 +23,7 @@ export default function Search() {
           value={text}
           onKeyDown={handleSubmit}
           onChange={(e) => setText(e.target.value)}
-          className="mt-10 bg-slate-800 border-slate-800 text-white  focus:border-transparent focus:outline-transparent focus:ring-transparent rounded-lg "
+          className="mt-10 w-full bg-slate-800 border-slate-800 text-white  focus:border-transparent focus:outline-transparent focus:ring-transparent rounded-lg "
         ></input>
       )}
     </div>

@@ -25,15 +25,13 @@ export default function RootLayout({
         <body className={inter.className}>
           <div className="hidden lg:block">
             <div className="grid grid-cols-12 gap-4 p-4 flex min-h-screen flex-col justify-center p-24  bg-slate-950">
-              <div className="col-span-1"></div>
               <div className="col-span-2">
                 <Navbar />
               </div>
-              <div className="col-span-6">{children}</div>
+              <div className="col-span-8">{children}</div>
               <div className="col-span-2">
                 <Search />
               </div>
-              <div className="col-span-1"></div>
               <ToastContainer position="bottom-left" />
             </div>
           </div>
