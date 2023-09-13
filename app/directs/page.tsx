@@ -20,7 +20,13 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command";
-import { Fragment, useEffect, useRef, useState } from "react";
+import {
+  Fragment,
+  KeyboardEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Image from "next/image";
@@ -65,7 +71,7 @@ export default function Direct() {
   const [isNewDirectOpen, setIsNewDirectOpen] = useState(false);
   const [usernames, setUsernames] = useState<string[]>([]);
   const [commandValue, setCommandValue] = useState("");
-  const messageEndRef = useRef(null);
+  const messageEndRef = useRef<HTMLDivElement>(null!);
   dayjs.extend(relativeTime);
 
   const {
@@ -97,17 +103,13 @@ export default function Direct() {
   useEffect(() => {
     if (user) {
       const channel = PusherClient.subscribe(`directs-${user.username}`);
-      channel.bind("new message", (data) => {
+      channel.bind("new message", (data: { user: User }) => {
         setUser(data.user);
       });
     }
   }, [user]);
 
-  const classNames = (...classes) => {
-    return classes.filter(Boolean).join(" ");
-  };
-
-  const handleNewDirectSubmit = (e) => {
+  const handleNewDirectSubmit = () => {
     setIsOpen(false);
     fetch("/api/direct", {
       method: "POST",
@@ -122,8 +124,8 @@ export default function Direct() {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [user, currentTab]);
 
-  const handleNewMessage = (e) => {
-    const directId = e.target.getAttribute("data-direct-id");
+  const handleNewMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const directId = (e.target as HTMLElement).getAttribute("data-direct-id");
     if (e.keyCode !== 13) return;
     fetch("/api/direct-message", {
       method: "POST",

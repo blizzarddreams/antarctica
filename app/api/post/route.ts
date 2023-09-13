@@ -45,7 +45,7 @@ export async function GET(request: Request, response: Response) {
 
 export async function POST(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
-  if (session) {
+  if (session?.user?.email) {
     const email = session.user?.email;
     const data = await request.formData();
     const user = await prisma.user.findFirst({
@@ -62,30 +62,32 @@ export async function POST(request: Request, response: Response) {
       let post;
       if (data.get("image")) {
         const image = data.get("image");
-        const arrayBuffer = await (image as Blob).arrayBuffer();
-        const uuid = await upload(arrayBuffer, "uploads");
+        const buffer = Buffer.from(await (image as Blob).arrayBuffer());
+        const uuid = await upload(buffer, "uploads");
         if (data.get("reply")) {
           const postToConnectTo = await prisma.post.findFirst({
             where: {
               id: parseInt(data.get("reply") as string),
             },
           });
-          post = await prisma.post.create({
-            data: {
-              content: data.get("post") as string,
-              image: uuid,
-              author: {
-                connect: {
-                  id: user.id,
+          if (postToConnectTo) {
+            post = await prisma.post.create({
+              data: {
+                content: data.get("post") as string,
+                image: uuid,
+                author: {
+                  connect: {
+                    id: user.id,
+                  },
+                },
+                reply: {
+                  connect: {
+                    id: postToConnectTo.id,
+                  },
                 },
               },
-              reply: {
-                connect: {
-                  id: postToConnectTo.id,
-                },
-              },
-            },
-          });
+            });
+          }
         } else {
           post = await prisma.post.create({
             data: {
@@ -106,21 +108,23 @@ export async function POST(request: Request, response: Response) {
               id: parseInt(data.get("reply") as string),
             },
           });
-          post = await prisma.post.create({
-            data: {
-              content: data.get("post") as string,
-              author: {
-                connect: {
-                  id: user.id,
+          if (postToConnectTo) {
+            post = await prisma.post.create({
+              data: {
+                content: data.get("post") as string,
+                author: {
+                  connect: {
+                    id: user.id,
+                  },
+                },
+                reply: {
+                  connect: {
+                    id: postToConnectTo.id,
+                  },
                 },
               },
-              reply: {
-                connect: {
-                  id: postToConnectTo.id,
-                },
-              },
-            },
-          });
+            });
+          }
         } else {
           post = await prisma.post.create({
             data: {
@@ -134,17 +138,21 @@ export async function POST(request: Request, response: Response) {
           });
         }
       }
-      const post_ = await prisma.post.findFirst({
-        where: {
-          id: post.id,
-        },
-        include: {
-          author: true,
-          likes: true,
-          reposts: true,
-          replies: true,
-        },
-      });
+      let post_: any;
+      if (post) {
+        post_ = await prisma.post.findFirst({
+          where: {
+            id: post.id,
+          },
+          include: {
+            author: true,
+            likes: true,
+            reposts: true,
+            replies: true,
+          },
+        });
+      }
+
       PusherServer.trigger(`profile-${user.username}`, "new message", {
         post: post_,
       });
@@ -192,26 +200,32 @@ export async function DELETE(request: Request, response: Response) {
           },
         },
       });
-      await prisma.post.delete({ where: { id: post.id } });
-      await redis.del(`post-${post.id}`);
-      PusherServer.trigger(
-        `profile-${post.author.username}`,
-        "delete message",
-        {
-          post: post,
-        },
-      );
-      post.author.followers.forEach((follower) => {
-        const email_ = follower.follower.email;
-        PusherServer.trigger(`dashboard-${email_}`, "delete message", {
-          post: post,
+      if (post) {
+        await prisma.post.delete({ where: { id: post.id } });
+        await redis.del(`post-${post.id}`);
+        PusherServer.trigger(
+          `profile-${post.author.username}`,
+          "delete message",
+          {
+            post: post,
+          },
+        );
+        post.author.followers.forEach((follower) => {
+          const email_ = follower.follower.email;
+          PusherServer.trigger(`dashboard-${email_}`, "delete message", {
+            post: post,
+          });
         });
-      });
-      // send to self
-      PusherServer.trigger(`dashboard-${post.author.email}`, "delete message", {
-        post: post,
-      });
-      return NextResponse.json({ post });
+        // send to self
+        PusherServer.trigger(
+          `dashboard-${post.author.email}`,
+          "delete message",
+          {
+            post: post,
+          },
+        );
+        return NextResponse.json({ post });
+      }
     }
   }
 }

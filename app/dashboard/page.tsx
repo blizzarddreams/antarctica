@@ -65,10 +65,10 @@ export default function Dashboard() {
   useEffect(() => {
     if (session?.user?.email) {
       const channel = PusherClient.subscribe(`dashboard-${session.user.email}`);
-      channel.bind("new message", (data) => {
+      channel.bind("new message", (data: { post: Post }) => {
         setPosts([...[data.post].concat(posts)]);
       });
-      channel.bind("delete message", (data) => {
+      channel.bind("delete message", (data: { post: Post }) => {
         setPosts([...posts.filter((post) => post.id !== data.post.id)]);
       });
     }

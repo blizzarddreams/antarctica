@@ -41,7 +41,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [preview, setPreview] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState<File | string>("");
   const { data: session } = useSession();
   const [post, setPost] = useState("");
   const notify = () => toast.success("Post made!", { theme: "dark" });
@@ -56,9 +56,11 @@ export default function Navbar() {
     }
   }, [session]);
 
-  const handleImageChange = (e) => {
-    setPreview(URL.createObjectURL(e.target.files[0]));
-    setImage(e.target.files[0]);
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setPreview(URL.createObjectURL(e.target.files[0]));
+      setImage(e.target.files[0]);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -91,7 +93,7 @@ export default function Navbar() {
     setIsOpen(true);
   };
 
-  const handleEmojiClick = (emojiObject, e) => {
+  const handleEmojiClick = (emojiObject: { emoji: string }) => {
     setPost((post) => post + emojiObject.emoji);
   };
 

@@ -81,7 +81,7 @@ export default function Post({ post }: { post: Post }) {
   const [isOpenReply, setIsOpenReply] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [preview, setPreview] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState<File | string>("");
   const [text, setText] = useState("");
 
   // check if liked, reposted, and bookmarked
@@ -105,9 +105,11 @@ export default function Post({ post }: { post: Post }) {
     }
   }, [session, post.id]);
 
-  const handleImageChange = (e) => {
-    setPreview(URL.createObjectURL(e.target.files[0]));
-    setImage(e.target.files[0]);
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setPreview(URL.createObjectURL(e.target.files[0]));
+      setImage(e.target.files[0]);
+    }
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -188,13 +190,13 @@ export default function Post({ post }: { post: Post }) {
       .then((data) => setReposted(data.reposted));
   };
 
-  const stopLink = (e) => {
+  const stopLink = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (
-      e.target.tagName === "svg" ||
-      e.target.tagName === "path" ||
-      e.target.tagName === "BUTTON" ||
-      e.target.tagName === "SPAN" ||
-      e.target.tagName === "IMG"
+      e.currentTarget.tagName === "svg" ||
+      e.currentTarget.tagName === "path" ||
+      e.currentTarget.tagName === "BUTTON" ||
+      e.currentTarget.tagName === "SPAN" ||
+      e.currentTarget.tagName === "IMG"
     ) {
       e.preventDefault();
     }

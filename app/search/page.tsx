@@ -43,7 +43,7 @@ type Repost = {
 export default function Search() {
   const searchParams = useSearchParams();
   const [posts, setPosts] = useState<Post[]>(null!);
-  const search = searchParams.get("params").replace("#", "%23");
+  const search = searchParams.get("params")!.replace("#", "%23");
 
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState<boolean>(true);

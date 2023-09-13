@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import DiscordProvider from "next-auth/providers/discord";
@@ -27,8 +29,6 @@ export const OPTIONS = {
           create: {
             email: profile.email,
             username: profile.login,
-            avatar: "avatars/djvyrffxxuilpwiisdlr",
-            banner: "avatars/djvyrffxxuilpwiisdlr",
           },
         });
       }
