@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { OPTIONS } from "../auth/[...nextauth]/route";
 import prisma from "@/prisma";
 import upload from "@/upload";
-
+import { zfd } from "zod-form-data";
 export async function GET(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
   if (session) {
@@ -22,19 +22,31 @@ export async function GET(request: Request, response: Response) {
   }
 }
 
-export async function POST(request: Request, response: Response) {
+export async function POST(request: Request) {
   const session = await getServerSession(OPTIONS);
   if (session) {
     const email = session.user?.email;
     if (email) {
-      const data = await request.formData();
+      const schema = zfd.formData({
+        username: zfd.text(),
+        description: zfd.text(),
+        displayname: zfd.text(),
+        avatar: zfd.text().optional(),
+        banner: zfd.text().optional(),
+      });
+      const response = schema.safeParse(request.body);
+      if (!response.success) {
+        return NextResponse.json({ error: true });
+      }
+      const { username, description, displayname } = response.data;
       let dataToSave = {
-        username: data.get("username") as string,
-        description: data.get("description") as string,
-        displayname: data.get("displayname") as string,
+        username,
+        description,
+        displayname,
       };
-      if (data.get("avatar")) {
-        const avatar = data.get("avatar") as string;
+      if (response.data.avatar) {
+        const { avatar } = response.data;
+
         const buffer = Buffer.from(
           avatar.replace(/^data:image\/\w+;base64,/, ""),
           "base64",
@@ -43,8 +55,8 @@ export async function POST(request: Request, response: Response) {
 
         (dataToSave as any).avatar = uuid;
       }
-      if (data.get("banner")) {
-        const banner = data.get("banner") as string;
+      if (response.data.banner) {
+        const { banner } = response.data;
         const buffer = Buffer.from(
           banner.replace(/^data:image\/\w+;base64,/, ""),
           "base64",

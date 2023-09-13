@@ -3,13 +3,20 @@ import { OPTIONS } from "../auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
 import { PusherServer } from "@/pusher";
 import prisma from "@/prisma";
+import { z } from "zod";
 
-export async function POST(request: Request, response: Response) {
+export async function POST(request: Request) {
   const session = await getServerSession(OPTIONS);
   if (session?.user?.email) {
-    const data = await request.json();
-    const directId = data.directId;
-    const newMessage = data.message;
+    const schema = z.object({
+      directId: z.string(),
+      message: z.string(),
+    });
+    const response = schema.safeParse(request.body);
+    if (!response.success) {
+      return NextResponse.json({ error: true });
+    }
+    const { directId, message: newMessage } = response.data;
 
     const user = await prisma.user.findFirst({
       where: { email: session.user.email },

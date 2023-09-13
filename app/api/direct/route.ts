@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { OPTIONS } from "../auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
 import prisma from "@/prisma";
+import { z } from "zod";
 
 export async function GET(request: Request, response: Response) {
   const session = await getServerSession(OPTIONS);
@@ -27,11 +28,17 @@ export async function GET(request: Request, response: Response) {
   }
 }
 
-export async function POST(request: Request, response: Response) {
+export async function POST(request: Request) {
   const session = await getServerSession(OPTIONS);
   if (session?.user?.email) {
-    const data = await request.json();
-
+    const schema = z.object({
+      username: z.string(),
+    });
+    const response = schema.safeParse(schema);
+    if (!response.success) {
+      return NextResponse.json({ error: true });
+    }
+    const { username } = response.data;
     const userCreatingDirect = await prisma.user.findFirst({
       where: {
         email: session.user.email,
@@ -39,7 +46,7 @@ export async function POST(request: Request, response: Response) {
     });
     const userBeingDirectedAt = await prisma.user.findFirst({
       where: {
-        username: data.username,
+        username: username,
       },
     });
 

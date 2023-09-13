@@ -5,6 +5,8 @@ import { PusherServer } from "@/pusher";
 import prisma from "@/prisma";
 import upload from "@/upload";
 import redis from "@/redis";
+import { zfd } from "zod-form-data";
+import { z } from "zod";
 
 export async function GET(request: Request, response: Response) {
   const { searchParams } = new URL(request.url);
@@ -43,10 +45,22 @@ export async function GET(request: Request, response: Response) {
   }
 }
 
-export async function POST(request: Request, response: Response) {
+export async function POST(request: Request) {
   const session = await getServerSession(OPTIONS);
   if (session?.user?.email) {
     const email = session.user?.email;
+    const schema = zfd.formData({
+      reply: zfd.text(),
+      post: zfd.text(),
+      image: zfd.file(),
+    });
+    const response = schema.safeParse(schema);
+    if (!response.success) {
+      return NextResponse.json({ error: "error" });
+    }
+
+    const { reply, post, image } = response.data;
+
     const data = await request.formData();
     const user = await prisma.user.findFirst({
       where: { email },
@@ -60,20 +74,19 @@ export async function POST(request: Request, response: Response) {
     });
     if (user) {
       let post;
-      if (data.get("image")) {
-        const image = data.get("image");
+      if (image) {
         const buffer = Buffer.from(await (image as Blob).arrayBuffer());
         const uuid = await upload(buffer, "uploads");
-        if (data.get("reply")) {
+        if (reply) {
           const postToConnectTo = await prisma.post.findFirst({
             where: {
-              id: parseInt(data.get("reply") as string),
+              id: parseInt(reply),
             },
           });
           if (postToConnectTo) {
             post = await prisma.post.create({
               data: {
-                content: data.get("post") as string,
+                content: post,
                 image: uuid,
                 author: {
                   connect: {
@@ -91,7 +104,7 @@ export async function POST(request: Request, response: Response) {
         } else {
           post = await prisma.post.create({
             data: {
-              content: data.get("post") as string,
+              content: post,
               image: uuid,
               author: {
                 connect: {
@@ -102,16 +115,16 @@ export async function POST(request: Request, response: Response) {
           });
         }
       } else {
-        if (data.get("reply")) {
+        if (reply) {
           const postToConnectTo = await prisma.post.findFirst({
             where: {
-              id: parseInt(data.get("reply") as string),
+              id: parseInt(reply),
             },
           });
           if (postToConnectTo) {
             post = await prisma.post.create({
               data: {
-                content: data.get("post") as string,
+                content: post,
                 author: {
                   connect: {
                     id: user.id,
@@ -128,7 +141,7 @@ export async function POST(request: Request, response: Response) {
         } else {
           post = await prisma.post.create({
             data: {
-              content: data.get("post") as string,
+              content: post,
               author: {
                 connect: {
                   id: user.id,
@@ -175,18 +188,26 @@ export async function POST(request: Request, response: Response) {
   }
 }
 
-export async function DELETE(request: Request, response: Response) {
+export async function DELETE(request: Request) {
   const session = await getServerSession(OPTIONS);
   const data = await request.json();
   if (session) {
     const email = session.user?.email;
+    const schema = z.object({
+      id: z.number(),
+    });
+    const response = schema.safeParse(data);
+    if (!response.success) {
+      return NextResponse.json({ error: "error" });
+    }
+    const { id } = response.data;
     if (email) {
       const post = await prisma.post.findFirst({
         where: {
           author: {
             email: email,
           },
-          id: data.id,
+          id,
         },
         include: {
           author: {
