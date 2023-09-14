@@ -29,8 +29,8 @@ export async function POST(request: Request) {
     if (email) {
       const schema = zfd.formData({
         username: zfd.text(),
-        description: zfd.text().optional().nullable(),
-        displayname: zfd.text().optional().nullable(),
+        description: zfd.text(),
+        displayname: zfd.text(),
         avatar: zfd.text().optional().nullable(),
         banner: zfd.text().optional().nullable(),
       });
