@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     const schema = z.object({
       username: z.string(),
     });
-    const response = schema.safeParse(schema);
+    const response = schema.safeParse(await request.json());
     if (!response.success) {
       return NextResponse.json({ error: true });
     }

@@ -29,14 +29,15 @@ export async function POST(request: Request) {
     if (email) {
       const schema = zfd.formData({
         username: zfd.text(),
-        description: zfd.text(),
-        displayname: zfd.text(),
-        avatar: zfd.text().optional(),
-        banner: zfd.text().optional(),
+        description: zfd.text().optional().nullable(),
+        displayname: zfd.text().optional().nullable(),
+        avatar: zfd.text().optional().nullable(),
+        banner: zfd.text().optional().nullable(),
       });
-      const response = schema.safeParse(request.body);
+      const response = schema.safeParse(await request.formData());
       if (!response.success) {
-        return NextResponse.json({ error: true });
+        const { error } = response;
+        return NextResponse.json({ error });
       }
       const { username, description, displayname } = response.data;
       let dataToSave = {

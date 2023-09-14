@@ -54,7 +54,7 @@ export async function POST(request: Request) {
       post: zfd.text(),
       image: zfd.file(),
     });
-    const response = schema.safeParse(schema);
+    const response = schema.safeParse(await request.formData());
     if (!response.success) {
       return NextResponse.json({ error: "error" });
     }
@@ -190,13 +190,12 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   const session = await getServerSession(OPTIONS);
-  const data = await request.json();
   if (session) {
     const email = session.user?.email;
     const schema = z.object({
       id: z.number(),
     });
-    const response = schema.safeParse(data);
+    const response = schema.safeParse(await request.json());
     if (!response.success) {
       return NextResponse.json({ error: "error" });
     }
