@@ -287,7 +287,7 @@ export default function Navbar() {
           </>
         )}
       </div>
-      <div className="sticky inset-0 flex w-full flex-row p-4 md:hidden ">
+      <div className="absolute  bottom-0 flex w-full flex-row p-4 md:hidden ">
         {user && (
           <>
             <Sheet>
