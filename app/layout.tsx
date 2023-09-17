@@ -23,8 +23,8 @@ export default function RootLayout({
     <html lang="en">
       <AuthContext>
         <body className={inter.className}>
-          <div className="hidden lg:block">
-            <div className="grid grid-cols-12 gap-4 p-4 flex min-h-screen flex-col justify-center p-24  bg-slate-950">
+          <div className="hidden md:block">
+            <div className="flex grid min-h-screen grid-cols-12 flex-col justify-center gap-4 bg-slate-950 p-24  p-4">
               <div className="col-span-2">
                 <Navbar />
               </div>
@@ -34,6 +34,11 @@ export default function RootLayout({
               </div>
               <ToastContainer position="bottom-left" />
             </div>
+          </div>
+          <div className="relative h-screen md:hidden">
+            {children}
+            <Navbar />
+            <ToastContainer position="bottom-left" />
           </div>
         </body>
       </AuthContext>
