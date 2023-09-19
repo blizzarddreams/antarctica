@@ -24,7 +24,7 @@ export default function RootLayout({
       <AuthContext>
         <body className={inter.className}>
           <div className="hidden md:block">
-            <div className="flex grid min-h-screen grid-cols-12 flex-col justify-center gap-4 bg-slate-950 p-24  p-4">
+            <div className="grid min-h-screen grid-cols-12 flex-col justify-center bg-slate-950">
               <div className="col-span-2">
                 <Navbar />
               </div>
