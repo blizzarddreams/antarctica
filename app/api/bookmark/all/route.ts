@@ -1,9 +1,9 @@
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "../../auth/[...nextauth]/route";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma";
 
-export async function GET(request: Request, response: Response) {
+export async function GET(request: NextRequest) {
   const session = await getServerSession(OPTIONS);
 
   const { searchParams } = new URL(request.url);
