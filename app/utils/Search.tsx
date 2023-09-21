@@ -23,7 +23,7 @@ export default function Search() {
           value={text}
           onKeyDown={handleSubmit}
           onChange={(e) => setText(e.target.value)}
-          className="mt-10 w-full bg-slate-800 border-slate-800 text-white  focus:border-transparent focus:outline-transparent focus:ring-transparent rounded-lg "
+          className="mt-10 w-full rounded-lg border-slate-800 bg-slate-200 text-white  focus:border-transparent focus:outline-transparent focus:ring-transparent dark:bg-slate-800 "
         ></input>
       )}
     </div>

@@ -137,8 +137,8 @@ export default function Direct() {
   };
 
   return (
-    <div className="flex justify-center flex-col">
-      <p className="font-bold text-4xl">Directs</p>
+    <div className="flex flex-col justify-center">
+      <p className="text-4xl font-bold text-black dark:text-white">Directs</p>
       <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
         <DialogContent>
           <input
@@ -148,7 +148,7 @@ export default function Direct() {
             className="text-white"
           />
           <button
-            className="bg-sky-500 mt-4 p-4"
+            className="mt-4 bg-sky-500 p-4"
             onClick={handleNewDirectSubmit}
           >
             Message
@@ -164,7 +164,12 @@ export default function Direct() {
           onValueChange={(e) => setCurrentTab(e)}
         >
           <TabsList className=" mt-4 flex min-h-full flex-col justify-start bg-transparent">
-            <button onClick={handleNewDirectOpen}>New Message</button>
+            <button
+              onClick={handleNewDirectOpen}
+              className="text-black dark:text-white"
+            >
+              New Message
+            </button>
             <div className="flex w-full flex-row justify-between px-3">
               <div className="flex flex-row items-center">
                 <Dialog
@@ -173,7 +178,9 @@ export default function Direct() {
                 >
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle>New Message</DialogTitle>
+                      <DialogTitle className="text-black dark:text-white">
+                        New Message
+                      </DialogTitle>
                       <DialogDescription>
                         <form
                           onSubmit={handleSubmit(handleNewDirectSubmit)}
@@ -236,7 +243,7 @@ export default function Direct() {
                     width={60}
                   />
                   <div className="flex flex-col items-start justify-start">
-                    <p>
+                    <p className="text-black dark:text-white">
                       {
                         direct.members.filter(
                           (member) => member.username !== user.username,

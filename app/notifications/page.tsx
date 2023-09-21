@@ -58,7 +58,7 @@ export default function Notification() {
             <div className="col-span-11 flex flex-row items-center">
               <Link
                 href={`/@${notification.from.username}`}
-                className="flex flex-row justify-center items-center"
+                className="flex flex-row items-center justify-center"
               >
                 <Image
                   src={`https://cdn.notblizzard.dev/antarctica/avatars/${notification.from.avatar}.png`}
@@ -82,7 +82,7 @@ export default function Notification() {
             <div className="col-span-11 flex flex-row items-center">
               <Link
                 href={`/@${notification.from.username}`}
-                className="flex flex-row justify-center items-center"
+                className="flex flex-row items-center justify-center"
               >
                 <Image
                   src={notification.from.avatar}
@@ -111,7 +111,7 @@ export default function Notification() {
             <div className="col-span-11 flex flex-row items-center">
               <Link
                 href={`/@${notification.from.username}`}
-                className="flex flex-row justify-center items-center"
+                className="flex flex-row items-center justify-center"
               >
                 <Image
                   src={notification.from.avatar}
@@ -138,8 +138,8 @@ export default function Notification() {
     <div>
       {notifications.length > 0 && (
         <div>
-          <p className="font-bold text-4xl">Notifications</p>
-          <div className="divide-y">
+          <p className="text-4xl font-bold">Notifications</p>
+          <div className="divide-y text-black dark:text-white">
             <InfiniteScroll
               dataLength={notifications.length}
               next={getData}

@@ -212,22 +212,22 @@ export default function Post({ post }: { post: Post }) {
         <Link
           href={`/@${post.author.username}/${post.id}`}
           onClick={stopLink}
-          className="border border-slate-800 p-8 flex flex-col items-center"
+          className="flex flex-col items-center border  border-slate-800 p-8 text-black dark:text-white"
         >
-          <div className="h-full w-full items-center grid grid-cols-12">
-            <div className="flex flex-col col-span-1 justify-center items-center">
+          <div className="grid h-full w-full grid-cols-12 items-center">
+            <div className="col-span-1 flex flex-col items-center justify-center">
               <Image
-                className="rounded-full mr-4"
+                className="mr-4 rounded-full"
                 src={`https://cdn.notblizzard.dev/antarctica/avatars/${post.author.avatar}.png`}
                 alt={post.author.username}
                 width={50}
                 height={50}
               />
             </div>
-            <div className="flex flex-col col-span-11">
+            <div className="col-span-11 flex flex-col">
               {post.isRepost && (
-                <div className="flex flex-row w-full">
-                  <p className="text-emerald-400 text-xs">
+                <div className="flex w-full flex-row">
+                  <p className="text-xs text-emerald-400">
                     Reposted by{" "}
                     <Link href={`/@${post.repostAuthor?.username}`}>
                       {post.repostAuthor?.username}
@@ -237,7 +237,7 @@ export default function Post({ post }: { post: Post }) {
               )}
 
               <div className="flex flex-row items-center">
-                <div className="flex justify-between w-full items-center">
+                <div className="flex w-full items-center justify-between">
                   <div>
                     <HoverCard>
                       <HoverCardTrigger className="flex flex-row items-center">
@@ -250,17 +250,17 @@ export default function Post({ post }: { post: Post }) {
                               ? post.author.displayname
                               : post.author.username}
                           </p>{" "}
-                          <p className="mr-2 text-zinc-400 text-sm">
+                          <p className="mr-2 text-sm text-zinc-400">
                             {" "}
                             @{post.author.username}
                           </p>
                         </Link>
                         {post.isRepost ? (
-                          <p className="text-zinc-300 text-sm">
+                          <p className="text-sm text-zinc-300">
                             {dayjs().to(dayjs(new Date(post.postCreatedAt!)))}
                           </p>
                         ) : (
-                          <p className="text-emerald-400 text-sm">
+                          <p className="text-sm text-emerald-400">
                             {dayjs().to(dayjs(new Date(post.createdAt!)))}
                           </p>
                         )}
@@ -270,7 +270,7 @@ export default function Post({ post }: { post: Post }) {
                         <div className="flex flex-col">
                           <div className="flex flex-row">
                             <Image
-                              className="rounded-full mr-4"
+                              className="mr-4 rounded-full"
                               src={`https://cdn.notblizzard.dev/antarctica/avatars/${post.author.avatar}.png`}
                               alt={post.author.username}
                               width={50}
@@ -282,7 +282,7 @@ export default function Post({ post }: { post: Post }) {
                                   ? post.author.displayname
                                   : post.author.username}
                               </p>{" "}
-                              <p className="mr-2 text-zinc-400 text-sm">
+                              <p className="mr-2 text-sm text-zinc-400">
                                 {" "}
                                 @{post.author.username}
                               </p>
@@ -296,9 +296,9 @@ export default function Post({ post }: { post: Post }) {
                       </HoverCardContent>
                     </HoverCard>
                     {post.replyId && post.reply && (
-                      <div className="mr-2 text-zinc-400 text-sm flex flex-row">
+                      <div className="mr-2 flex flex-row text-sm text-zinc-400">
                         {" "}
-                        <BsFillReplyAllFill className="h-5 w-5 mx-1" />
+                        <BsFillReplyAllFill className="mx-1 h-5 w-5" />
                         Reply to{" "}
                         <Link href={`/@${post.reply.author.username}`}>
                           {` ${post.reply.author.username}`}
@@ -313,7 +313,7 @@ export default function Post({ post }: { post: Post }) {
                     <DropdownMenu>
                       <DropdownMenuTrigger>
                         <BiDotsHorizontalRounded
-                          className="w-4 h-4 text-zinc-300"
+                          className="h-4 w-4 text-zinc-300"
                           id="dropdownMenu"
                         />
                       </DropdownMenuTrigger>
@@ -328,14 +328,14 @@ export default function Post({ post }: { post: Post }) {
                               <>
                                 {bookmarked ? (
                                   <>
-                                    <BsFillBookmarkDashFill className="h-4 w-4 mr-2 text-white" />
+                                    <BsFillBookmarkDashFill className="mr-2 h-4 w-4 text-white" />
                                     <span className="text-white">
                                       Unbookmark Post
                                     </span>
                                   </>
                                 ) : (
                                   <>
-                                    <BsFillBookmarkPlusFill className="h-4 w-4 mr-2 text-white" />
+                                    <BsFillBookmarkPlusFill className="mr-2 h-4 w-4 text-white" />
                                     <span className="text-white">
                                       Bookmark Post
                                     </span>
@@ -350,7 +350,7 @@ export default function Post({ post }: { post: Post }) {
                               <>
                                 <DialogTrigger>
                                   <div className="flex flex-row items-center">
-                                    <FaTrash className="h-4 w-4 mr-2 text-white" />
+                                    <FaTrash className="mr-2 h-4 w-4 text-white" />
                                     <span className="text-white">
                                       Delete Post
                                     </span>
@@ -360,7 +360,7 @@ export default function Post({ post }: { post: Post }) {
                                   Are you sure you want to delete this?
                                   <button
                                     onClick={handleDelete}
-                                    className="bg-rose-400 p-4 rounded-xl"
+                                    className="rounded-xl bg-rose-400 p-4"
                                     type="button"
                                   >
                                     Yes
@@ -371,10 +371,10 @@ export default function Post({ post }: { post: Post }) {
                         </DropdownMenuItem>
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                           <div
-                            className="flex flex-row items-center cursor-pointer"
+                            className="flex cursor-pointer flex-row items-center"
                             onClick={copyLink}
                           >
-                            <AiOutlineLink className="h-4 w-4 mr-2 text-white" />
+                            <AiOutlineLink className="mr-2 h-4 w-4 text-white" />
                             Save Link
                           </div>
                         </DropdownMenuItem>
@@ -414,7 +414,7 @@ export default function Post({ post }: { post: Post }) {
               <div className="flex flex-row">
                 {session && (
                   <>
-                    <div className="flex flex-row items-center mx-4">
+                    <div className="mx-4 flex flex-row items-center">
                       {liked ? (
                         <StarIconSolid
                           onClick={toggleLike}
@@ -428,7 +428,7 @@ export default function Post({ post }: { post: Post }) {
                       )}
                       <p>{post.likes.length}</p>
                     </div>
-                    <div className="flex flex-row items-center mx-4">
+                    <div className="mx-4 flex flex-row items-center">
                       {reposted ? (
                         <ArrowPathRoundedSquareIcon
                           onClick={toggleRepost}
@@ -448,7 +448,7 @@ export default function Post({ post }: { post: Post }) {
                     >
                       <DialogTrigger className="w-full">
                         <div onClick={(e) => setIsOpenReply(!isOpenReply)}>
-                          <BsFillReplyAllFill className="h-5 w-5 mx-4" />
+                          <BsFillReplyAllFill className="mx-4 h-5 w-5" />
                         </div>
                       </DialogTrigger>
                       <DialogContent className="bg-slate-950">
@@ -460,15 +460,15 @@ export default function Post({ post }: { post: Post }) {
                             value={text}
                             onChange={handleTextChange}
                             placeholder="What is happening? reply"
-                            className="resize-none w-full border-none focus:border-none bg-slate-800 text-white outline-none focus:outline-none focus:ring-0"
+                            className="w-full resize-none border-none bg-slate-800 text-white outline-none focus:border-none focus:outline-none focus:ring-0"
                           />
                         </div>
 
-                        <div className="mt-4 flex flex-col w-full justify-center items-center">
+                        <div className="mt-4 flex w-full flex-col items-center justify-center">
                           {text.replaceAll(" ", "").length === 0 ? (
                             <button
                               type="button"
-                              className=" bg-slate-800/70 p-4 my-1 w-full m-4"
+                              className=" m-4 my-1 w-full bg-slate-800/70 p-4"
                               onClick={makePost}
                               disabled
                             >
@@ -477,7 +477,7 @@ export default function Post({ post }: { post: Post }) {
                           ) : (
                             <button
                               type="button"
-                              className=" bg-slate-800 p-4 my-1 w-full m-4"
+                              className=" m-4 my-1 w-full bg-slate-800 p-4"
                               onClick={makePost}
                             >
                               Post
@@ -503,7 +503,7 @@ export default function Post({ post }: { post: Post }) {
                             id="image"
                             accept="image/png, image/jpeg, image/jpg"
                             onChange={handleImageChange}
-                            className="hidden file:bg-gray-800 file:text-white file:border file:border-none w-full border border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-700"
+                            className="hidden w-full cursor-pointer border border-gray-700 bg-gray-50 file:border file:border-none file:bg-gray-800 file:text-white dark:bg-gray-700"
                           />
                           {preview && (
                             <Image

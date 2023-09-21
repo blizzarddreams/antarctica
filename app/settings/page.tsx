@@ -7,6 +7,9 @@ import "cropperjs/dist/cropper.css";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 type User = {
   id: number;
@@ -122,7 +125,7 @@ export default function Settings() {
                     scalable={false}
                   />
                   <button
-                    className="bg-sky-500 mt-4 p-4"
+                    className="mt-4 bg-sky-200 p-4 dark:bg-sky-500"
                     onClick={() => setProfileIsOpen(!profileIsOpen)}
                   >
                     Save
@@ -151,7 +154,7 @@ export default function Settings() {
                       scalable={false}
                     />
                     <button
-                      className="bg-sky-500 mt-4 p-4"
+                      className="mt-4  bg-sky-200 p-4 dark:bg-sky-500"
                       onClick={() => setBannerIsOpen(!bannerIsOpen)}
                     >
                       Save
@@ -167,19 +170,19 @@ export default function Settings() {
               <label htmlFor="banner">
                 {cropperBanner && !bannerIsOpen ? (
                   <header
-                    className={`w-full h-52 bg-cover bg-center cursor-pointer relative`}
+                    className={`relative h-52 w-full cursor-pointer bg-cover bg-center`}
                     style={{ backgroundImage: `url(${cropperBanner})` }}
                   >
-                    <CameraIcon className="w-6 h-6  absolute bottom-0 right-0 bg-slate-950 rounded-full m-4 p-1 border-none" />
+                    <CameraIcon className="absolute bottom-0  right-0 m-4 h-6 w-6 rounded-full border-none bg-slate-950 p-1" />
                   </header>
                 ) : (
                   <header
-                    className={`w-full h-52 bg-cover bg-center cursor-pointer relative`}
+                    className={`relative h-52 w-full cursor-pointer bg-cover bg-center`}
                     style={{
                       backgroundImage: `url('https://cdn.notblizzard.dev/antarctica/banners/${user.banner}.png')})`,
                     }}
                   >
-                    <CameraIcon className="w-6 h-6  absolute bottom-0 right-0 bg-slate-950 rounded-full m-4 p-1 border-none" />
+                    <CameraIcon className="absolute bottom-0  right-0 m-4 h-6 w-6 rounded-full border-none bg-slate-950 p-1" />
                   </header>
                 )}
               </label>
@@ -189,9 +192,9 @@ export default function Settings() {
                 id="banner"
                 accept="image/png, image/jpeg, image/jpg"
                 onChange={handleBannerChange}
-                className="hidden file:bg-gray-800 file:text-white file:border file:border-none w-full border border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-700"
+                className="hidden w-full cursor-pointer border border-gray-700 bg-gray-50 file:border file:border-none file:bg-gray-800 file:text-white dark:bg-gray-700"
               />
-              <div className="my-10 flex flex-row items-center w-100">
+              <div className="w-100 my-10 flex flex-row items-center">
                 <label htmlFor="profile">
                   {cropperProfile && !profileIsOpen ? (
                     <>
@@ -200,10 +203,10 @@ export default function Settings() {
                         alt="a"
                         width={100}
                         height={100}
-                        className="m-2 border-slate-950 absolute top-40 rounded-full border-solid border-2 cursor-pointer"
+                        className="absolute top-40 m-2 cursor-pointer rounded-full border-2 border-solid border-slate-950"
                       />
                       <div className="relative">
-                        <CameraIcon className="w-6 h-6 -top-10 absolute bg-slate-950 rounded-full m-4 p-1 border-none" />
+                        <CameraIcon className="absolute -top-10 m-4 h-6 w-6 rounded-full border-none bg-slate-950 p-1" />
                       </div>
                     </>
                   ) : (
@@ -213,10 +216,10 @@ export default function Settings() {
                         alt={user.username}
                         width={100}
                         height={100}
-                        className="m-2 border-slate-950 absolute top-40 rounded-full border-solid border-2 cursor-pointer"
+                        className="absolute top-40 m-2 cursor-pointer rounded-full border-2 border-solid border-slate-950"
                       />
                       <div className="relative">
-                        <CameraIcon className="w-6 h-6 -top-10 absolute bg-slate-950 rounded-full m-4 p-1 border-none" />
+                        <CameraIcon className="absolute -top-10 m-4 h-6 w-6 rounded-full border-none bg-slate-950 p-1" />
                       </div>
                     </>
                   )}
@@ -227,48 +230,57 @@ export default function Settings() {
                   name="profile"
                   accept="image/png, image/jpeg, image/jpg"
                   onChange={handleProfileChange}
-                  className="file:bg-gray-800 hidden file:text-white file:border file:border-none block w-full border border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-700"
+                  className="hidden w-full cursor-pointer border border-gray-700 bg-gray-50 file:border file:border-none file:bg-gray-800 file:text-white dark:bg-gray-700"
                 />
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="username" className="mt-4">
+                <Label
+                  htmlFor="username"
+                  className="mt-4 text-black dark:text-white"
+                >
                   Username
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   id="username"
                   name="username"
                   required
                   onChange={handleChange}
                   value={user.username}
-                  className="bg-slate-800 border-slate-800 text-white  focus:border-transparent focus:outline-transparent focus:ring-transparent"
+                  className="border-slate-800 bg-slate-400 text-black focus:border-transparent focus:outline-transparent  focus:ring-transparent dark:bg-slate-800 dark:text-white"
                 />
                 {error && <p className="text-rose-400">{error}</p>}
-                <label htmlFor="description" className="mt-4">
+                <Label
+                  htmlFor="description"
+                  className="mt-4 text-black dark:text-white"
+                >
                   Display Name
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   id="displayname"
                   name="displayname"
                   onChange={handleChange}
                   value={user.displayname}
-                  className="bg-slate-800 border-slate-800 text-white  focus:border-transparent focus:outline-transparent focus:ring-transparent"
+                  className="border-slate-800 bg-slate-400 text-black focus:border-transparent focus:outline-transparent  focus:ring-transparent dark:bg-slate-800 dark:text-white"
                 />
 
-                <label htmlFor="description" className="mt-4">
+                <Label
+                  htmlFor="description"
+                  className="mt-4 text-black dark:text-white"
+                >
                   Description
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   id="description"
                   name="description"
                   onChange={handleChange}
                   value={user.description}
-                  className="bg-slate-800 border-slate-800 text-white  focus:border-transparent focus:outline-transparent focus:ring-transparent"
+                  className="border-slate-800 bg-slate-400 text-black focus:border-transparent focus:outline-transparent  focus:ring-transparent dark:bg-slate-800 dark:text-white"
                 />
 
-                <button type="submit" className=" bg-slate-800 p-4 my-1">
+                <button type="submit" className=" my-1 bg-slate-800 p-4">
                   Save
                 </button>
               </div>

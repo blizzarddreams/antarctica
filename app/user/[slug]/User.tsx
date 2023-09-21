@@ -137,27 +137,27 @@ export default function UserPage({ params }: { params: { slug: string } }) {
         <div>
           <div className="flex flex-col">
             <header
-              className={`w-full h-32 md:h-52 bg-cover bg-center `}
+              className={`h-32 w-full bg-cover bg-center md:h-52 `}
               style={{
                 backgroundImage: `url('https://cdn.notblizzard.dev/antarctica/banners/${user.banner}.png')`,
               }}
             ></header>
-            <div className="my-1 flex flex-row items-center w-100">
+            <div className="w-100 my-1 flex flex-row items-center">
               <Image
                 src={`https://cdn.notblizzard.dev/antarctica/avatars/${user.avatar}.png`}
                 alt={user.username}
                 width={100}
                 height={100}
-                className="m-2 border-slate-950 absolute top-20 md:top-40 rounded-full border-solid border-2"
+                className="absolute top-20 m-2 rounded-full border-2 border-solid border-slate-950 md:top-40"
               />
-              <div className="flex w-full my-20 md:my-10 justify-center flex-col">
+              <div className="my-20 flex w-full flex-col justify-center md:my-10">
                 <div className="flex flex-row justify-between">
-                  <p className="text-2xl ml-4 md:ml-0">
+                  <p className="ml-4 text-2xl text-black dark:text-white md:ml-0">
                     {user.displayname ? user.displayname : user.username}
                   </p>
                   <div
                     onClick={followUser}
-                    className="cursor-pointer  mr-4 md:mr-0"
+                    className="mr-4  cursor-pointer md:mr-0"
                   >
                     {session && session?.user?.email !== user.email && (
                       <>
@@ -171,12 +171,12 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                               ((e.target as HTMLElement).textContent =
                                 "Following")
                             }
-                            className="flex justify-center items-center border-white border-2 w-24 text-white px-4 py-1 rounded-full hover:border-rose-400 hover:text-rose-400"
+                            className="flex w-24 items-center justify-center rounded-full border-2 border-white px-4 py-1 text-white hover:border-rose-400 hover:text-rose-400"
                           >
                             Following
                           </div>
                         ) : (
-                          <div className="flex justify-center items-center w-24 bg-white text-black border-2 px-4 py-1 rounded-full">
+                          <div className="flex w-24 items-center justify-center rounded-full border-2 bg-white px-4 py-1 text-black">
                             Follow
                           </div>
                         )}
@@ -184,37 +184,41 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                     )}
                   </div>
                 </div>
-                <p className="text-lg text-slate-500  ml-4 md:ml-0">
+                <p className="ml-4 text-lg text-slate-700  dark:text-slate-500 md:ml-0">
                   @{user.username}
                 </p>
-                <div className="flex flex-row  ml-4 md:ml-0">
+                <div className="ml-4 flex  flex-row text-black dark:text-white md:ml-0">
                   <p>
                     {user.followers.length}{" "}
-                    <span className=" text-slate-500">Followers</span>{" "}
+                    <span className=" text-slate-700 dark:text-slate-500">
+                      Followers
+                    </span>{" "}
                   </p>
                   <p>
                     {user.following.length}{" "}
-                    <span className=" text-slate-500">Following</span>{" "}
+                    <span className=" text-slate-700 dark:text-slate-500">
+                      Following
+                    </span>{" "}
                   </p>
                 </div>
 
-                <p className="text-lg mb-4  ml-4 md:ml-0">{user.description}</p>
+                <p className="mb-4 ml-4  text-lg md:ml-0">{user.description}</p>
                 <Tabs className="w-full" defaultValue="posts">
-                  <TabsList className="grid w-full grid-cols-3 gap-0">
+                  <TabsList className="grid w-full grid-cols-3 gap-0 text-black dark:text-white">
                     <TabsTrigger
-                      className="text-center cursor-pointer text-lg data-[state=active]:bg-slate-900"
+                      className="cursor-pointer text-center text-lg data-[state=active]:bg-slate-400 dark:data-[state=active]:bg-slate-900"
                       value="posts"
                     >
                       Posts
                     </TabsTrigger>
                     <TabsTrigger
-                      className="text-center cursor-pointer text-lg data-[state=active]:bg-slate-900"
+                      className="cursor-pointer text-center text-lg data-[state=active]:bg-slate-400 dark:data-[state=active]:bg-slate-900"
                       value="media"
                     >
                       Media
                     </TabsTrigger>
                     <TabsTrigger
-                      className="text-center cursor-pointer text-lg data-[state=active]:bg-slate-900"
+                      className="cursor-pointer text-center text-lg data-[state=active]:bg-slate-400 dark:data-[state=active]:bg-slate-900"
                       value="replies"
                     >
                       Posts & Replies

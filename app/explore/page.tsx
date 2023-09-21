@@ -64,7 +64,9 @@ export default function Explore() {
     <>
       {posts.length && (
         <>
-          <p className="font-bold text-4xl">Explore</p>
+          <p className="text-4xl font-bold text-black dark:text-white">
+            Explore
+          </p>
           <InfiniteScroll
             dataLength={posts.length}
             next={getData}
