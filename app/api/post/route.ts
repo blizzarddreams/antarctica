@@ -52,7 +52,7 @@ export async function POST(request: Request) {
     const schema = zfd.formData({
       reply: zfd.text().optional(),
       content: zfd.text(),
-      image: zfd.file().optional(),
+      image: zfd.file().optional().nullable(),
     });
     const response = schema.safeParse(await request.formData());
     if (!response.success) {
