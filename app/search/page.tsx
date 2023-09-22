@@ -50,11 +50,9 @@ export default function Search() {
 
   const getData = useCallback(() => {
     if (hasMore) {
-      console.log(search);
       fetch(`/api/search?params=${search}&skip=${skip}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log("ok!");
           setPosts(data.posts);
           setSkip(skip + 1);
           if (data.noMore) setHasMore(false);

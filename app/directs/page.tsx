@@ -94,7 +94,6 @@ export default function Direct() {
     if (isNewDirectOpen) return;
     fetch("/api/usernames").then((res) =>
       res.json().then((data) => {
-        console.log(data);
         setUsernames(data.usernames);
       }),
     );

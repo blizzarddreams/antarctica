@@ -60,7 +60,6 @@ export async function POST(request: Request) {
     }
 
     const { reply, content, image } = response.data;
-    console.log(content);
     const user = await prisma.user.findFirst({
       where: { email },
       include: {
