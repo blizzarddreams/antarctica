@@ -11,6 +11,5 @@ export default async function upload(image: Buffer, folder: string) {
     ACL: "public-read",
   };
   const data = await s3Client.send(new PutObjectCommand(bucketParams));
-
-  return uuid;
+  return `https://cdn.notblizzard.dev/antarctica/${folder}/${uuid}.png`;
 }
