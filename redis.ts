@@ -1,7 +1,7 @@
 import { createClient } from "redis";
 
 const redis = createClient({
-  url: process.env.KV_URL,
+  url: process.env.REDIS_URL,
 });
 
 (async () => {
