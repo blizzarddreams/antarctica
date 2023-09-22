@@ -138,12 +138,12 @@ export default function UserPage({ params }: { params: { slug: string } }) {
             <header
               className={`h-32 w-full bg-cover bg-center md:h-52 `}
               style={{
-                backgroundImage: `url('https://cdn.notblizzard.dev/antarctica/banners/${user.banner}.png')`,
+                backgroundImage: `url('${user.banner}')`,
               }}
             ></header>
             <div className="w-100 my-1 flex flex-row items-center">
               <Image
-                src={`https://cdn.notblizzard.dev/antarctica/avatars/${user.avatar}.png`}
+                src={user.avatar}
                 alt={user.username}
                 width={100}
                 height={100}

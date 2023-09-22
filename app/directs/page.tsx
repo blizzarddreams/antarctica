@@ -231,11 +231,11 @@ export default function Direct() {
                   value={direct.id.toString()}
                 >
                   <Image
-                    src={`https://cdn.notblizzard.dev/antarctica/avatars/${
+                    src={
                       direct.members.filter(
                         (member) => member.username !== user.username,
                       )[0].avatar
-                    }.png`}
+                    }
                     alt="Avatar"
                     className="mx-4 rounded-full"
                     height={60}

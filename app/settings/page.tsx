@@ -179,7 +179,7 @@ export default function Settings() {
                   <header
                     className={`relative h-52 w-full cursor-pointer bg-cover bg-center`}
                     style={{
-                      backgroundImage: `url('https://cdn.notblizzard.dev/antarctica/banners/${user.banner}.png')})`,
+                      backgroundImage: `url('${user.banner}')})`,
                     }}
                   >
                     <CameraIcon className="absolute bottom-0  right-0 m-4 h-6 w-6 rounded-full border-none bg-slate-950 p-1" />
@@ -212,7 +212,7 @@ export default function Settings() {
                   ) : (
                     <>
                       <Image
-                        src={`https://cdn.notblizzard.dev/antarctica/avatars/${user.banner}.png`}
+                        src={user.banner}
                         alt={user.username}
                         width={100}
                         height={100}

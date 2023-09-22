@@ -218,7 +218,7 @@ export default function Post({ post }: { post: Post }) {
             <div className="col-span-1 flex flex-col items-center justify-center">
               <Image
                 className="mr-4 rounded-full"
-                src={`https://cdn.notblizzard.dev/antarctica/avatars/${post.author.avatar}.png`}
+                src={post.author.avatar}
                 alt={post.author.username}
                 width={50}
                 height={50}
@@ -271,7 +271,7 @@ export default function Post({ post }: { post: Post }) {
                           <div className="flex flex-row">
                             <Image
                               className="mr-4 rounded-full"
-                              src={`https://cdn.notblizzard.dev/antarctica/avatars/${post.author.avatar}.png`}
+                              src={post.author.avatar}
                               alt={post.author.username}
                               width={50}
                               height={50}
@@ -395,7 +395,7 @@ export default function Post({ post }: { post: Post }) {
                 <Dialog>
                   <DialogTrigger>
                     <Image
-                      src={`https://cdn.notblizzard.dev/antarctica/uploads/${post.image}.png`}
+                      src={post.image}
                       alt={post.author.username}
                       width={100}
                       height={100}
@@ -403,7 +403,7 @@ export default function Post({ post }: { post: Post }) {
                   </DialogTrigger>
                   <DialogContent>
                     <Image
-                      src={`https://cdn.notblizzard.dev/antarctica/uploads/${post.image}.png`}
+                      src={post.image}
                       alt={post.author.username}
                       width={1000}
                       height={1000}

@@ -279,7 +279,7 @@ export default function Navbar() {
               <PopoverTrigger className="flex flex-row items-center">
                 <div>
                   <Image
-                    src={`https://cdn.notblizzard.dev/antarctica/avatars/${user.avatar}.png`}
+                    src={user.avatar}
                     alt=""
                     height={30}
                     width={30}
@@ -508,7 +508,7 @@ export default function Navbar() {
                     <PopoverTrigger className="flex flex-row items-center">
                       <div>
                         <Image
-                          src={`https://cdn.notblizzard.dev/antarctica/avatars/${user.avatar}.png`}
+                          src={user.avatar}
                           alt=""
                           height={30}
                           width={30}
