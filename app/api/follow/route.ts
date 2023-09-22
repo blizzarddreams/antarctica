@@ -128,6 +128,15 @@ export async function POST(request: Request) {
         });
         return NextResponse.json({ following: true });
       }
+    } else {
+      return NextResponse.json({
+        error: true,
+        errorMesage: "users don't exist",
+      });
     }
+  } else {
+    return NextResponse.json({
+      error: true,
+    });
   }
 }

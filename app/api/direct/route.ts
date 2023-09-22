@@ -25,6 +25,8 @@ export async function GET(request: Request, response: Response) {
       },
     });
     return NextResponse.json({ user });
+  } else {
+    return NextResponse.json({ error: true });
   }
 }
 
@@ -89,6 +91,10 @@ export async function POST(request: Request) {
         });
         return NextResponse.json({ ok: "ok" });
       }
+    } else {
+      return NextResponse.json({ error: true });
     }
+  } else {
+    return NextResponse.json({ error: true });
   }
 }

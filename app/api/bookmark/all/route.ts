@@ -26,5 +26,7 @@ export async function GET(request: NextRequest) {
     } else {
       return NextResponse.json({ bookmarks });
     }
+  } else {
+    return NextResponse.json({ bookmarks: [] });
   }
 }

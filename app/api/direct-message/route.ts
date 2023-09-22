@@ -99,6 +99,10 @@ export async function POST(request: Request) {
         });
       }
       return NextResponse.json({ ok: "ok" });
+    } else {
+      return NextResponse.json({ error: true });
     }
+  } else {
+    return NextResponse.json({ error: true });
   }
 }

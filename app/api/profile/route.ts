@@ -85,6 +85,8 @@ export async function GET(request: Request, response: Response) {
       } else {
         return NextResponse.json({ user });
       }
+    } else {
+      return NextResponse.json({ error: "error" });
     }
   } else if (username) {
     const user = await prisma.user.findFirst({
@@ -95,5 +97,7 @@ export async function GET(request: Request, response: Response) {
       },
     });
     return NextResponse.json({ user });
+  } else {
+    return NextResponse.json({ error: "error" });
   }
 }

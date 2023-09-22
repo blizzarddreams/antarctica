@@ -30,7 +30,11 @@ export async function GET(request: Request, response: Response) {
       } else {
         return NextResponse.json({ reposted: false });
       }
+    } else {
+      return NextResponse.json({ reposted: false });
     }
+  } else {
+    return NextResponse.json({ reposted: false });
   }
 }
 
@@ -97,6 +101,10 @@ export async function POST(request: Request) {
         });
         return NextResponse.json({ reposted: true });
       }
+    } else {
+      return NextResponse.json({ reposted: false });
     }
+  } else {
+    return NextResponse.json({ reposted: false });
   }
 }

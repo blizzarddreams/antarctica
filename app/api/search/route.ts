@@ -9,7 +9,6 @@ export async function GET(request: Request, response: Response) {
     .split(" ")
     .join(" & ");
   const skip = parseInt(searchParams.get("skip")!);
-  console.log(search);
   if (search) {
     const posts = await prisma.post.findMany({
       where: {
@@ -48,5 +47,7 @@ export async function GET(request: Request, response: Response) {
     } else {
       return NextResponse.json({ posts });
     }
+  } else {
+    return NextResponse.json({ posts: [] });
   }
 }

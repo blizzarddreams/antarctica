@@ -1,10 +1,10 @@
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "../auth/[...nextauth]/route";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma";
 import { z } from "zod";
 
-export async function GET(request: Request, response: Response) {
+export async function GET(request: NextRequest) {
   const session = await getServerSession(OPTIONS);
   const { searchParams } = new URL(request.url);
 
@@ -35,11 +35,15 @@ export async function GET(request: Request, response: Response) {
       } else {
         return NextResponse.json({ bookmarked: false });
       }
+    } else {
+      return NextResponse.json({ bookmarked: false });
     }
+  } else {
+    return NextResponse.json({ bookmarked: false });
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const session = await getServerSession(OPTIONS);
   if (session) {
     const schema = z.object({
@@ -90,6 +94,10 @@ export async function POST(request: Request) {
 
         return NextResponse.json({ bookmarked: true });
       }
+    } else {
+      return NextResponse.json({ error: "error" });
     }
+  } else {
+    return NextResponse.json({ error: "error" });
   }
 }

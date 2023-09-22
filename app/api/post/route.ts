@@ -245,7 +245,13 @@ export async function DELETE(request: Request) {
           },
         );
         return NextResponse.json({ post });
+      } else {
+        return NextResponse.json({ error: "error" });
       }
+    } else {
+      return NextResponse.json({ error: "error" });
     }
+  } else {
+    return NextResponse.json({ error: "error" });
   }
 }

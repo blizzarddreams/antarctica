@@ -107,5 +107,7 @@ export async function GET(request: Request, response: Response) {
     } else {
       return NextResponse.json({ posts });
     }
+  } else {
+    return NextResponse.json({ posts: [] });
   }
 }
