@@ -98,7 +98,7 @@ export default function Navbar() {
   const makePost = async () => {
     const form = new FormData();
     if (image) form.append("image", image);
-    form.append("post", post);
+    form.append("content", post);
     setIsOpen(false);
     fetch("/api/post", {
       method: "POST",

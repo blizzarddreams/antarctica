@@ -51,17 +51,16 @@ export async function POST(request: Request) {
     const email = session.user?.email;
     const schema = zfd.formData({
       reply: zfd.text(),
-      post: zfd.text(),
-      image: zfd.file(),
+      content: zfd.text(),
+      image: zfd.file().optional(),
     });
     const response = schema.safeParse(await request.formData());
     if (!response.success) {
       return NextResponse.json({ error: "error" });
     }
 
-    const { reply, post, image } = response.data;
+    const { reply, content, image } = response.data;
 
-    const data = await request.formData();
     const user = await prisma.user.findFirst({
       where: { email },
       include: {
@@ -86,7 +85,7 @@ export async function POST(request: Request) {
           if (postToConnectTo) {
             post = await prisma.post.create({
               data: {
-                content: post,
+                content: content,
                 image: uuid,
                 author: {
                   connect: {
@@ -104,7 +103,7 @@ export async function POST(request: Request) {
         } else {
           post = await prisma.post.create({
             data: {
-              content: post,
+              content: content,
               image: uuid,
               author: {
                 connect: {
@@ -124,7 +123,7 @@ export async function POST(request: Request) {
           if (postToConnectTo) {
             post = await prisma.post.create({
               data: {
-                content: post,
+                content: content,
                 author: {
                   connect: {
                     id: user.id,
@@ -141,7 +140,7 @@ export async function POST(request: Request) {
         } else {
           post = await prisma.post.create({
             data: {
-              content: post,
+              content: content,
               author: {
                 connect: {
                   id: user.id,
