@@ -93,9 +93,13 @@ export async function POST(request: Request) {
               },
             },
           });
-          PusherServer.trigger(`directs-${member.username}`, "new message", {
-            user,
-          });
+          await PusherServer.trigger(
+            `directs-${member.username}`,
+            "new message",
+            {
+              user,
+            },
+          );
         });
       }
       return NextResponse.json({ ok: "ok" });

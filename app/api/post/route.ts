@@ -164,17 +164,17 @@ export async function POST(request: Request) {
         });
       }
 
-      PusherServer.trigger(`profile-${user.username}`, "new message", {
+      await PusherServer.trigger(`profile-${user.username}`, "new message", {
         post: post_,
       });
-      user.followers.forEach((follower) => {
+      user.followers.forEach(async (follower) => {
         const email_ = follower.follower.email;
-        PusherServer.trigger(`dashboard-${email_}`, "new message", {
+        await PusherServer.trigger(`dashboard-${email_}`, "new message", {
           post: post_,
         });
       });
       // send to self
-      PusherServer.trigger(`dashboard-${user.email}`, "new message", {
+      await PusherServer.trigger(`dashboard-${user.email}`, "new message", {
         post: post_,
       });
       return NextResponse.json({ post });
@@ -221,21 +221,21 @@ export async function DELETE(request: Request) {
       if (post) {
         await prisma.post.delete({ where: { id: post.id } });
         await redis.del(`post-${post.id}`);
-        PusherServer.trigger(
+        await PusherServer.trigger(
           `profile-${post.author.username}`,
           "delete message",
           {
             post: post,
           },
         );
-        post.author.followers.forEach((follower) => {
+        post.author.followers.forEach(async (follower) => {
           const email_ = follower.follower.email;
-          PusherServer.trigger(`dashboard-${email_}`, "delete message", {
+          await PusherServer.trigger(`dashboard-${email_}`, "delete message", {
             post: post,
           });
         });
         // send to self
-        PusherServer.trigger(
+        await PusherServer.trigger(
           `dashboard-${post.author.email}`,
           "delete message",
           {
