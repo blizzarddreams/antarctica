@@ -50,17 +50,17 @@ export async function POST(request: Request) {
   if (session?.user?.email) {
     const email = session.user?.email;
     const schema = zfd.formData({
-      reply: zfd.text(),
+      reply: zfd.text().optional(),
       content: zfd.text(),
       image: zfd.file().optional(),
     });
     const response = schema.safeParse(await request.formData());
     if (!response.success) {
-      return NextResponse.json({ error: "error" });
+      return NextResponse.json({ error: "zod errors" });
     }
 
     const { reply, content, image } = response.data;
-
+    console.log(content);
     const user = await prisma.user.findFirst({
       where: { email },
       include: {
