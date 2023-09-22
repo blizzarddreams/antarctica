@@ -6,7 +6,7 @@ import prisma from "@/prisma";
 import upload from "@/upload";
 import redis from "@/redis";
 import { zfd } from "zod-form-data";
-import { z } from "zod";
+import { ZodType, z } from "zod";
 
 export async function GET(request: Request, response: Response) {
   const { searchParams } = new URL(request.url);
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
     const schema = zfd.formData({
       reply: zfd.text().optional(),
       content: zfd.text(),
-      image: zfd.file().optional().nullable(),
+      image: z.any().optional(),
     });
     const response = schema.safeParse(await request.formData());
     if (!response.success) {
