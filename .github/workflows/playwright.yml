@@ -11,6 +11,7 @@ jobs:
       PRISMA_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres?schema=public
       NEXTAUTH_SECRET: example
       NEXTAUTH_URL: http://localhost:3030
+      NEXT_PUBLIC_PUSHER_KEY: example
     runs-on: ubuntu-latest
     services:
       redis:
