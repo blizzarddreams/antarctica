@@ -212,7 +212,7 @@ export default function Settings() {
                   ) : (
                     <>
                       <Image
-                        src={user.banner}
+                        src={user.avatar}
                         alt={user.username}
                         width={100}
                         height={100}

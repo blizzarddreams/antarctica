@@ -13,7 +13,7 @@ const nextConfig = {
     ];
   },
   images: {
-    domains: ["xg2x9irss5vqdb67.public.blob.vercel-storage.com"],
+    domains: ["cdn.notblizzard.dev"],
   },
 };
 

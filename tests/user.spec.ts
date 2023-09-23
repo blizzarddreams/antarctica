@@ -13,6 +13,6 @@ test("show profile", async ({ page }) => {
     },
   );
 
-  await page.goto("http://localhost:7040/@example");
+  await page.goto("http://localhost:3000/@example");
   await expect(page.getByText("nextjs description")).toBeVisible();
 });

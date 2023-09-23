@@ -11,12 +11,12 @@ test("show posts on explore", async ({ page }) => {
     route.fulfill({ json });
   });
 
-  await page.goto("http://localhost:7040/explore");
+  await page.goto("http://localhost:3000/explore");
   await expect(page.getByText("nextjs hello world")).toBeVisible();
 });
 
 test("has explore link", async ({ page }) => {
-  await page.goto("http://localhost:7040");
+  await page.goto("http://localhost:3000");
 
   await expect(page.getByRole("button", { name: /Explore/i })).toHaveText(
     "Explore",
