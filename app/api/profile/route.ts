@@ -4,8 +4,8 @@ import prisma from "@/prisma";
 export async function GET(request: Request, response: Response) {
   const { searchParams } = new URL(request.url);
   const username = searchParams.get("username")!;
-  if (username && searchParams.get("skip")) {
-    const skip = parseInt(searchParams.get("skip")!);
+  const skip = parseInt(searchParams.get("skip")!);
+  if (username) {
     const user = await prisma.user.findFirst({
       where: { username },
       include: {
@@ -88,15 +88,6 @@ export async function GET(request: Request, response: Response) {
     } else {
       return NextResponse.json({ error: "error" });
     }
-  } else if (username) {
-    const user = await prisma.user.findFirst({
-      where: { username },
-      include: {
-        followers: true,
-        following: true,
-      },
-    });
-    return NextResponse.json({ user });
   } else {
     return NextResponse.json({ error: "error" });
   }

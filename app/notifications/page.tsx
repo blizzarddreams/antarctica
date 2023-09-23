@@ -7,6 +7,7 @@ import { ArrowPathRoundedSquareIcon } from "@heroicons/react/20/solid";
 import { UserPlusIcon } from "@heroicons/react/24/outline";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { NotificationType } from "@prisma/client";
+import { ScaleLoader } from "react-spinners";
 
 type User = {
   id: number;
@@ -136,15 +137,21 @@ export default function Notification() {
   };
   return (
     <div>
+      <p className="text-4xl font-bold text-black dark:text-white">
+        Notifications
+      </p>
       {notifications.length > 0 && (
         <div>
-          <p className="text-4xl font-bold">Notifications</p>
           <div className="divide-y text-black dark:text-white">
             <InfiniteScroll
               dataLength={notifications.length}
               next={getData}
               hasMore={hasMore}
-              loader={<div>Loading</div>}
+              loader={
+                <div className="flex w-full flex-row justify-center">
+                  <ScaleLoader color="#36d7b7" />{" "}
+                </div>
+              }
               className="divide-y"
             >
               {notifications.map((notification) => (

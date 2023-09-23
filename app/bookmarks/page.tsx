@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Post from "../utils/Post";
+import { ScaleLoader } from "react-spinners";
 
 type User = {
   id: number;
@@ -72,7 +73,11 @@ export default function Bookmarks() {
         dataLength={bookmarks.length}
         next={getData}
         hasMore={hasMore}
-        loader={<div>Loading</div>}
+        loader={
+          <div className="flex w-full flex-row justify-center">
+            <ScaleLoader color="#36d7b7" />{" "}
+          </div>
+        }
       >
         {bookmarks.map((bookmark, i) => (
           <Post post={bookmark.post} key={i} />

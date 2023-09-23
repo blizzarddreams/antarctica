@@ -8,6 +8,7 @@ import { PusherClient } from "@/pusher";
 import { notFound } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
+import { ScaleLoader } from "react-spinners";
 
 type User = {
   id: number;
@@ -59,36 +60,36 @@ export default function UserPage({ params }: { params: { slug: string } }) {
   const [skip, setSkip] = useState<number>(0);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const { data: session } = useSession();
-  const [tab, setTab] = useState<string>("posts");
 
   const getData = () => {
-    if (hasMore) {
-      fetch(`/api/profile?username=${params.slug}&skip=${skip}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setUser({
-            ...data.user,
-            posts: [...user.posts.concat(data.user.posts)],
-          });
-          setSkip(skip + 1);
-          if (data.noMore) setHasMore(false);
-
-          if (session) {
-            fetch(`/api/follow?id=${data.user.id}`)
-              .then((res) => res.json())
-              .then((data) => {
-                setIsFollowing(data.following);
-              });
-          }
+    fetch(`/api/profile?username=${params.slug}&skip=${skip}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.noMore) setHasMore(false);
+        setUser({
+          ...data.user,
+          posts: [...user.posts.concat(data.user.posts)],
         });
-    }
+        setSkip(skip + 1);
+
+        if (session) {
+          fetch(`/api/follow?id=${data.user.id}`)
+            .then((res) => res.json())
+            .then((data) => {
+              setIsFollowing(data.following);
+            });
+        }
+      });
   };
   useEffect(() => {
     fetch(`/api/profile?username=${params.slug}&skip=${skip}`)
       .then((res) => res.json())
       .then((data) => {
         if (!data.user) return notFound();
+        if (data.noMore) setHasMore(false);
         setUser(data.user);
+        setSkip(skip + 1);
+
         if (session) {
           fetch(`/api/follow?id=${data.user.id}`)
             .then((res) => res.json())
@@ -149,7 +150,7 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                 height={100}
                 className="absolute top-20 m-2 rounded-full border-2 border-solid border-slate-950 md:top-40"
               />
-              <div className="my-20 flex w-full flex-col justify-center md:my-10">
+              <div className="my-20 flex w-full flex-col justify-center">
                 <div className="flex flex-row justify-between">
                   <p className="ml-4 text-2xl text-black dark:text-white md:ml-0">
                     {user.displayname ? user.displayname : user.username}
@@ -229,7 +230,11 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                         dataLength={user.posts.length}
                         next={getData}
                         hasMore={hasMore}
-                        loader={<div>Loading</div>}
+                        loader={
+                          <div className="flex w-full flex-row justify-center">
+                            <ScaleLoader color="#36d7b7" />{" "}
+                          </div>
+                        }
                       >
                         {user.posts
                           .filter((post) => post.replyId === null)
@@ -245,7 +250,11 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                         dataLength={user.posts.length}
                         next={getData}
                         hasMore={hasMore}
-                        loader={<div>Loading</div>}
+                        loader={
+                          <div className="flex w-full flex-row justify-center">
+                            <ScaleLoader color="#36d7b7" />{" "}
+                          </div>
+                        }
                       >
                         {user.posts
                           .filter((post) => post.image !== null)
@@ -261,7 +270,11 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                         dataLength={user.posts.length}
                         next={getData}
                         hasMore={hasMore}
-                        loader={<div>Loading</div>}
+                        loader={
+                          <div className="flex w-full flex-row justify-center">
+                            <ScaleLoader color="#36d7b7" />{" "}
+                          </div>
+                        }
                       >
                         {user.posts.map((post) => (
                           <Post post={post} key={post.id} />

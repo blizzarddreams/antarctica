@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import Post from "../utils/Post";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { PusherClient } from "@/pusher";
+import { ScaleLoader } from "react-spinners";
 type User = {
   id: number;
   email: string;
@@ -85,7 +86,11 @@ export default function Dashboard() {
             dataLength={posts.length}
             next={getData}
             hasMore={hasMore}
-            loader={<div>Loading</div>}
+            loader={
+              <div className="flex w-full flex-row justify-center">
+                <ScaleLoader color="#36d7b7" />{" "}
+              </div>
+            }
           >
             {posts.map((post, i) => (
               <Post post={post} key={i} />
