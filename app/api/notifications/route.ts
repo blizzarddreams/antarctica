@@ -8,39 +8,35 @@ export async function GET(request: Request, response: Response) {
   const { searchParams } = new URL(request.url);
   const skip = parseInt(searchParams.get("skip")!);
 
-  if (session) {
-    const email = session.user?.email!;
-    await prisma.notification.updateMany({
-      where: {
-        to: { email },
+  const email = session!.user!.email!;
+  await prisma.notification.updateMany({
+    where: {
+      to: { email },
+    },
+    data: {
+      read: true,
+    },
+  });
+  const notifications = await prisma.notification.findMany({
+    where: {
+      to: {
+        email,
       },
-      data: {
-        read: true,
-      },
-    });
-    const notifications = await prisma.notification.findMany({
-      where: {
-        to: {
-          email,
-        },
-      },
-      include: {
-        from: true,
-        to: true,
-        post: true,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-      skip: skip * 10,
-      take: 10,
-    });
-    if (notifications.length <= 9) {
-      return NextResponse.json({ notifications, noMore: true });
-    } else {
-      return NextResponse.json({ notifications });
-    }
+    },
+    include: {
+      from: true,
+      to: true,
+      post: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    skip: skip * 10,
+    take: 10,
+  });
+  if (notifications.length <= 9) {
+    return NextResponse.json({ notifications, noMore: true });
   } else {
-    return NextResponse.json({ notifications: [] });
+    return NextResponse.json({ notifications });
   }
 }

@@ -188,64 +188,60 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   const session = await getServerSession(OPTIONS);
-  if (session) {
-    const email = session.user?.email;
-    const schema = z.object({
-      id: z.number(),
-    });
-    const response = schema.safeParse(await request.json());
-    if (!response.success) {
-      return NextResponse.json({ error: "error" });
-    }
-    const { id } = response.data;
-    if (email) {
-      const post = await prisma.post.findFirst({
-        where: {
-          author: {
-            email: email,
-          },
-          id,
+  const email = session!.user!.email!;
+  const schema = z.object({
+    id: z.number(),
+  });
+  const response = schema.safeParse(await request.json());
+  if (!response.success) {
+    return NextResponse.json({ error: "error" });
+  }
+  const { id } = response.data;
+  if (email) {
+    const post = await prisma.post.findFirst({
+      where: {
+        author: {
+          email: email,
         },
-        include: {
-          author: {
-            include: {
-              followers: {
-                include: {
-                  follower: true,
-                },
+        id,
+      },
+      include: {
+        author: {
+          include: {
+            followers: {
+              include: {
+                follower: true,
               },
             },
           },
         },
-      });
-      if (post) {
-        await prisma.post.delete({ where: { id: post.id } });
-        await redis.del(`post-${post.id}`);
-        await PusherServer.trigger(
-          `profile-${post.author.username}`,
-          "delete message",
-          {
-            post: post,
-          },
-        );
-        post.author.followers.forEach(async (follower) => {
-          const email_ = follower.follower.email;
-          await PusherServer.trigger(`dashboard-${email_}`, "delete message", {
-            post: post,
-          });
+      },
+    });
+    if (post) {
+      await prisma.post.delete({ where: { id: post.id } });
+      await redis.del(`post-${post.id}`);
+      await PusherServer.trigger(
+        `profile-${post.author.username}`,
+        "delete message",
+        {
+          post: post,
+        },
+      );
+      post.author.followers.forEach(async (follower) => {
+        const email_ = follower.follower.email;
+        await PusherServer.trigger(`dashboard-${email_}`, "delete message", {
+          post: post,
         });
-        // send to self
-        await PusherServer.trigger(
-          `dashboard-${post.author.email}`,
-          "delete message",
-          {
-            post: post,
-          },
-        );
-        return NextResponse.json({ post });
-      } else {
-        return NextResponse.json({ error: "error" });
-      }
+      });
+      // send to self
+      await PusherServer.trigger(
+        `dashboard-${post.author.email}`,
+        "delete message",
+        {
+          post: post,
+        },
+      );
+      return NextResponse.json({ post });
     } else {
       return NextResponse.json({ error: "error" });
     }
