@@ -167,12 +167,6 @@ export async function POST(request: Request) {
       await PusherServer.trigger(`profile-${user.username}`, "new message", {
         post: post_,
       });
-      user.followers.forEach(async (follower) => {
-        const email_ = follower.follower.email;
-        await PusherServer.trigger(`dashboard-${email_}`, "new message", {
-          post: post_,
-        });
-      });
       // send to self
       await PusherServer.trigger(`dashboard-${user.email}`, "new message", {
         post: post_,
