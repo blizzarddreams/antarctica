@@ -180,7 +180,7 @@ export default function Settings() {
                   <header
                     className={`relative h-52 w-full cursor-pointer bg-cover bg-center`}
                     style={{
-                      backgroundImage: `url('${user.banner}')})`,
+                      backgroundImage: `url(${user.banner})`,
                     }}
                   >
                     <AiOutlineCamera className="absolute bottom-0  right-0 m-4 h-6 w-6 rounded-full border-none bg-slate-950 p-1" />

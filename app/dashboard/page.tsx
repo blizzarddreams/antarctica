@@ -78,7 +78,7 @@ export default function Dashboard() {
   return (
     <>
       {posts && (
-        <>
+        <div className="mt-10 flex flex-col items-center justify-center">
           <p className="text-4xl font-bold text-black dark:text-white">
             Dashboard
           </p>
@@ -96,7 +96,7 @@ export default function Dashboard() {
               <Post post={post} key={i} />
             ))}
           </InfiniteScroll>
-        </>
+        </div>
       )}
     </>
   );

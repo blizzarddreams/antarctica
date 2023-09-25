@@ -64,7 +64,7 @@ export default function Explore() {
   return (
     <>
       {posts.length && (
-        <>
+        <div className="mt-10 flex flex-col items-center justify-center">
           <p className="text-4xl font-bold text-black dark:text-white">
             Explore
           </p>
@@ -82,7 +82,7 @@ export default function Explore() {
               <Post post={post} key={i} />
             ))}
           </InfiniteScroll>
-        </>
+        </div>
       )}
     </>
   );
