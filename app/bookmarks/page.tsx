@@ -67,8 +67,8 @@ export default function Bookmarks() {
   }, [getData]);
 
   return (
-    <div>
-      <p className="text-4xl font-bold text-black dark:text-white">Bookmarks</p>
+    <div className="mt-10 flex flex-col items-center justify-center">
+      <p className="text-4xl font-bold">Bookmarks</p>
       <InfiniteScroll
         dataLength={bookmarks.length}
         next={getData}

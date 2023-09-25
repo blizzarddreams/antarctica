@@ -131,78 +131,74 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="sticky inset-0 hidden h-screen flex-col p-4 md:flex ">
+      <div className="sticky inset-0 hidden h-screen flex-col p-4 md:flex">
         {user && (
           <>
-            <div className="mt-4 p-4 hover:rounded-xl  hover:bg-slate-400 dark:hover:bg-slate-900">
+            <div className="mt-4 p-4 hover:rounded-xl  hover:bg-slate-200 dark:hover:bg-slate-900">
               <Link href="/dashboard" className="flex flex-row  items-end">
-                <BsHouse className="h-7 w-7  text-black dark:text-white" />
-                <p className="text-lg text-black dark:text-white">Dashboard</p>
+                <BsHouse className="h-7 w-7   " />
+                <p className="text-lg">Dashboard</p>
               </Link>
             </div>
 
-            <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-400 dark:hover:bg-slate-900">
+            <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-200 dark:hover:bg-slate-900">
               <Link href="/explore" className="flex flex-row  items-end">
-                <RiCompass3Line className=" h-7 w-7 text-black dark:text-white" />
-                <p className="text-lg  text-black dark:text-white">Explore</p>
+                <RiCompass3Line className=" h-7 w-7  " />
+                <p className="text-lg">Explore</p>
               </Link>
             </div>
 
-            <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-400  dark:hover:bg-slate-900">
+            <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-200  dark:hover:bg-slate-900">
               <Link
                 href={`/@${user.username}`}
                 className="flex flex-row items-end"
               >
-                <FaRegUserCircle className="h-7 w-7  text-black dark:text-white" />
-                <p className=" text-lg text-black dark:text-white">Profile</p>
+                <FaRegUserCircle className="h-7 w-7   " />
+                <p className=" text-lg">Profile</p>
               </Link>
             </div>
 
-            <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-400  dark:hover:bg-slate-900">
+            <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-200  dark:hover:bg-slate-900">
               <Link href="/settings" className="flex flex-row items-end">
-                <BiCog className=" h-7 w-7 text-black dark:text-white" />
-                <p className="text-lg  text-black dark:text-white">Settings</p>
+                <BiCog className=" h-7 w-7  " />
+                <p className="text-lg  ">Settings</p>
               </Link>
             </div>
 
-            <div className="mt-4 p-4 hover:rounded-xl  hover:bg-slate-400 dark:hover:bg-slate-900">
+            <div className="mt-4 p-4 hover:rounded-xl  hover:bg-slate-200 dark:hover:bg-slate-900">
               <Link href="/notifications" className="flex flex-row">
-                <BsBell className="h-7 w-7  text-black dark:text-white" />
+                <BsBell className="h-7 w-7   " />
                 {user._count.notifications > 0 && (
                   <div className="absolute -top-2 left-6 rounded-full bg-slate-700 px-2">
                     {user._count.notifications}
                   </div>
                 )}
-                <p className="text-lg  text-black dark:text-white">
-                  Notifications
-                </p>
+                <p className="text-lg  ">Notifications</p>
               </Link>
             </div>
 
-            <div className="mt-4 p-4 hover:rounded-xl  hover:bg-slate-400 dark:hover:bg-slate-900">
+            <div className="mt-4 p-4 hover:rounded-xl  hover:bg-slate-200 dark:hover:bg-slate-900">
               <Link href="/bookmarks" className="flex flex-row items-end">
-                <BsBookmark className=" h-7 w-7 text-black dark:text-white" />
-                <p className="text-lg  text-black dark:text-white">Bookmarks</p>
+                <BsBookmark className=" h-7 w-7 " />
+                <p className="text-lg  ">Bookmarks</p>
               </Link>
             </div>
 
-            <div className="relative mt-4 p-4  hover:rounded-xl  hover:bg-slate-400 dark:hover:bg-slate-900">
+            <div className="relative mt-4 p-4  hover:rounded-xl  hover:bg-slate-200 dark:hover:bg-slate-900">
               <Link href="/directs" className="flex flex-row items-end">
-                <BsEnvelope className=" h-7 w-7 text-black dark:text-white" />
-                <p className="text-lg  text-black dark:text-white">Directs</p>
+                <BsEnvelope className=" h-7 w-7  " />
+                <p className="text-lg  ">Directs</p>
               </Link>
             </div>
 
             <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
               <DialogTrigger className="w-full">
                 <div
-                  className="mt-4 flex cursor-pointer flex-row items-end p-4  hover:rounded-xl  hover:bg-slate-400  dark:hover:bg-slate-900 "
+                  className="mt-4 flex cursor-pointer flex-row items-end p-4  hover:rounded-xl  hover:bg-slate-200  dark:hover:bg-slate-900 "
                   onClick={openModal}
                 >
-                  <BsPencilSquare className=" h-7 w-7 text-black dark:text-white" />{" "}
-                  <p className="text-lg  text-black dark:text-white">
-                    New Post
-                  </p>
+                  <BsPencilSquare className=" h-7 w-7" />{" "}
+                  <p className="text-lg">New Post</p>
                 </div>
               </DialogTrigger>
               <DialogContent className="bg-slate-100 dark:bg-slate-950">
@@ -211,7 +207,7 @@ export default function Navbar() {
                     <DropdownMenuTrigger className="flex flex-row items-center">
                       <div className="flex flex-row items-center">
                         <DropdownMenuLabel>
-                          <div className="rounded-full bg-slate-400 p-2 dark:bg-slate-800">
+                          <div className="rounded-full bg-slate-200 p-2 dark:bg-slate-800">
                             <GoSmiley className="h-4 w-4" />
                           </div>
                         </DropdownMenuLabel>
@@ -227,7 +223,7 @@ export default function Navbar() {
                     </DropdownMenuContent>
                   </DropdownMenu>
                   <label htmlFor="image">
-                    <div className="rounded-full bg-slate-400 p-2 dark:bg-slate-800">
+                    <div className="rounded-full bg-slate-200 p-2 dark:bg-slate-800">
                       <AiOutlineCamera className="h-4 w-4 cursor-pointer" />
                     </div>
                   </label>
@@ -249,7 +245,7 @@ export default function Navbar() {
                     value={post}
                     onChange={handleChange}
                     placeholder="What is happening?"
-                    className="w-full resize-none border-none bg-slate-400 text-black outline-none focus:border-none focus:outline-none focus:ring-0 dark:bg-slate-800 dark:text-white"
+                    className="w-full resize-none border-none bg-slate-200  outline-none focus:border-none focus:outline-none focus:ring-0 dark:bg-slate-800 "
                   />
                 </div>
 
@@ -257,7 +253,7 @@ export default function Navbar() {
                   {post.replaceAll(" ", "").length === 0 ? (
                     <Button
                       type="button"
-                      className=" m-4 my-1 w-full bg-slate-400/70 p-4 dark:bg-slate-800/70"
+                      className=" m-4 my-1 w-full"
                       onClick={makePost}
                       disabled
                     >
@@ -266,7 +262,7 @@ export default function Navbar() {
                   ) : (
                     <button
                       type="button"
-                      className=" m-4 my-1 w-full bg-slate-400 p-4 dark:bg-slate-800"
+                      className=" m-4 my-1 w-full"
                       onClick={makePost}
                     >
                       Post
@@ -298,7 +294,7 @@ export default function Navbar() {
                     className="mr-1 rounded-full"
                   />
                   <div className="flex flex-col justify-center">
-                    <p className="text-lg font-bold text-black dark:text-white">
+                    <p className="text-lg font-bold  ">
                       {user.displayname ? user.displayname : user.username}
                     </p>
                     <p className="text-slate-700 dark:text-slate-500">
@@ -310,7 +306,7 @@ export default function Navbar() {
               <DropdownMenuContent>
                 <DropdownMenuItem
                   onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="cursor-pointer text-black dark:text-white"
+                  className="cursor-pointer  "
                 >
                   {theme === "dark" ? (
                     <RxMoon className="mx-1 h-4 w-4" />
@@ -322,7 +318,7 @@ export default function Navbar() {
                 <DropdownMenuSeparator className="bg-black dark:bg-white" />
                 <DropdownMenuItem
                   onSelect={() => signOut()}
-                  className="cursor-pointer text-black dark:text-white"
+                  className="cursor-pointer  "
                 >
                   <BiLogOut className="mx-1 h-4 w-4" />
                   Sign Out
@@ -337,20 +333,20 @@ export default function Navbar() {
           <Sheet>
             <div className="flex w-full flex-row justify-between">
               <SheetTrigger>
-                <HamburgerMenuIcon className="h-7 w-7 text-black dark:text-white" />
+                <HamburgerMenuIcon className="h-7 w-7  " />
               </SheetTrigger>
               <Link href="/search">
-                <BsSearch className="h-7 w-7 text-black dark:text-white" />
+                <BsSearch className="h-7 w-7  " />
               </Link>
               <Link href="/dashboard">
-                <BsHouse className="h-7 w-7 text-black dark:text-white" />
+                <BsHouse className="h-7 w-7  " />
               </Link>
               <Link href={`/@${user.username}`}>
-                <FaRegUserCircle className="h-7 w-7  text-black dark:text-white" />
+                <FaRegUserCircle className="h-7 w-7   " />
               </Link>
               <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
                 <DialogTrigger>
-                  <BsPencilSquare className="h-7 w-7 text-black dark:text-white" />{" "}
+                  <BsPencilSquare className="h-7 w-7  " />{" "}
                 </DialogTrigger>
                 <DialogContent className="bg-slate-100 dark:bg-slate-950">
                   <div className="flex flex-row items-center">
@@ -358,7 +354,7 @@ export default function Navbar() {
                       <DropdownMenuTrigger className="flex flex-row items-center">
                         <div className="flex flex-row items-center">
                           <DropdownMenuLabel>
-                            <div className="rounded-full bg-slate-400 p-2 dark:bg-slate-800">
+                            <div className="rounded-full bg-slate-200 p-2 dark:bg-slate-800">
                               <GoSmiley className="h-4 w-4" />
                             </div>
                           </DropdownMenuLabel>
@@ -374,7 +370,7 @@ export default function Navbar() {
                       </DropdownMenuContent>
                     </DropdownMenu>
                     <label htmlFor="image">
-                      <div className="rounded-full bg-slate-400 p-2 dark:bg-slate-800">
+                      <div className="rounded-full bg-slate-200 p-2 dark:bg-slate-800">
                         <AiOutlineCamera className="h-4 w-4 cursor-pointer" />
                       </div>
                     </label>
@@ -396,7 +392,7 @@ export default function Navbar() {
                       value={post}
                       onChange={handleChange}
                       placeholder="What is happening?"
-                      className="w-full resize-none border-none bg-slate-400 text-black outline-none focus:border-none focus:outline-none focus:ring-0 dark:bg-slate-800 dark:text-white"
+                      className="w-full resize-none border-none bg-slate-200  outline-none focus:border-none focus:outline-none focus:ring-0 dark:bg-slate-800 "
                     />
                   </div>
 
@@ -404,7 +400,7 @@ export default function Navbar() {
                     {post.replaceAll(" ", "").length === 0 ? (
                       <Button
                         type="button"
-                        className=" m-4 my-1 w-full bg-slate-400/70 p-4 dark:bg-slate-800/70"
+                        className=" m-4 my-1 w-full"
                         onClick={makePost}
                         disabled
                       >
@@ -413,7 +409,7 @@ export default function Navbar() {
                     ) : (
                       <Button
                         type="button"
-                        className=" m-4 my-1 w-full bg-slate-400 p-4 dark:bg-slate-800"
+                        className=" m-4 my-1 w-full"
                         onClick={makePost}
                       >
                         Post
@@ -439,88 +435,72 @@ export default function Navbar() {
             </div>
 
             <SheetContent
-              className="bg-slate-400 dark:bg-slate-950"
+              className="bg-slate-200 dark:bg-slate-950"
               side="left"
             >
               {" "}
               <>
-                <div className="mt-4 p-4 hover:rounded-xl  hover:bg-slate-400 dark:hover:bg-slate-900">
+                <div className="mt-4 p-4 hover:rounded-xl  hover:bg-slate-200 dark:hover:bg-slate-900">
                   <Link href="/dashboard" className="flex flex-row  items-end">
-                    <BsHouse className="h-7 w-7  text-black dark:text-white" />
-                    <p className="text-lg text-black dark:text-white">
-                      Dashboard
-                    </p>
+                    <BsHouse className="h-7 w-7   " />
+                    <p className="text-lg  ">Dashboard</p>
                   </Link>
                 </div>
 
-                <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-400 dark:hover:bg-slate-900">
+                <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-200 dark:hover:bg-slate-900">
                   <Link href="/search" className="flex flex-row  items-end">
-                    <RiCompass3Line className=" h-7 w-7 text-black dark:text-white" />
-                    <p className="text-lg  text-black dark:text-white">
-                      Search
-                    </p>
+                    <RiCompass3Line className=" h-7 w-7  " />
+                    <p className="text-lg   ">Search</p>
                   </Link>
                 </div>
 
-                <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-400 dark:hover:bg-slate-900">
+                <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-200 dark:hover:bg-slate-900">
                   <Link href="/explore" className="flex flex-row  items-end">
-                    <RiCompass3Line className=" h-7 w-7 text-black dark:text-white" />
-                    <p className="text-lg  text-black dark:text-white">
-                      Explore
-                    </p>
+                    <RiCompass3Line className=" h-7 w-7  " />
+                    <p className="text-lg   ">Explore</p>
                   </Link>
                 </div>
 
-                <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-400  dark:hover:bg-slate-900">
+                <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-200  dark:hover:bg-slate-900">
                   <Link
                     href={`/@${user.username}`}
                     className="flex flex-row items-end"
                   >
-                    <FaRegUserCircle className="h-7 w-7  text-black dark:text-white" />
-                    <p className=" text-lg text-black dark:text-white">
-                      Profile
-                    </p>
+                    <FaRegUserCircle className="h-7 w-7   " />
+                    <p className=" text-lg  ">Profile</p>
                   </Link>
                 </div>
 
-                <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-400  dark:hover:bg-slate-900">
+                <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-200  dark:hover:bg-slate-900">
                   <Link href="/settings" className="flex flex-row items-end">
-                    <BiCog className=" h-7 w-7 text-black dark:text-white" />
-                    <p className="text-lg  text-black dark:text-white">
-                      Settings
-                    </p>
+                    <BiCog className=" h-7 w-7  " />
+                    <p className="text-lg   ">Settings</p>
                   </Link>
                 </div>
 
-                <div className="mt-4 p-4 hover:rounded-xl  hover:bg-slate-400 dark:hover:bg-slate-900">
+                <div className="mt-4 p-4 hover:rounded-xl  hover:bg-slate-200 dark:hover:bg-slate-900">
                   <Link href="/notifications" className="flex flex-row">
-                    <BsBell className="h-7 w-7  text-black dark:text-white" />
+                    <BsBell className="h-7 w-7   " />
                     {user._count.notifications > 0 && (
                       <div className="absolute -top-2 left-6 rounded-full bg-slate-700 px-2">
                         {user._count.notifications}
                       </div>
                     )}
-                    <p className="text-lg  text-black dark:text-white">
-                      Notifications
-                    </p>
+                    <p className="text-lg   ">Notifications</p>
                   </Link>
                 </div>
 
-                <div className="mt-4 p-4 hover:rounded-xl  hover:bg-slate-400 dark:hover:bg-slate-900">
+                <div className="mt-4 p-4 hover:rounded-xl  hover:bg-slate-200 dark:hover:bg-slate-900">
                   <Link href="/bookmarks" className="flex flex-row items-end">
-                    <BsBookmark className=" h-7 w-7 text-black dark:text-white" />
-                    <p className="text-lg  text-black dark:text-white">
-                      Bookmarks
-                    </p>
+                    <BsBookmark className=" h-7 w-7  " />
+                    <p className="text-lg   ">Bookmarks</p>
                   </Link>
                 </div>
 
-                <div className="relative mt-4 p-4  hover:rounded-xl  hover:bg-slate-400 dark:hover:bg-slate-900">
+                <div className="relative mt-4 p-4  hover:rounded-xl  hover:bg-slate-200 dark:hover:bg-slate-900">
                   <Link href="/directs" className="flex flex-row items-end">
-                    <BsEnvelope className=" h-7 w-7 text-black dark:text-white" />
-                    <p className="text-lg  text-black dark:text-white">
-                      Directs
-                    </p>
+                    <BsEnvelope className=" h-7 w-7  " />
+                    <p className="text-lg   ">Directs</p>
                   </Link>
                 </div>
 
@@ -538,7 +518,7 @@ export default function Navbar() {
                         className="mr-1 rounded-full"
                       />
                       <div className="flex flex-col justify-center">
-                        <p className="text-lg font-bold text-black dark:text-white">
+                        <p className="text-lg font-bold  ">
                           {user.displayname ? user.displayname : user.username}
                         </p>
                         <p className="text-slate-700 dark:text-slate-500">
@@ -552,7 +532,7 @@ export default function Navbar() {
                       onClick={() =>
                         setTheme(theme === "dark" ? "light" : "dark")
                       }
-                      className="cursor-pointer text-black dark:text-white"
+                      className="cursor-pointer  "
                     >
                       {theme === "dark" ? (
                         <RxMoon className="mx-1 h-4 w-4" />
@@ -564,7 +544,7 @@ export default function Navbar() {
                     <DropdownMenuSeparator className="bg-black dark:bg-white" />
                     <DropdownMenuItem
                       onSelect={() => signOut()}
-                      className="cursor-pointer text-black dark:text-white"
+                      className="cursor-pointer  "
                     >
                       <BiLogOut className="mx-1 h-4 w-4" />
                       Sign Out

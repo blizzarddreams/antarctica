@@ -65,20 +65,23 @@ export default function Search() {
 
   useEffect(() => {
     getData();
-  }, [search, getData]);
+  }, [params, getData]);
 
   const handleSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      return router.push(`/search?params=${search}`);
+      router.push(`/search?params=${search}`);
     }
   };
 
   return (
-    <div>
+    <div className="mt-10 flex w-full flex-col items-center justify-center">
+      <p className="text-4xl font-bold">Search</p>
+
       <Input
         value={search}
         onKeyDown={handleSubmit}
         onChange={(e) => setSearch(e.target.value)}
+        className="my-4"
       />
 
       {posts && (
@@ -86,6 +89,7 @@ export default function Search() {
           <>
             <InfiniteScroll
               dataLength={posts.length}
+              className="w-full"
               next={getData}
               hasMore={hasMore}
               loader={

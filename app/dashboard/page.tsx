@@ -79,9 +79,7 @@ export default function Dashboard() {
     <>
       {posts && (
         <div className="mt-10 flex flex-col items-center justify-center">
-          <p className="text-4xl font-bold text-black dark:text-white">
-            Dashboard
-          </p>
+          <p className="text-4xl font-bold">Dashboard</p>
           <InfiniteScroll
             dataLength={posts.length}
             next={getData}

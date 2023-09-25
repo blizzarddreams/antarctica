@@ -156,7 +156,7 @@ export default function UserPage({ params }: { params: { slug: string } }) {
               />
               <div className="my-20 flex w-full flex-col justify-center">
                 <div className="flex flex-row justify-between">
-                  <p className="ml-4 text-2xl text-black dark:text-white md:ml-0">
+                  <p className="ml-4 text-2xl md:ml-0">
                     {user.displayname ? user.displayname : user.username}
                   </p>
                   <div
@@ -191,7 +191,7 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                 <p className="ml-4 text-lg text-slate-700  dark:text-slate-500 md:ml-0">
                   @{user.username}
                 </p>
-                <div className="ml-4 flex  flex-row text-black dark:text-white md:ml-0">
+                <div className="ml-4 flex  flex-row md:ml-0">
                   <p>
                     {user.followers.length}{" "}
                     <span className=" text-slate-700 dark:text-slate-500">
@@ -208,21 +208,21 @@ export default function UserPage({ params }: { params: { slug: string } }) {
 
                 <p className="mb-4 ml-4  text-lg md:ml-0">{user.description}</p>
                 <Tabs className="w-full" defaultValue="posts">
-                  <TabsList className="grid w-full grid-cols-3 gap-0 text-black dark:text-white">
+                  <TabsList className="grid w-full grid-cols-3 gap-0 ">
                     <TabsTrigger
-                      className="cursor-pointer text-center text-lg data-[state=active]:bg-slate-400 dark:data-[state=active]:bg-slate-900"
+                      className="cursor-pointer text-center text-lg"
                       value="posts"
                     >
                       Posts
                     </TabsTrigger>
                     <TabsTrigger
-                      className="cursor-pointer text-center text-lg data-[state=active]:bg-slate-400 dark:data-[state=active]:bg-slate-900"
+                      className="cursor-pointer text-center text-lg"
                       value="media"
                     >
                       Media
                     </TabsTrigger>
                     <TabsTrigger
-                      className="cursor-pointer text-center text-lg data-[state=active]:bg-slate-400 dark:data-[state=active]:bg-slate-900"
+                      className="cursor-pointer text-center text-lg"
                       value="replies"
                     >
                       Replies

@@ -71,16 +71,9 @@ export default function Direct() {
   const [currentTab, setCurrentTab] = useState("");
   const [isNewDirectOpen, setIsNewDirectOpen] = useState(false);
   const [usernames, setUsernames] = useState<string[]>([]);
-  const [commandValue, setCommandValue] = useState("");
+  const [value, setValue] = useState("");
   const messageEndRef = useRef<HTMLDivElement>(null!);
   dayjs.extend(relativeTime);
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<NewDirectInputs>();
 
   useEffect(() => {
     fetch("/api/direct")
@@ -137,8 +130,8 @@ export default function Direct() {
   };
 
   return (
-    <div className="flex flex-col justify-center">
-      <p className="text-4xl font-bold text-black dark:text-white">Directs</p>
+    <div className="mt-10 flex flex-col items-center justify-center">
+      <p className="text-4xl font-bold">Directs</p>
       <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
         <DialogContent>
           <Input
@@ -164,12 +157,7 @@ export default function Direct() {
           onValueChange={(e) => setCurrentTab(e)}
         >
           <TabsList className=" mt-4 flex min-h-full flex-col justify-start bg-transparent">
-            <Button
-              onClick={handleNewDirectOpen}
-              className="text-black dark:text-white"
-            >
-              New Message
-            </Button>
+            <Button onClick={handleNewDirectOpen}>New Message</Button>
             <div className="flex w-full flex-row justify-between px-3">
               <div className="flex flex-row items-center">
                 <Dialog
@@ -178,43 +166,36 @@ export default function Direct() {
                 >
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle className="text-black dark:text-white">
-                        New Message
-                      </DialogTitle>
+                      <DialogTitle>New Message</DialogTitle>
                       <DialogDescription>
-                        <form
-                          onSubmit={handleSubmit(handleNewDirectSubmit)}
-                          className="flex flex-col"
-                        >
-                          <Command>
-                            <CommandInput
-                              placeholder="Username"
-                              {...register("username", { required: true })}
-                              value={commandValue}
-                            />
-                            <CommandList>
-                              <CommandEmpty>No users found</CommandEmpty>
+                        <Command className="rounded-lg border shadow-md">
+                          <CommandInput placeholder="Username...." />
+                          <CommandList>
+                            <CommandEmpty>No users found</CommandEmpty>
+                            <CommandGroup heading="Suggestions">
                               {usernames &&
                                 usernames.slice(0, 4).map((username) => (
                                   <CommandItem
                                     key={username}
                                     className="rounded-none"
-                                    onSelect={(value) =>
-                                      commandValue === value
-                                        ? setCommandValue("")
-                                        : setCommandValue(value)
+                                    onSelect={(currentValue) =>
+                                      setValue(
+                                        currentValue === value
+                                          ? ""
+                                          : currentValue,
+                                      )
                                     }
                                   >
                                     {username}
                                   </CommandItem>
                                 ))}
-                            </CommandList>
-                          </Command>
-                          {errors.username && (
-                            <span>This field is required</span>
-                          )}
-                          <Button type="submit">Submit</Button>
-                        </form>
+                            </CommandGroup>
+                          </CommandList>
+                        </Command>
+
+                        <Button type="submit" onClick={handleNewDirectSubmit}>
+                          Submit
+                        </Button>
                       </DialogDescription>
                     </DialogHeader>
                   </DialogContent>
@@ -243,7 +224,7 @@ export default function Direct() {
                     width={60}
                   />
                   <div className="flex flex-col items-start justify-start">
-                    <p className="text-black dark:text-white">
+                    <p>
                       {
                         direct.members.filter(
                           (member) => member.username !== user.username,

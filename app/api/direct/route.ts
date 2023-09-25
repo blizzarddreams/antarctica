@@ -34,6 +34,7 @@ export async function POST(request: Request) {
     });
     const response = schema.safeParse(await request.json());
     if (!response.success) {
+      console.log(response.error);
       return NextResponse.json({ error: true });
     }
     const { username } = response.data;

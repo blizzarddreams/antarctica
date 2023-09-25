@@ -126,7 +126,7 @@ export default function Settings() {
                     scalable={false}
                   />
                   <Button
-                    className="mt-4 bg-sky-200 p-4 dark:bg-sky-500"
+                    className="mt-4"
                     onClick={() => setProfileIsOpen(!profileIsOpen)}
                   >
                     Save
@@ -155,7 +155,7 @@ export default function Settings() {
                       scalable={false}
                     />
                     <Button
-                      className="mt-4  bg-sky-200 p-4 dark:bg-sky-500"
+                      className="mt-4 "
                       onClick={() => setBannerIsOpen(!bannerIsOpen)}
                     >
                       Save
@@ -236,12 +236,7 @@ export default function Settings() {
               </div>
 
               <div className="flex flex-col">
-                <Label
-                  htmlFor="username"
-                  className="mt-4 text-black dark:text-white"
-                >
-                  Username
-                </Label>
+                <Label htmlFor="username">Username</Label>
                 <Input
                   type="text"
                   id="username"
@@ -249,13 +244,10 @@ export default function Settings() {
                   required
                   onChange={handleChange}
                   value={user.username}
-                  className="border-slate-800 bg-slate-400 text-black focus:border-transparent focus:outline-transparent  focus:ring-transparent dark:bg-slate-800 dark:text-white"
+                  className="border-slate-800 bg-slate-400 focus:border-transparent focus:outline-transparent  focus:ring-transparent dark:bg-slate-800 "
                 />
                 {error && <p className="text-rose-400">{error}</p>}
-                <Label
-                  htmlFor="description"
-                  className="mt-4 text-black dark:text-white"
-                >
+                <Label htmlFor="description" className="mt-4">
                   Display Name
                 </Label>
                 <Input
@@ -264,7 +256,7 @@ export default function Settings() {
                   name="displayname"
                   onChange={handleChange}
                   value={user.displayname}
-                  className="border-slate-800 bg-slate-400 text-black focus:border-transparent focus:outline-transparent  focus:ring-transparent dark:bg-slate-800 dark:text-white"
+                  className="border-slate-800 bg-slate-400  focus:border-transparent focus:outline-transparent  focus:ring-transparent dark:bg-slate-800 "
                 />
 
                 <Label
@@ -278,10 +270,10 @@ export default function Settings() {
                   name="description"
                   onChange={handleChange}
                   value={user.description}
-                  className="border-slate-800 bg-slate-400 text-black focus:border-transparent focus:outline-transparent  focus:ring-transparent dark:bg-slate-800 dark:text-white"
+                  className="border-slate-800 bg-slate-400  focus:border-transparent focus:outline-transparent  focus:ring-transparent dark:bg-slate-800 "
                 />
 
-                <Button type="submit" className=" my-1 bg-slate-800 p-4">
+                <Button type="submit" className=" my-1 p-4">
                   Save
                 </Button>
               </div>

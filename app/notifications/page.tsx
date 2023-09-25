@@ -136,13 +136,11 @@ export default function Notification() {
     }
   };
   return (
-    <div>
-      <p className="text-4xl font-bold text-black dark:text-white">
-        Notifications
-      </p>
+    <div className="mt-10 flex flex-col items-center justify-center">
+      <p className="text-4xl font-bold">Notifications</p>
       {notifications.length > 0 && (
         <div>
-          <div className="divide-y text-black dark:text-white">
+          <div className="divide-y">
             <InfiniteScroll
               dataLength={notifications.length}
               next={getData}

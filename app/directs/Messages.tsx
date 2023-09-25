@@ -45,7 +45,7 @@ export default function Messages({ user, direct }: MessagesProps) {
                 key={message.id}
                 className="min-w-2/6 max-w-4/6  m-1 flex flex-row items-center justify-end justify-self-end"
               >
-                <p className="break-all  rounded-bl-xl rounded-tl-xl rounded-tr-xl bg-sky-200 px-4 py-1 text-black">
+                <p className="break-all  rounded-bl-xl rounded-tl-xl rounded-tr-xl bg-sky-200 px-4 py-1">
                   {message.content}
                 </p>
                 <div className="flex flex-col ">
@@ -78,7 +78,7 @@ export default function Messages({ user, direct }: MessagesProps) {
                     width={35}
                   />
                 </div>
-                <p className="rounded-br-xl  rounded-tl-xl rounded-tr-xl bg-slate-200 px-4 py-1 text-black">
+                <p className="rounded-br-xl  rounded-tl-xl rounded-tr-xl bg-slate-200 px-4 py-1">
                   {message.content}
                 </p>
               </div>

@@ -215,7 +215,7 @@ export default function Post({ post }: { post: Post }) {
         <Link
           href={`/@${post.author.username}/${post.id}`}
           onClick={stopLink}
-          className="flex flex-col items-center border  border-slate-800 p-8 text-black dark:text-white"
+          className="flex flex-col items-center border  border-slate-800 p-8"
         >
           <div className="grid h-full w-full grid-cols-12 items-center">
             <div className="col-span-1 flex flex-col items-center justify-center">

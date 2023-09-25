@@ -26,7 +26,7 @@ export default function RootLayout({
         <body className={inter.className}>
           <ThemeProvider attribute="class">
             <div className="hidden md:block">
-              <div className="grid min-h-screen grid-cols-12 flex-col justify-center  gap-4 bg-slate-100 dark:bg-slate-950">
+              <div className="grid min-h-screen grid-cols-12 flex-col justify-center gap-4 bg-slate-100 dark:bg-slate-950">
                 <div className="col-span-2">
                   <Navbar />
                 </div>

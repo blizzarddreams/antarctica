@@ -65,9 +65,7 @@ export default function Explore() {
     <>
       {posts.length && (
         <div className="mt-10 flex flex-col items-center justify-center">
-          <p className="text-4xl font-bold text-black dark:text-white">
-            Explore
-          </p>
+          <p className="text-4xl font-bold">Explore</p>
           <InfiniteScroll
             dataLength={posts.length}
             next={getData}
