@@ -4,14 +4,15 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Image from "next/image";
 import Link from "next/link";
-import { StarIcon as StarIconOutline } from "@heroicons/react/24/outline";
-import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
-import { ArrowPathRoundedSquareIcon } from "@heroicons/react/24/solid";
-import { CameraIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
-import { AiOutlineLink } from "react-icons/ai";
+import {
+  AiOutlineLink,
+  AiFillCamera,
+  AiOutlineStar,
+  AiFillStar,
+} from "react-icons/ai";
 import reactStringReplace from "react-string-replace";
 import {
   BsFillBookmarkPlusFill,
@@ -31,8 +32,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { CldImage } from "next-cloudinary";
 import copy from "copy-to-clipboard";
+import { Input } from "@/components/ui/input";
 
 type User = {
   id: number;
@@ -416,12 +417,9 @@ export default function Post({ post }: { post: Post }) {
                   <>
                     <div className="mx-4 flex flex-row items-center">
                       {liked ? (
-                        <StarIconSolid
-                          onClick={toggleLike}
-                          className="h-5 w-5"
-                        />
+                        <AiFillStar onClick={toggleLike} className="h-5 w-5" />
                       ) : (
-                        <StarIconOutline
+                        <AiOutlineStar
                           onClick={toggleLike}
                           className="h-5 w-5"
                         />
@@ -430,12 +428,12 @@ export default function Post({ post }: { post: Post }) {
                     </div>
                     <div className="mx-4 flex flex-row items-center">
                       {reposted ? (
-                        <ArrowPathRoundedSquareIcon
+                        <BsFillReplyAllFill
                           onClick={toggleRepost}
                           className="h-5 w-5 text-emerald-400"
                         />
                       ) : (
-                        <ArrowPathRoundedSquareIcon
+                        <BsFillReplyAllFill
                           onClick={toggleRepost}
                           className="h-5 w-5"
                         />
@@ -459,7 +457,7 @@ export default function Post({ post }: { post: Post }) {
                             rows={4}
                             value={text}
                             onChange={handleTextChange}
-                            placeholder="What is happening? reply"
+                            placeholder="What is happening?"
                             className="w-full resize-none border-none bg-slate-800 text-white outline-none focus:border-none focus:outline-none focus:ring-0"
                           />
                         </div>
@@ -495,9 +493,9 @@ export default function Post({ post }: { post: Post }) {
                             </p>
                           )}
                           <label htmlFor="image">
-                            <CameraIcon className="h-7 w-7" />
+                            <AiFillCamera className="h-7 w-7" />
                           </label>
-                          <input
+                          <Input
                             type="file"
                             name="image"
                             id="image"

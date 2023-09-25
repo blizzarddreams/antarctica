@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Cropper, { ReactCropperElement } from "react-cropper";
-import { CameraIcon } from "@heroicons/react/24/outline";
+import { AiOutlineCamera } from "react-icons/ai";
 import "cropperjs/dist/cropper.css";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import Image from "next/image";
@@ -173,7 +173,7 @@ export default function Settings() {
                     className={`relative h-52 w-full cursor-pointer bg-cover bg-center`}
                     style={{ backgroundImage: `url(${cropperBanner})` }}
                   >
-                    <CameraIcon className="absolute bottom-0  right-0 m-4 h-6 w-6 rounded-full border-none bg-slate-950 p-1" />
+                    <AiOutlineCamera className="absolute bottom-0  right-0 m-4 h-6 w-6 rounded-full border-none bg-slate-950 p-1" />
                   </header>
                 ) : (
                   <header
@@ -182,11 +182,11 @@ export default function Settings() {
                       backgroundImage: `url('${user.banner}')})`,
                     }}
                   >
-                    <CameraIcon className="absolute bottom-0  right-0 m-4 h-6 w-6 rounded-full border-none bg-slate-950 p-1" />
+                    <AiOutlineCamera className="absolute bottom-0  right-0 m-4 h-6 w-6 rounded-full border-none bg-slate-950 p-1" />
                   </header>
                 )}
               </label>
-              <input
+              <Input
                 type="file"
                 name="banner"
                 id="banner"
@@ -206,7 +206,7 @@ export default function Settings() {
                         className="absolute top-40 m-2 cursor-pointer rounded-full border-2 border-solid border-slate-950"
                       />
                       <div className="relative">
-                        <CameraIcon className="absolute -top-10 m-4 h-6 w-6 rounded-full border-none bg-slate-950 p-1" />
+                        <AiOutlineCamera className="absolute -top-10 m-4 h-6 w-6 rounded-full border-none bg-slate-950 p-1" />
                       </div>
                     </>
                   ) : (
@@ -219,12 +219,12 @@ export default function Settings() {
                         className="absolute top-40 m-2 cursor-pointer rounded-full border-2 border-solid border-slate-950"
                       />
                       <div className="relative">
-                        <CameraIcon className="absolute -top-10 m-4 h-6 w-6 rounded-full border-none bg-slate-950 p-1" />
+                        <AiOutlineCamera className="absolute -top-10 m-4 h-6 w-6 rounded-full border-none bg-slate-950 p-1" />
                       </div>
                     </>
                   )}
                 </label>
-                <input
+                <Input
                   id="profile"
                   type="file"
                   name="profile"

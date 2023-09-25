@@ -1,5 +1,6 @@
 "use client";
 
+import { Input } from "@/components/ui/input";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -17,14 +18,14 @@ export default function Search() {
   return (
     <div>
       {session && (
-        <input
+        <Input
           type="text"
           placeholder="Search"
           value={text}
           onKeyDown={handleSubmit}
           onChange={(e) => setText(e.target.value)}
-          className="mt-10 w-full rounded-lg border-slate-800 bg-slate-200 text-white  focus:border-transparent focus:outline-transparent focus:ring-transparent dark:bg-slate-800 "
-        ></input>
+          className="my-1 mt-10 w-5/6 rounded-lg focus:border-transparent focus:outline-transparent focus:ring-transparent "
+        />
       )}
     </div>
   );

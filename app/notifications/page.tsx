@@ -1,13 +1,13 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { StarIcon } from "@heroicons/react/24/solid";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { BsFillReplyAllFill } from "react-icons/bs";
 import Image from "next/image";
-import { ArrowPathRoundedSquareIcon } from "@heroicons/react/20/solid";
-import { UserPlusIcon } from "@heroicons/react/24/outline";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { NotificationType } from "@prisma/client";
 import { ScaleLoader } from "react-spinners";
+import { BiUserCircle } from "react-icons/bi";
 
 type User = {
   id: number;
@@ -54,7 +54,7 @@ export default function Notification() {
         return (
           <div className="grid grid-cols-12">
             <div className="col-span-1">
-              <UserPlusIcon className="h-10 w-10" />
+              <BiUserCircle className="h-10 w-10" />
             </div>
             <div className="col-span-11 flex flex-row items-center">
               <Link
@@ -78,7 +78,7 @@ export default function Notification() {
         return (
           <div className="grid grid-cols-12">
             <div className="col-span-1">
-              <StarIcon className="h-10 w-10" />
+              <AiFillStar className="h-10 w-10" />
             </div>
             <div className="col-span-11 flex flex-row items-center">
               <Link
@@ -107,7 +107,7 @@ export default function Notification() {
         return (
           <div className="grid grid-cols-12">
             <div className="col-span-1">
-              <ArrowPathRoundedSquareIcon className="h-10 w-10" />
+              <BsFillReplyAllFill className="h-10 w-10" />
             </div>
             <div className="col-span-11 flex flex-row items-center">
               <Link

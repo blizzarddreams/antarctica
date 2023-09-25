@@ -34,6 +34,7 @@ import Messages from "./Messages";
 import dayjs from "dayjs";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
 type Direct = {
   id: number;
   createdAt: Date;
@@ -140,18 +141,18 @@ export default function Direct() {
       <p className="text-4xl font-bold text-black dark:text-white">Directs</p>
       <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
         <DialogContent>
-          <input
+          <Input
             value={dialogUsername}
             onChange={(e) => setDialogUsername(e.target.value)}
             type="text"
             className="text-white"
           />
-          <button
+          <Button
             className="mt-4 bg-sky-500 p-4"
             onClick={handleNewDirectSubmit}
           >
             Message
-          </button>
+          </Button>
         </DialogContent>
       </Dialog>
       {user && (
