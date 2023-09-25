@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 type User = {
   id: number;
@@ -124,12 +125,12 @@ export default function Settings() {
                     rotatable={false}
                     scalable={false}
                   />
-                  <button
+                  <Button
                     className="mt-4 bg-sky-200 p-4 dark:bg-sky-500"
                     onClick={() => setProfileIsOpen(!profileIsOpen)}
                   >
                     Save
-                  </button>
+                  </Button>
                 </DialogContent>
               </Dialog>
             </>
@@ -153,12 +154,12 @@ export default function Settings() {
                       rotatable={false}
                       scalable={false}
                     />
-                    <button
+                    <Button
                       className="mt-4  bg-sky-200 p-4 dark:bg-sky-500"
                       onClick={() => setBannerIsOpen(!bannerIsOpen)}
                     >
                       Save
-                    </button>
+                    </Button>
                   </DialogContent>
                 </Dialog>
               </>
@@ -280,9 +281,9 @@ export default function Settings() {
                   className="border-slate-800 bg-slate-400 text-black focus:border-transparent focus:outline-transparent  focus:ring-transparent dark:bg-slate-800 dark:text-white"
                 />
 
-                <button type="submit" className=" my-1 bg-slate-800 p-4">
+                <Button type="submit" className=" my-1 bg-slate-800 p-4">
                   Save
-                </button>
+                </Button>
               </div>
             </div>
           </form>

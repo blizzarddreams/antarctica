@@ -164,12 +164,12 @@ export default function Direct() {
           onValueChange={(e) => setCurrentTab(e)}
         >
           <TabsList className=" mt-4 flex min-h-full flex-col justify-start bg-transparent">
-            <button
+            <Button
               onClick={handleNewDirectOpen}
               className="text-black dark:text-white"
             >
               New Message
-            </button>
+            </Button>
             <div className="flex w-full flex-row justify-between px-3">
               <div className="flex flex-row items-center">
                 <Dialog
@@ -213,7 +213,7 @@ export default function Direct() {
                           {errors.username && (
                             <span>This field is required</span>
                           )}
-                          <button type="submit">Submit</button>
+                          <Button type="submit">Submit</Button>
                         </form>
                       </DialogDescription>
                     </DialogHeader>

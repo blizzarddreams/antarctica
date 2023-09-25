@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import bg from "../public/henrique-setim-XuD9vHw6yeY-unsplash.jpg";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -32,14 +33,14 @@ export default function Home() {
         </p>
         {!session && (
           <div className="flex flex-row">
-            <button
+            <Button
               className="m-1 rounded-xl bg-sky-500 p-4"
               onClick={() => signIn()}
             >
               Sign in
-            </button>
+            </Button>
             <Link href="/explore">
-              <button className="m-1 rounded-xl bg-sky-500 p-4">Explore</button>
+              <Button className="m-1 rounded-xl bg-sky-500 p-4">Explore</Button>
             </Link>
           </div>
         )}

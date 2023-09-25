@@ -11,9 +11,18 @@ import {
   BsBell,
 } from "react-icons/bs";
 import Link from "next/link";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { toast } from "react-toastify";
+import { BiLogOut } from "react-icons/bi";
 import "react-toastify/dist/ReactToastify.css";
 import { BiUserCircle, BiCog } from "react-icons/bi";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -37,12 +46,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { DropdownMenuArrow } from "@radix-ui/react-dropdown-menu";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { useTheme } from "next-themes";
@@ -50,6 +53,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface User {
   id: number;
@@ -185,6 +189,7 @@ export default function Navbar() {
                 <p className="text-lg  text-black dark:text-white">Directs</p>
               </Link>
             </div>
+
             <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
               <DialogTrigger className="w-full">
                 <div
@@ -247,14 +252,14 @@ export default function Navbar() {
 
                 <div className="mt-4 flex w-full flex-col items-center justify-center">
                   {post.replaceAll(" ", "").length === 0 ? (
-                    <button
+                    <Button
                       type="button"
                       className=" m-4 my-1 w-full bg-slate-400/70 p-4 dark:bg-slate-800/70"
                       onClick={makePost}
                       disabled
                     >
                       Post
-                    </button>
+                    </Button>
                   ) : (
                     <button
                       type="button"
@@ -276,9 +281,11 @@ export default function Navbar() {
                 </div>
               </DialogContent>
             </Dialog>
-
-            <Popover>
-              <PopoverTrigger className="flex flex-row items-center">
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                className="mt-4 flex flex-row items-center p-4"
+                asChild
+              >
                 <div>
                   <Image
                     src={user.avatar}
@@ -287,115 +294,50 @@ export default function Navbar() {
                     width={30}
                     className="mr-1 rounded-full"
                   />
-                </div>
-
-                <div className="flex flex-col justify-center">
-                  <p className="text-lg font-bold text-black dark:text-white">
-                    {user.displayname ? user.displayname : user.username}
-                  </p>
-                  <p className="text-slate-700 dark:text-slate-500">
-                    @{user.username}
-                  </p>
-                </div>
-              </PopoverTrigger>
-              <PopoverContent className="bg-slate-400 dark:bg-slate-950">
-                <Label htmlFor="dark-mode">Dark Mode</Label>
-                <div className="flex flex-col">
-                  <div className="flex flex-row">
-                    <RxMoon
-                      className="mx-1 h-7 w-7 text-black dark:text-white"
-                      onClick={() => setTheme("dark")}
-                    />
-                    <RxSun
-                      className="h-7 w-7 text-black dark:text-white"
-                      onClick={() => setTheme("light")}
-                    />
+                  <div className="flex flex-col justify-center">
+                    <p className="text-lg font-bold text-black dark:text-white">
+                      {user.displayname ? user.displayname : user.username}
+                    </p>
+                    <p className="text-slate-700 dark:text-slate-500">
+                      @{user.username}
+                    </p>
                   </div>
-                  <Separator className="my-4" />
-                  <p
-                    onClick={() => signOut()}
-                    className="cursor-pointer text-lg text-black dark:text-white"
-                  >
-                    Sign Out
-                  </p>
                 </div>
-              </PopoverContent>
-            </Popover>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  className="cursor-pointer text-black dark:text-white"
+                >
+                  {theme === "dark" ? (
+                    <RxMoon className="mx-1 h-4 w-4" />
+                  ) : (
+                    <RxSun className="mx-1 h-4 w-4" />
+                  )}
+                  Toggle Dark Mode
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-black dark:bg-white" />
+                <DropdownMenuItem
+                  onSelect={() => signOut()}
+                  className="cursor-pointer text-black dark:text-white"
+                >
+                  <BiLogOut className="mx-1 h-4 w-4" />
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </>
         )}
       </div>
-      <div className="absolute  bottom-0 flex w-full flex-row p-4 md:hidden ">
+      <div className="absolute bottom-0 flex w-full flex-row p-4 md:hidden">
         {user && (
-          <>
-            <div className="mt-4 p-4 hover:rounded-xl  hover:bg-slate-400 dark:hover:bg-slate-900">
-              <Link href="/dashboard" className="flex flex-row  items-end">
-                <BsHouse className="h-7 w-7  text-black dark:text-white" />
-                <p className="text-lg text-black dark:text-white">Dashboard</p>
-              </Link>
-            </div>
-
-            <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-400 dark:hover:bg-slate-900">
-              <Link href="/explore" className="flex flex-row  items-end">
-                <RiCompass3Line className=" h-7 w-7 text-black dark:text-white" />
-                <p className="text-lg  text-black dark:text-white">Explore</p>
-              </Link>
-            </div>
-
-            <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-400  dark:hover:bg-slate-900">
-              <Link
-                href={`/@${user.username}`}
-                className="flex flex-row items-end"
-              >
-                <BiUserCircle className="h-7 w-7  text-black dark:text-white" />
-                <p className=" text-lg text-black dark:text-white">Profile</p>
-              </Link>
-            </div>
-
-            <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-400  dark:hover:bg-slate-900">
-              <Link href="/settings" className="flex flex-row items-end">
-                <BiCog className=" h-7 w-7 text-black dark:text-white" />
-                <p className="text-lg  text-black dark:text-white">Settings</p>
-              </Link>
-            </div>
-
-            <div className="mt-4 p-4 hover:rounded-xl  hover:bg-slate-400 dark:hover:bg-slate-900">
-              <Link href="/notifications" className="flex flex-row">
-                <BsBell className="h-7 w-7  text-black dark:text-white" />
-                {user._count.notifications > 0 && (
-                  <div className="absolute -top-2 left-6 rounded-full bg-slate-700 px-2">
-                    {user._count.notifications}
-                  </div>
-                )}
-                <p className="text-lg  text-black dark:text-white">
-                  Notifications
-                </p>
-              </Link>
-            </div>
-
-            <div className="mt-4 p-4 hover:rounded-xl  hover:bg-slate-400 dark:hover:bg-slate-900">
-              <Link href="/bookmarks" className="flex flex-row items-end">
-                <BsBookmark className=" h-7 w-7 text-black dark:text-white" />
-                <p className="text-lg  text-black dark:text-white">Bookmarks</p>
-              </Link>
-            </div>
-
-            <div className="relative mt-4 p-4  hover:rounded-xl  hover:bg-slate-400 dark:hover:bg-slate-900">
-              <Link href="/directs" className="flex flex-row items-end">
-                <BsEnvelope className=" h-7 w-7 text-black dark:text-white" />
-                <p className="text-lg  text-black dark:text-white">Directs</p>
-              </Link>
-            </div>
+          <Sheet>
+            <SheetTrigger className="flex flex-row items-center">
+              <HamburgerMenuIcon className="mx-4 h-7 w-7 text-black dark:text-white" />
+            </SheetTrigger>{" "}
             <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
-              <DialogTrigger className="w-full">
-                <div
-                  className="mt-4 flex cursor-pointer flex-row items-end p-4  hover:rounded-xl  hover:bg-slate-400  dark:hover:bg-slate-900 "
-                  onClick={openModal}
-                >
-                  <BsPencilSquare className=" h-7 w-7 text-black dark:text-white" />{" "}
-                  <p className="text-lg  text-black dark:text-white">
-                    New Post
-                  </p>
-                </div>
+              <DialogTrigger className="flex w-full justify-end">
+                <BsPencilSquare className=" mx-4 h-7 w-7 text-black dark:text-white" />{" "}
               </DialogTrigger>
               <DialogContent className="bg-slate-100 dark:bg-slate-950">
                 <div className="flex flex-row items-center">
@@ -447,22 +389,22 @@ export default function Navbar() {
 
                 <div className="mt-4 flex w-full flex-col items-center justify-center">
                   {post.replaceAll(" ", "").length === 0 ? (
-                    <button
+                    <Button
                       type="button"
                       className=" m-4 my-1 w-full bg-slate-400/70 p-4 dark:bg-slate-800/70"
                       onClick={makePost}
                       disabled
                     >
                       Post
-                    </button>
+                    </Button>
                   ) : (
-                    <button
+                    <Button
                       type="button"
                       className=" m-4 my-1 w-full bg-slate-400 p-4 dark:bg-slate-800"
                       onClick={makePost}
                     >
                       Post
-                    </button>
+                    </Button>
                   )}
                   {280 - post.length > 20 ? (
                     <p className="text-teal-400"> {280 - post.length}</p>
@@ -475,53 +417,143 @@ export default function Navbar() {
                   )}
                 </div>
               </DialogContent>
-            </Dialog>
-
-            <Popover>
-              <PopoverTrigger className="flex flex-row items-center">
-                <div>
-                  <Image
-                    src={user.avatar}
-                    alt=""
-                    height={30}
-                    width={30}
-                    className="mr-1 rounded-full"
-                  />
+            </Dialog>{" "}
+            <SheetContent
+              className="bg-slate-400 dark:bg-slate-950"
+              side="left"
+            >
+              {" "}
+              <>
+                <div className="mt-4 p-4 hover:rounded-xl  hover:bg-slate-400 dark:hover:bg-slate-900">
+                  <Link href="/dashboard" className="flex flex-row  items-end">
+                    <BsHouse className="h-7 w-7  text-black dark:text-white" />
+                    <p className="text-lg text-black dark:text-white">
+                      Dashboard
+                    </p>
+                  </Link>
                 </div>
 
-                <div className="flex flex-col justify-center">
-                  <p className="text-lg font-bold text-black dark:text-white">
-                    {user.displayname ? user.displayname : user.username}
-                  </p>
-                  <p className="text-slate-700 dark:text-slate-500">
-                    @{user.username}
-                  </p>
+                <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-400 dark:hover:bg-slate-900">
+                  <Link href="/search" className="flex flex-row  items-end">
+                    <RiCompass3Line className=" h-7 w-7 text-black dark:text-white" />
+                    <p className="text-lg  text-black dark:text-white">
+                      Search
+                    </p>
+                  </Link>
                 </div>
-              </PopoverTrigger>
-              <PopoverContent className="bg-slate-400 dark:bg-slate-950">
-                <Label htmlFor="dark-mode">Dark Mode</Label>
-                <div className="flex flex-col">
-                  <div className="flex flex-row">
-                    <RxMoon
-                      className="mx-1 h-7 w-7 text-black dark:text-white"
-                      onClick={() => setTheme("dark")}
-                    />
-                    <RxSun
-                      className="h-7 w-7 text-black dark:text-white"
-                      onClick={() => setTheme("light")}
-                    />
-                  </div>
-                  <Separator className="my-4" />
-                  <p
-                    onClick={() => signOut()}
-                    className="cursor-pointer text-lg text-black dark:text-white"
+
+                <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-400 dark:hover:bg-slate-900">
+                  <Link href="/explore" className="flex flex-row  items-end">
+                    <RiCompass3Line className=" h-7 w-7 text-black dark:text-white" />
+                    <p className="text-lg  text-black dark:text-white">
+                      Explore
+                    </p>
+                  </Link>
+                </div>
+
+                <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-400  dark:hover:bg-slate-900">
+                  <Link
+                    href={`/@${user.username}`}
+                    className="flex flex-row items-end"
                   >
-                    Sign Out
-                  </p>
+                    <BiUserCircle className="h-7 w-7  text-black dark:text-white" />
+                    <p className=" text-lg text-black dark:text-white">
+                      Profile
+                    </p>
+                  </Link>
                 </div>
-              </PopoverContent>
-            </Popover>
-          </>
+
+                <div className="mt-4 p-4 hover:rounded-xl hover:bg-slate-400  dark:hover:bg-slate-900">
+                  <Link href="/settings" className="flex flex-row items-end">
+                    <BiCog className=" h-7 w-7 text-black dark:text-white" />
+                    <p className="text-lg  text-black dark:text-white">
+                      Settings
+                    </p>
+                  </Link>
+                </div>
+
+                <div className="mt-4 p-4 hover:rounded-xl  hover:bg-slate-400 dark:hover:bg-slate-900">
+                  <Link href="/notifications" className="flex flex-row">
+                    <BsBell className="h-7 w-7  text-black dark:text-white" />
+                    {user._count.notifications > 0 && (
+                      <div className="absolute -top-2 left-6 rounded-full bg-slate-700 px-2">
+                        {user._count.notifications}
+                      </div>
+                    )}
+                    <p className="text-lg  text-black dark:text-white">
+                      Notifications
+                    </p>
+                  </Link>
+                </div>
+
+                <div className="mt-4 p-4 hover:rounded-xl  hover:bg-slate-400 dark:hover:bg-slate-900">
+                  <Link href="/bookmarks" className="flex flex-row items-end">
+                    <BsBookmark className=" h-7 w-7 text-black dark:text-white" />
+                    <p className="text-lg  text-black dark:text-white">
+                      Bookmarks
+                    </p>
+                  </Link>
+                </div>
+
+                <div className="relative mt-4 p-4  hover:rounded-xl  hover:bg-slate-400 dark:hover:bg-slate-900">
+                  <Link href="/directs" className="flex flex-row items-end">
+                    <BsEnvelope className=" h-7 w-7 text-black dark:text-white" />
+                    <p className="text-lg  text-black dark:text-white">
+                      Directs
+                    </p>
+                  </Link>
+                </div>
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger
+                    className="mt-4 flex flex-row items-center p-4"
+                    asChild
+                  >
+                    <div>
+                      <Image
+                        src={user.avatar}
+                        alt=""
+                        height={30}
+                        width={30}
+                        className="mr-1 rounded-full"
+                      />
+                      <div className="flex flex-col justify-center">
+                        <p className="text-lg font-bold text-black dark:text-white">
+                          {user.displayname ? user.displayname : user.username}
+                        </p>
+                        <p className="text-slate-700 dark:text-slate-500">
+                          @{user.username}
+                        </p>
+                      </div>
+                    </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem
+                      onClick={() =>
+                        setTheme(theme === "dark" ? "light" : "dark")
+                      }
+                      className="cursor-pointer text-black dark:text-white"
+                    >
+                      {theme === "dark" ? (
+                        <RxMoon className="mx-1 h-4 w-4" />
+                      ) : (
+                        <RxSun className="mx-1 h-4 w-4" />
+                      )}
+                      Toggle Dark Mode
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator className="bg-black dark:bg-white" />
+                    <DropdownMenuItem
+                      onSelect={() => signOut()}
+                      className="cursor-pointer text-black dark:text-white"
+                    >
+                      <BiLogOut className="mx-1 h-4 w-4" />
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            </SheetContent>
+          </Sheet>
         )}
       </div>
     </>

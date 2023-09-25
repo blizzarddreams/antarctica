@@ -81,6 +81,7 @@ export default function UserPage({ params }: { params: { slug: string } }) {
         }
       });
   };
+
   useEffect(() => {
     fetch(`/api/profile?username=${params.slug}&skip=${skip}`)
       .then((res) => res.json())
@@ -98,7 +99,7 @@ export default function UserPage({ params }: { params: { slug: string } }) {
             });
         }
       });
-  }, [params.slug, session, skip]);
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -114,6 +115,9 @@ export default function UserPage({ params }: { params: { slug: string } }) {
           posts: user.posts.filter((post) => post.id !== data.post.id),
         });
       });
+      return () => {
+        PusherClient.unsubscribe(`profile-${user.username}`);
+      };
     }
   }, [user]);
 

@@ -34,6 +34,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import copy from "copy-to-clipboard";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 type User = {
   id: number;
@@ -359,13 +361,13 @@ export default function Post({ post }: { post: Post }) {
                                 </DialogTrigger>
                                 <DialogContent className="bg-slate-950">
                                   Are you sure you want to delete this?
-                                  <button
+                                  <Button
                                     onClick={handleDelete}
                                     className="rounded-xl bg-rose-400 p-4"
                                     type="button"
                                   >
                                     Yes
-                                  </button>
+                                  </Button>
                                 </DialogContent>
                               </>
                             )}
@@ -451,7 +453,7 @@ export default function Post({ post }: { post: Post }) {
                       </DialogTrigger>
                       <DialogContent className="bg-slate-950">
                         <div className="mt-2 w-full">
-                          <textarea
+                          <Textarea
                             id="content"
                             name="content"
                             rows={4}
@@ -464,22 +466,22 @@ export default function Post({ post }: { post: Post }) {
 
                         <div className="mt-4 flex w-full flex-col items-center justify-center">
                           {text.replaceAll(" ", "").length === 0 ? (
-                            <button
+                            <Button
                               type="button"
                               className=" m-4 my-1 w-full bg-slate-800/70 p-4"
                               onClick={makePost}
                               disabled
                             >
                               Post
-                            </button>
+                            </Button>
                           ) : (
-                            <button
+                            <Button
                               type="button"
                               className=" m-4 my-1 w-full bg-slate-800 p-4"
                               onClick={makePost}
                             >
                               Post
-                            </button>
+                            </Button>
                           )}
                           {280 - text.length > 20 ? (
                             <p className="text-teal-400">
