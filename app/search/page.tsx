@@ -1,10 +1,11 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import Post from "../utils/Post";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ScaleLoader } from "react-spinners";
+import { Input } from "@/components/ui/input";
 
 type User = {
   id: number;
@@ -44,14 +45,15 @@ type Repost = {
 export default function Search() {
   const searchParams = useSearchParams();
   const [posts, setPosts] = useState<Post[]>(null!);
-  const search = searchParams.get("params")!.replace("#", "%23");
-
+  const [search, setSearch] = useState<string>("");
+  const params = searchParams.get("params")!;
+  const router = useRouter();
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState<boolean>(true);
 
   const getData = useCallback(() => {
-    if (hasMore) {
-      fetch(`/api/search?params=${search}&skip=${skip}`)
+    if (hasMore && params) {
+      fetch(`/api/search?params=${params}&skip=${skip}`)
         .then((res) => res.json())
         .then((data) => {
           setPosts(data.posts);
@@ -59,14 +61,26 @@ export default function Search() {
           if (data.noMore) setHasMore(false);
         });
     }
-  }, [hasMore, search, skip]);
+  }, [hasMore, params, skip]);
 
   useEffect(() => {
     getData();
   }, [search, getData]);
 
+  const handleSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      return router.push(`/search?params=${search}`);
+    }
+  };
+
   return (
     <div>
+      <Input
+        value={search}
+        onKeyDown={handleSubmit}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
       {posts && (
         <>
           <>

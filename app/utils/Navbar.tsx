@@ -9,6 +9,7 @@ import {
   BsBookmark,
   BsHouse,
   BsBell,
+  BsSearch,
 } from "react-icons/bs";
 import Link from "next/link";
 import {
@@ -19,6 +20,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { HiMagnifyingGlass } from "react-icons/hi2";
+import { FaRegUserCircle } from "react-icons/fa";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { toast } from "react-toastify";
@@ -150,7 +153,7 @@ export default function Navbar() {
                 href={`/@${user.username}`}
                 className="flex flex-row items-end"
               >
-                <BiUserCircle className="h-7 w-7  text-black dark:text-white" />
+                <FaRegUserCircle className="h-7 w-7  text-black dark:text-white" />
                 <p className=" text-lg text-black dark:text-white">Profile</p>
               </Link>
             </div>
@@ -332,92 +335,109 @@ export default function Navbar() {
       <div className="absolute bottom-0 flex w-full flex-row p-4 md:hidden">
         {user && (
           <Sheet>
-            <SheetTrigger className="flex flex-row items-center">
-              <HamburgerMenuIcon className="mx-4 h-7 w-7 text-black dark:text-white" />
-            </SheetTrigger>{" "}
-            <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
-              <DialogTrigger className="flex w-full justify-end">
-                <BsPencilSquare className=" mx-4 h-7 w-7 text-black dark:text-white" />{" "}
-              </DialogTrigger>
-              <DialogContent className="bg-slate-100 dark:bg-slate-950">
-                <div className="flex flex-row items-center">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger className="flex flex-row items-center">
-                      <div className="flex flex-row items-center">
-                        <DropdownMenuLabel>
-                          <div className="rounded-full bg-slate-400 p-2 dark:bg-slate-800">
-                            <GoSmiley className="h-4 w-4" />
-                          </div>
-                        </DropdownMenuLabel>
+            <div className="flex w-full flex-row justify-between">
+              <SheetTrigger>
+                <HamburgerMenuIcon className="h-7 w-7 text-black dark:text-white" />
+              </SheetTrigger>
+              <Link href="/search">
+                <BsSearch className="h-7 w-7 text-black dark:text-white" />
+              </Link>
+              <Link href="/dashboard">
+                <BsHouse className="h-7 w-7 text-black dark:text-white" />
+              </Link>
+              <Link href={`/@${user.username}`}>
+                <FaRegUserCircle className="h-7 w-7  text-black dark:text-white" />
+              </Link>
+              <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
+                <DialogTrigger>
+                  <BsPencilSquare className="h-7 w-7 text-black dark:text-white" />{" "}
+                </DialogTrigger>
+                <DialogContent className="bg-slate-100 dark:bg-slate-950">
+                  <div className="flex flex-row items-center">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger className="flex flex-row items-center">
+                        <div className="flex flex-row items-center">
+                          <DropdownMenuLabel>
+                            <div className="rounded-full bg-slate-400 p-2 dark:bg-slate-800">
+                              <GoSmiley className="h-4 w-4" />
+                            </div>
+                          </DropdownMenuLabel>
+                        </div>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <EmojiPicker
+                          onEmojiClick={handleEmojiClick}
+                          theme={Theme.DARK}
+                          emojiStyle={EmojiStyle.TWITTER}
+                        />
+                        <DropdownMenuArrow />
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    <label htmlFor="image">
+                      <div className="rounded-full bg-slate-400 p-2 dark:bg-slate-800">
+                        <AiOutlineCamera className="h-4 w-4 cursor-pointer" />
                       </div>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <EmojiPicker
-                        onEmojiClick={handleEmojiClick}
-                        theme={Theme.DARK}
-                        emojiStyle={EmojiStyle.TWITTER}
+                    </label>
+                    <Input
+                      type="file"
+                      name="image"
+                      id="image"
+                      accept="image/png, image/jpeg, image/jpg"
+                      onChange={handleImageChange}
+                      className="hidden w-full cursor-pointer border border-gray-700 bg-gray-50 file:border file:border-none file:bg-gray-800 file:text-white dark:bg-gray-700"
+                    />
+                  </div>
+
+                  <div className="mt-2 w-full">
+                    <Textarea
+                      id="content"
+                      name="content"
+                      rows={4}
+                      value={post}
+                      onChange={handleChange}
+                      placeholder="What is happening?"
+                      className="w-full resize-none border-none bg-slate-400 text-black outline-none focus:border-none focus:outline-none focus:ring-0 dark:bg-slate-800 dark:text-white"
+                    />
+                  </div>
+
+                  <div className="mt-4 flex w-full flex-col items-center justify-center">
+                    {post.replaceAll(" ", "").length === 0 ? (
+                      <Button
+                        type="button"
+                        className=" m-4 my-1 w-full bg-slate-400/70 p-4 dark:bg-slate-800/70"
+                        onClick={makePost}
+                        disabled
+                      >
+                        Post
+                      </Button>
+                    ) : (
+                      <Button
+                        type="button"
+                        className=" m-4 my-1 w-full bg-slate-400 p-4 dark:bg-slate-800"
+                        onClick={makePost}
+                      >
+                        Post
+                      </Button>
+                    )}
+                    {280 - post.length > 20 ? (
+                      <p className="text-teal-400"> {280 - post.length}</p>
+                    ) : (
+                      <p className="text-rose-400"> {280 - post.length}</p>
+                    )}
+
+                    {preview && (
+                      <Image
+                        src={preview}
+                        alt={"lol"}
+                        height={100}
+                        width={100}
                       />
-                      <DropdownMenuArrow />
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                  <label htmlFor="image">
-                    <div className="rounded-full bg-slate-400 p-2 dark:bg-slate-800">
-                      <AiOutlineCamera className="h-4 w-4 cursor-pointer" />
-                    </div>
-                  </label>
-                  <Input
-                    type="file"
-                    name="image"
-                    id="image"
-                    accept="image/png, image/jpeg, image/jpg"
-                    onChange={handleImageChange}
-                    className="hidden w-full cursor-pointer border border-gray-700 bg-gray-50 file:border file:border-none file:bg-gray-800 file:text-white dark:bg-gray-700"
-                  />
-                </div>
+                    )}
+                  </div>
+                </DialogContent>
+              </Dialog>{" "}
+            </div>
 
-                <div className="mt-2 w-full">
-                  <Textarea
-                    id="content"
-                    name="content"
-                    rows={4}
-                    value={post}
-                    onChange={handleChange}
-                    placeholder="What is happening?"
-                    className="w-full resize-none border-none bg-slate-400 text-black outline-none focus:border-none focus:outline-none focus:ring-0 dark:bg-slate-800 dark:text-white"
-                  />
-                </div>
-
-                <div className="mt-4 flex w-full flex-col items-center justify-center">
-                  {post.replaceAll(" ", "").length === 0 ? (
-                    <Button
-                      type="button"
-                      className=" m-4 my-1 w-full bg-slate-400/70 p-4 dark:bg-slate-800/70"
-                      onClick={makePost}
-                      disabled
-                    >
-                      Post
-                    </Button>
-                  ) : (
-                    <Button
-                      type="button"
-                      className=" m-4 my-1 w-full bg-slate-400 p-4 dark:bg-slate-800"
-                      onClick={makePost}
-                    >
-                      Post
-                    </Button>
-                  )}
-                  {280 - post.length > 20 ? (
-                    <p className="text-teal-400"> {280 - post.length}</p>
-                  ) : (
-                    <p className="text-rose-400"> {280 - post.length}</p>
-                  )}
-
-                  {preview && (
-                    <Image src={preview} alt={"lol"} height={100} width={100} />
-                  )}
-                </div>
-              </DialogContent>
-            </Dialog>{" "}
             <SheetContent
               className="bg-slate-400 dark:bg-slate-950"
               side="left"
@@ -456,7 +476,7 @@ export default function Navbar() {
                     href={`/@${user.username}`}
                     className="flex flex-row items-end"
                   >
-                    <BiUserCircle className="h-7 w-7  text-black dark:text-white" />
+                    <FaRegUserCircle className="h-7 w-7  text-black dark:text-white" />
                     <p className=" text-lg text-black dark:text-white">
                       Profile
                     </p>

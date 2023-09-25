@@ -225,7 +225,7 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                       className="cursor-pointer text-center text-lg data-[state=active]:bg-slate-400 dark:data-[state=active]:bg-slate-900"
                       value="replies"
                     >
-                      Posts & Replies
+                      Replies
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent value="posts">
