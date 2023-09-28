@@ -34,13 +34,15 @@ export default function Home() {
         {!session && (
           <div className="flex flex-row">
             <Button
-              className="m-1 rounded-xl bg-sky-500 p-4"
+              className="m-1  bg-sky-500 p-4 hover:bg-sky-500/90"
               onClick={() => signIn()}
             >
               Sign in
             </Button>
             <Link href="/explore">
-              <Button className="m-1 rounded-xl bg-sky-500 p-4">Explore</Button>
+              <Button className="m-1  bg-sky-500 p-4 hover:bg-sky-500/90">
+                Explore
+              </Button>
             </Link>
           </div>
         )}

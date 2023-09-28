@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { FaTrash } from "react-icons/fa";
+import { FaRetweet, FaTrash } from "react-icons/fa";
 import {
   AiOutlineLink,
   AiFillCamera,
@@ -430,15 +430,12 @@ export default function Post({ post }: { post: Post }) {
                     </div>
                     <div className="mx-4 flex flex-row items-center">
                       {reposted ? (
-                        <BsFillReplyAllFill
+                        <FaRetweet
                           onClick={toggleRepost}
                           className="h-5 w-5 text-emerald-400"
                         />
                       ) : (
-                        <BsFillReplyAllFill
-                          onClick={toggleRepost}
-                          className="h-5 w-5"
-                        />
+                        <FaRetweet onClick={toggleRepost} className="h-5 w-5" />
                       )}
                       <p>{post.reposts.length}</p>
                     </div>
