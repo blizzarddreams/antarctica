@@ -1,5 +1,4 @@
 import Post from "@/app/utils/Post";
-import { getCldImageUrl } from "next-cloudinary";
 import { notFound } from "next/navigation";
 
 type User = {
@@ -57,13 +56,13 @@ export async function generateMetadata({ params }: { params: { id: number } }) {
       description: post.content,
       openGraph: {
         url: `${process.env.NEXTAUTH_URL}/@${post.author.username}`,
-        images: [
+        /*images: [
           `${getCldImageUrl({
             width: 1000,
             height: 1000,
             src: post.image,
           })}`,
-        ],
+        ],*/
         title: title,
         siteName: "antarctica",
         description: post.content,
@@ -72,13 +71,13 @@ export async function generateMetadata({ params }: { params: { id: number } }) {
       twitter: {
         title: title,
         description: post.content,
-        images: [
+        /*images: [
           `${getCldImageUrl({
             width: 1000,
             height: 1000,
             src: post.image,
           })}`,
-        ],
+        ],*/
         siteName: "antarctica",
         card: "summary_large_image",
         creator: "@arcaninebellies",
@@ -91,13 +90,13 @@ export async function generateMetadata({ params }: { params: { id: number } }) {
       description: post.content,
       openGraph: {
         url: `${process.env.NEXTAUTH_URL}/@${post.author.username}`,
-        images: [
+        /*images: [
           `${getCldImageUrl({
             width: 100,
             height: 100,
             src: post.author.avatar,
           })}`,
-        ],
+        ],*/
         type: "website",
         title: title,
         siteName: "antarctica",
@@ -106,13 +105,13 @@ export async function generateMetadata({ params }: { params: { id: number } }) {
       twitter: {
         title: title,
         description: post.content,
-        images: [
+        /*images: [
           `${getCldImageUrl({
             width: 100,
             height: 100,
             src: post.author.avatar,
           })}`,
-        ],
+        ],*/
         siteName: "antarctica",
         card: "summary",
         creator: "@arcaninebellies",
