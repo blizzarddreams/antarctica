@@ -4,8 +4,8 @@ import { Inter } from "next/font/google";
 import AuthContext from "./session";
 import Navbar from "./utils/Navbar";
 import Search from "./utils/Search";
-import { ToastContainer } from "react-toastify";
 import { ThemeProvider } from "@/components/ui/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,7 +34,6 @@ export default function RootLayout({
                 <div className="col-span-2">
                   <Search />
                 </div>
-                <ToastContainer position="bottom-left" />
               </div>
             </div>
             <div className="relative h-screen md:hidden ">
@@ -42,11 +41,10 @@ export default function RootLayout({
                 {children}
                 <Navbar />
               </div>
-
-              <ToastContainer position="bottom-left" />
             </div>{" "}
           </ThemeProvider>
         </body>
+        <Toaster />
       </AuthContext>
     </html>
   );

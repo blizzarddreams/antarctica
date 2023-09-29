@@ -24,7 +24,6 @@ import { HiMagnifyingGlass } from "react-icons/hi2";
 import { FaRegUserCircle } from "react-icons/fa";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
-import { toast } from "react-toastify";
 import { BiLogOut } from "react-icons/bi";
 import "react-toastify/dist/ReactToastify.css";
 import { BiUserCircle, BiCog } from "react-icons/bi";
@@ -57,6 +56,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
 
 interface User {
   id: number;
@@ -76,7 +76,11 @@ export default function Navbar() {
   const { data: session } = useSession();
   const [post, setPost] = useState("");
   const { theme, setTheme } = useTheme();
-  const notify = () => toast.success("Post made!", { theme: "dark" });
+  const notify = () =>
+    toast({
+      title: "Posted!",
+      description: "Your post has been posted.",
+    });
 
   useEffect(() => {
     if (session) {
