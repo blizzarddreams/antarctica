@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { RiCompass3Line } from "react-icons/ri";
-import { AiOutlineCamera, AiOutlineHome } from "react-icons/ai";
+import { AiOutlineCamera } from "react-icons/ai";
 import {
   BsEnvelope,
   BsPencilSquare,
@@ -20,16 +20,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { HiMagnifyingGlass } from "react-icons/hi2";
 import { FaRegUserCircle } from "react-icons/fa";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { BiLogOut } from "react-icons/bi";
-import "react-toastify/dist/ReactToastify.css";
-import { BiUserCircle, BiCog } from "react-icons/bi";
+import { BiCog } from "react-icons/bi";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import EmojiPicker from "emoji-picker-react";
-import { Switch } from "@/components/ui/switch";
 import { Theme } from "emoji-picker-react";
 import { EmojiStyle } from "emoji-picker-react";
 import { GoSmiley } from "react-icons/go";
