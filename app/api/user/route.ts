@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server";
-import { OPTIONS } from "../auth/[...nextauth]/route";
+import { OPTIONS } from "@/auth";
 import prisma from "@/prisma";
 import upload from "@/upload";
 import { zfd } from "zod-form-data";

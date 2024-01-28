@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import Post from "../utils/Post";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ScaleLoader } from "react-spinners";
@@ -42,7 +42,11 @@ type Repost = {
   post: Post;
 };
 
-export default function Search() {
+function SearchBarFallback() {
+  return <></>;
+}
+
+function SearchBar() {
   const searchParams = useSearchParams();
   const [posts, setPosts] = useState<Post[]>(null!);
   const [search, setSearch] = useState<string>("");
@@ -106,5 +110,15 @@ export default function Search() {
         </>
       )}
     </div>
+  );
+}
+
+export default function Search() {
+  return (
+    <>
+      <Suspense fallback={<SearchBarFallback />}>
+        <SearchBar />
+      </Suspense>
+    </>
   );
 }
