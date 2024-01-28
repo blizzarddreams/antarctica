@@ -63,7 +63,7 @@ export default function Explore() {
 
   return (
     <>
-      {posts.length && (
+      {posts && (
         <div className="mt-10 flex flex-col items-center justify-center">
           <p className="text-4xl font-bold">Explore</p>
           <InfiniteScroll
@@ -73,6 +73,11 @@ export default function Explore() {
             loader={
               <div className="flex w-full flex-row justify-center">
                 <ScaleLoader color="#36d7b7" />{" "}
+              </div>
+            }
+            endMessage={
+              <div className="flex w-full flex-row justify-center">
+                <p>You've reached the end of the road!</p>
               </div>
             }
           >

@@ -239,6 +239,11 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                             <ScaleLoader color="#36d7b7" />{" "}
                           </div>
                         }
+                        endMessage={
+                          <div className="flex w-full flex-row justify-center">
+                            <p>You've reached the end of the road!</p>
+                          </div>
+                        }
                       >
                         {user.posts
                           .filter((post) => post.replyId === null)
@@ -259,6 +264,11 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                             <ScaleLoader color="#36d7b7" />{" "}
                           </div>
                         }
+                        endMessage={
+                          <div className="flex w-full flex-row justify-center">
+                            <p>You've reached the end of the road!</p>
+                          </div>
+                        }
                       >
                         {user.posts
                           .filter((post) => post.image !== null)
@@ -277,6 +287,11 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                         loader={
                           <div className="flex w-full flex-row justify-center">
                             <ScaleLoader color="#36d7b7" />{" "}
+                          </div>
+                        }
+                        endMessage={
+                          <div className="flex w-full flex-row justify-center">
+                            <p>You've reached the end of the road!</p>
                           </div>
                         }
                       >

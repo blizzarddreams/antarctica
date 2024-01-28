@@ -89,6 +89,11 @@ export default function Dashboard() {
                 <ScaleLoader color="#36d7b7" />{" "}
               </div>
             }
+            endMessage={
+              <div className="flex w-full flex-row justify-center">
+                <p>You've reached the end of the road!</p>
+              </div>
+            }
           >
             {posts.map((post, i) => (
               <Post post={post} key={i} />
